@@ -1,0 +1,117 @@
+{% include '@App/pdf/pdf_html_css.html.twig' %}
+
+<div class="container">
+
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 40%">
+                <img src="{{ asset('app/images/images_v2/transfers.jpg',null,true) }}"/>
+            </td>
+            <td style="width: 60%">
+                <div class="background-gold" style="width: 100%; ">
+                    Facture
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                SAS Navette de Vatry au Capital de 40.000 € <br>
+                RCS Châlons-en-Champagne 815 356 902<br>
+                Rue Louis Blériot 51000 Châlons-en-Champagne<br>
+                Téléphone : 03 51 31 01 01 <br>
+                e-mail : info@navettevatry.fr
+            </td>
+            <td>
+                <br>
+                DATE : {{ transfer.createdAt|date('d/m/Y') }}<br>
+                N° FACTURE : {{ transfer.referenceWithBank }}
+                <br>
+                Paiement : {{ transfer.PaymentTypeFacture }}
+                <br><br>
+                {{ transfer.passenger.civility }}
+                , {{ transfer.passenger.lastname|title }} {{ transfer.passenger.name|title }},<br>
+                {{ transfer.passenger.address }} <br>
+                {{ transfer.passenger.zipCode }}, {{ transfer.passenger.town }} <br>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="width: 100%">
+                {% set totalPersonne = transfer.qty + transfer.qtyChild + transfer.qtyBaby %}
+                {% set montantHT = transfer.price/1.2 %}
+                {% set TVA = transfer.price - montantHT %}
+                {% set traj = "Aller simple" %}
+                {% if transfer.roundTrip %}
+                    {% set traj = "Aller/Retour" %}
+                {% endif %}
+                <table class="bordered centered">
+
+                    <tr>
+                        <td> Code</td>
+                        <td> Designation</td>
+                        <td> Nombre de personne</td>
+                        <td> Taux de TVA</td>
+                        <td> Montant en HT</td>
+                    </tr>
+
+                    <tr>
+                        <td> {{ transfer.reference }} </td>
+                        <td> {{ transfer.getPrestationTypeToDisplay() }},<br>
+                            {% if transfer.type == constant('PARTICULAR_COMMAND', transfer) %}
+                                {{ transfer.address }} - {{ transfer.address2 }}
+                            {% else %}
+                                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                                    {{ transfer.location.name }} - Aéroport Paris-Vatry,
+                                {% else %}
+                                    Aéroport Paris-Vatry - {{ transfer.location.name }},
+                                {% endif %}
+                            {% endif %}
+                            <br>{{ traj }}
+                        </td>
+                        <td>
+                            {{ totalPersonne }}
+                        </td>
+                        <td>
+                            20%
+                        </td>
+
+                        <td>
+                            {{ montantHT|number_format(3,',','') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" rowspan="3"></td>
+                        <td>Montant HT</td>
+                        <td>
+                            {{ montantHT|number_format(3,',','') }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>TVA</td>
+                        <td>{{ TVA|number_format(3,',','') }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Montant TTC</td>
+                        <td>{{ transfer.price|number_format(3,',','') }}</td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 100%" colspan="2">
+                <div class="background-gold" style="width: 100%; text-align: center">
+                    Ceci est un justificatif de réglement de votre facture<br>
+                    MERCI DE VOTRE CONFIANCE !
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+</div>

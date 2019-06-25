@@ -1,0 +1,224 @@
+{% extends parent %}
+{% block javascripts %}
+{{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(function() {
+                var table=$('#agence-table').DataTable({
+                    dom: '<"#custom.pull-right">lBrtip',
+                    buttons: [
+
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }},
+                        {
+                            extend: 'print',
+                            text: 'imprimer',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'colvis',
+                            text: 'champs',
+                        },
+
+                    ],
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": "{{ path('agence_data') }}",
+                    "sAjaxDataProp": "data",
+                    "pageLength": 10,
+                    "columns": [
+                        {"data": "agence"},
+//                        {"data": "reseau"},
+                        {"data": "adresse"},
+//                        {"data": "adresse2"},
+                        {"data": "cp"},
+                        {"data": "ville"},
+                        {"data": "email"},
+                        {"data": "tel"},
+                        {"data": "fax"},
+                        {"data": "web"},
+                        {"data": "action"}
+                    ]
+                });
+                $("#custom").html('<div class="input-group custom-search">' +
+                        '<input type="text" class="form-control" placeholder="Search" id="tabsearch" >' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-custom" type="button" id="submitsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>' +
+                        '<button class="btn btn-custom-reset" type="button" id="resettable"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span></div>');
+                $('#submitsearch').on( 'click', function () {
+                    table.search($("#tabsearch").val()).draw();
+                } );
+                $('#resettable').on( 'click', function () {
+                    table.search('').draw();
+                } );
+            });
+        });
+
+        var idUser = null;
+        function updateP(id) {
+            idUser = id;
+            $('#passwordModal').modal('show');
+        }
+
+        $(document).on('click', '#password-btn', function (event) {
+            $('#passwordModal').modal('show');
+        });
+
+        $(document).on('click', '#p-confirm-btn', function (event) {
+            var password_first = $('#password_first').val();
+            var password_second = $('#password_second').val();
+            if(password_first && password_first === password_second ){
+                if(password_first.length > 7  && password_first.length < 21 ){
+                    $('#passwordModal').modal('hide');
+                    $('input#user').val(idUser);
+                    $('#passwordForm').submit();
+                }else{
+                    $('#password_first').addClass('wrong-field');
+                    $('#password_second').addClass('wrong-field');
+                    $('#errorMessage').text('Mot de passe invalide')
+                }
+
+            }else{
+                $('#password_first').addClass('wrong-field');
+                $('#password_second').addClass('wrong-field');
+                $('#errorMessage').text('Mots de passes non identiques')
+            }
+
+        });
+        $(document).on('click', '#p-cancel-btn', function (event) {
+            $('#password_first').val(null);
+            $('#password_second').val(null);
+            $('#password_first').removeClass('wrong-field');
+            $('#password_second').removeClass('wrong-field');
+        });
+
+
+    </script>
+    <style>
+
+        .dt-buttons{
+            margin-top:18px;
+            height:44px !important;
+            margin-left: 20px;
+            float: left;
+        }
+        .dt-button{
+            font-size: 1.2em !important;
+            color: #fff !important;
+            background-color: #5cb85c !important;
+            border-color: #4cae4c !important;
+            border: 5px solid transparent !important;
+            border-radius: 4px !important;
+            background-image: none !important;
+            text-decoration: none !important;
+            padding:4px !important;
+        }
+        .dt-button:hover{
+            color: #fff !important;
+            background-color: #cb8d1e !important;
+            border:0;
+        }
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Liste des Agences
+{% endblock %}
+
+
+{% block content %}
+
+    <style>
+        td{
+            text-transform: none !important;
+        }
+
+        #agence-table th{
+
+            background-color: #cb8d1e ;
+
+        }
+        .opicon{
+            font-size: 20px;
+            color:red;
+            cursor:pointer;
+            margin-left:1vw;
+        }
+        .custom-search{
+            width:22vw;
+            margin-top:3vh;
+        }
+        .btn-custom{
+            border-color: #4cae4c !important;
+            background-color: #5cb85c !important;
+        }
+        .btn-custom-reset {
+            background-color: rgb(76, 74, 94) !important;
+        }
+    </style>
+
+    <table id="agence-table" class="table table-striped table-bordered table-hover">
+        <thead class="head">
+        <tr>
+
+            <th>Agence</th>
+            {#<th>Réseau</th>#}
+            <th>adresse</th>
+            {#<th>adresse2</th>#}
+            <th>CP</th>
+            <th>ville</th>
+            <th>email</th>
+            <th>tel</th>
+            <th>fax</th>
+            <th>web</th>
+            <th>action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="cbModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="cbModalLabel">Modifier le mot de passe</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Souhaitez vous modifier le mot de passe de l'utilisateur ?</p>
+                    <p><span id="errorMessage" style="color: red;"></span></p>
+                    <form method="post" id="passwordForm" action="{{ path('users_agence_update_password', {'partnerAgency' : 'partnerAgency'}) }}">
+                        <div class="row">
+                            <label>Mot de passe</label> (entre 8 et 20 caractères)
+                            <input type="password" class="form-control" name="password_first" id="password_first" placeholder="" required>
+                        </div>
+                        <div class="row">
+                            <label>Confirmez le mot de passe</label>
+                            <input type="password" class="form-control" name="password_second" id="password_second" placeholder="" required>
+                        </div>
+                        <input type="hidden" class="form-control" name="user" id="user" value="000">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="p-cancel-btn" class="btn medium btn-danger" data-dismiss="modal">Annuler</button>
+                    <button type="button" id="p-confirm-btn" class="btn medium btn-primary">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

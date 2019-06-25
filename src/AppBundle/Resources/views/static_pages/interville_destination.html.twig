@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+</style>
+
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <!--<div class="wrap">
+                <div class="container">
+                    <h1>Navette partagée inter-Villes</h1>
+                    <nav role="navigation" class="breadcrumbs">
+                        <ul>
+                            <li><a href="index.html" title="Accueil">Accueil</a></li>
+                            <li>Navette partagée inter-Villes</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>-->
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/img_entet_inter.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>La navette partagée Inter-Viles offre la possibilité de joindre directement par bus les grandes villes à proximité ou relativement loin de l’aéroport Paris-Vatry. <br><br>
+                            La navette traverse les centres villes afin de déposer ou de prendre en charge les passagers dans des conditions pratiques et confortables.<br><br>
+                            Les villes validées dans une navette sont celles qui garantissent un remplissage suffisant et permettent un itinéraire linéaire
+                            et pratique pour les passagers.<br><br>
+                            Les villes desservies par la navette partagée Inter-Villes sont :
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--- //Content -->
+
+        </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+
+
+
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez vos places dans la navette </p>
+                <a href="#" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+
+{% endblock %}

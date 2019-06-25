@@ -1,0 +1,61 @@
+services:
+    private_transfer_type:
+        class: AppBundle\Form\Front\PrivateTransfer\PrivateTransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+    private_transfer_type_first_step:
+        class: AppBundle\Form\Front\PrivateTransfer\PrivateTransferFirstStepType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+    private_aeropoort_transfer_type:
+        class: AppBundle\Form\Front\PrivateAeroportTransfer\PrivateAeroportTransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+    private_aeroport_transfer_type_first_step:
+        class: AppBundle\Form\Front\PrivateAeroportTransfer\PrivateAeroportTransferFirstStepType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+    interville_transfer_type:
+        class: AppBundle\Form\Front\InterVilleTransfer\InterVilleTransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+    interville_transfer_type_first_step:
+        class: AppBundle\Form\Front\InterVilleTransfer\InterVilleTransferFirstStepType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+
+    porteaporte_transfer_type:
+        class: AppBundle\Form\Front\PorteAPorteTransfer\PorteAPorteTransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+
+    porteaporte_transfer_type_first_step:
+        class: AppBundle\Form\Front\PorteAPorteTransfer\PorteAPorteTransferFirstStepType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name : form.type }
+
+    password.custom.type:
+        class: AppBundle\Form\User\PasswordType
+        arguments: ["@security.password_encoder"]
+        tags:
+            - { name : form.type }
+
+    gare.transfer.type:
+        class: AppBundle\Form\Front\Gare\TransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
+    paris.transfer.type:
+        class: AppBundle\Form\Front\ParisTransfer\TransferType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }

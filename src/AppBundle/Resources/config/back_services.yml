@@ -1,0 +1,33 @@
+services:
+    partners.service:
+        class: AppBundle\Service\Back\PartnerService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+            - "@security.password_encoder"
+            - "@mailer"
+            - "@service_container" #for the templating which cause circual reference :(
+            - "%mailer_user%"
+    partners.extension:
+        class: AppBundle\Service\TwigExtension\PartnerUrlExtension
+        arguments:
+            - "@partners.service"
+        tags:
+            - { name: twig.extension }
+
+    users.service:
+            class: AppBundle\Service\Back\UserService
+            arguments:
+                - "@doctrine.orm.entity_manager"
+                - "@router"
+                - "@security.password_encoder"
+                - "@mailer"
+                - "@service_container" #for the templating which cause circual reference :(
+                - "%mailer_user%"
+                - "%userTypes%"
+
+    invoices.service:
+        class: AppBundle\Service\Back\InvoiceService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@service_container"

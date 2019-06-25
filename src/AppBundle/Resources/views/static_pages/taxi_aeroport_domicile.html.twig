@@ -1,0 +1,125 @@
+{% extends '::base.html.twig' %}
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+    .capitolize{
+
+        text-transform: capitalize;
+    }
+</style>
+
+
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+
+
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/taxi-aero-dom.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>
+
+                            <p class="text-justify">Le taxi Aéroport - Domicile couvre un très large périmètre géographique autour de l’aéroport Paris-Vatry. <br><br>
+                                4 Régions, 16 départements et plus de 7.000 villes sont concernées par cette prestation
+                            </p>
+                            <p class="text-justify">Le taxi Aéroport – Domicile assure un transfert direct et dans les conditions les plus confortables permettant de joindre l’aéroport à partir de l’aéroport vers votre domicile et vice-versa.<br> Toutes les villes situées dans les départements suivants sont concernées par ce service :</p>
+
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+
+                                </thead>
+                                <tbody class="capitolize">
+                                <tr>
+                                    <td> 1/ La Marne (51)</td>
+                                    <td> 10/ La Seine-Saint-Denis (93)	</td>
+                                </tr>
+                                <tr>
+                                    <td>2/ La Haute Marne (52) </td>
+                                    <td>11/ Le Val-d’Oise (95) </td>
+                                </tr>
+                                <tr>
+                                    <td>3/ L’Aube (10)</td>
+                                    <td>12/ Les Yvelines (78)	</td>
+                                </tr>
+                                <tr>
+                                    <td>4/ Les Ardennes (08)</td>
+                                    <td>13/ Paris (75)</td>
+                                </tr>
+                                <tr>
+                                    <td>5/ La Meurthe-et-Moselle (54)</td>
+                                    <td> 14/ La Haute Seine (92)	</td>
+                                </tr>
+                                <tr>
+                                    <td>6/ La Meuse (55) </td>
+                                    <td>15/ Le Val-de-Marne (94)</td>
+                                </tr>
+                                <tr>
+                                    <td>7/ Le Nord (59) </td>
+                                    <td>16/ l’Essonne (91) </td>
+                                </tr>
+                                <tr>
+                                    <td>8/ L’Aisne (02) </td>
+                                    <td>17/ L’Yonne (89)</td>
+                                </tr>
+                                <tr>
+                                    <td> 9/ La Seine-et-Marne (77)</td>
+                                    <td>18/ La Côte-d’Or (21) </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/map-big.png') }}" alt="Carte" /></center>
+                    </div>
+
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez votre taxi </p>
+                <a href="{{ path('private_transfer_first_step') }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+{% endblock %}

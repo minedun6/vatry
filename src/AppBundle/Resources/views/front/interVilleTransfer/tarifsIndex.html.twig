@@ -1,0 +1,241 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Tarifs et horaires des navettes inter-villes
+{% endblock %}
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+        h2{
+            font-size: 24px !important;
+            padding: 0 0 28px !important;}
+    </style>
+<main class="main" role="main">
+    <!-- Page info -->
+    <header class="site-title color">
+
+        <div class="wrap cWrap">
+            <div class="container">
+                <h1>Tarifs et horaires des navettes inter-villes</h1>
+                <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                    <ul>
+                        <div class="row">
+                            <img src="{{ asset('app/images/tarifs.jpg') }}" alt="Nos tarifs" />                            </div>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- //Page info -->
+
+    <div class="wrap">
+        <div class="row">
+
+            <!--- Content -->
+            <div class="full-width content">
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th>Transfert</th>
+                            <th width="30%">Adresse de prise en charge et de dépose</th>
+                            <th>Vols</th>
+                            <th>Durée</th>
+                            <th>Tarifs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Châlons-en-Champagne centre</td>
+                            <td>21 Rue Thiers, 51000 Châlons-en-Champagne.</td>
+                            <td>
+                                <ul>
+                                    <li>Alger</li>
+                                    <li>Sétif</li>
+                                    <li>Oran</li>
+                                    <li>Marrakech</li>
+                                    <li>Porto</li>
+                                    <li>Nice</li>
+                                </ul>
+                            </td>
+                            <td>0h40</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 20 €</li>
+                                    <li> à partir de 2 personnes = 14 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Metz - Semécourt</td>
+                            <td>Centre Commercial Auchan Semécourt, Entrée principale.</td>
+                            <td>
+                                <ul>
+                                    <li>Alger</li>
+                                    <li>Sétif</li>
+                                    <li>Oran</li>
+                                </ul>
+                            </td>
+                            <td>0h40</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 48 €</li>
+                                    <li>2 personnes = 80 €</li>
+                                    <li>3 personnes ou plus = 35 € /personne</li>
+                                    <li>Enfants = 19 € / enfant</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Paris - Bibliothèque François Mitterrand</td>
+                            <td>92 Avenue de France 75013 Paris.</td>
+                            <td>
+                                <ul>
+                                    <li>Marrakech</li>
+                                    <li>Porto</li>
+                                </ul>
+                            </td>
+                            <td>02h30</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 48 €</li>
+                                    <li> à partir de 2 personnes = 39,60 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Paris - Ormessan</td>
+                            <td> Carrefour Ormesson, 85 Route de Provins, Route Nationale 4, 94490 Ormesson, entrée principale.</td>
+                            <td>
+                                <ul>
+                                    <li>Marrakech</li>
+                                    <li>Porto</li>
+                                </ul>
+                            </td>
+                            <td>2h00</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 48 €</li>
+                                    <li> à partir de 2 personnes = 39,60 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Provins</td>
+                            <td>Avenue Jean Jaures 77160 Provins.</td>
+                            <td>
+                                <ul>
+                                    <li>Marrakech</li>
+                                    <li>Porto</li>
+                                </ul>
+                            </td>
+                            <td>01h20</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 40 €</li>
+                                    <li> à partir de 2 personnes = 35 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Reims - Croix Rouge</td>
+                            <td>Place Maurice Utrillo 51100 Reims.</td>
+                            <td>
+                                <ul>
+                                    <li>Oran</li>
+                                </ul>
+                            </td>
+                            <td>01h20</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 30 €</li>
+                                    <li> à partir de 2 personnes = 25 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Reims - Jean Jaurès</td>
+                            <td>139 Avenue Jean Jaurès, 51100 Reims.</td>
+                            <td>
+                                <ul>
+                                    <li>Oran</li>
+                                </ul>
+                            </td>
+                            <td>01h10</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 30 €</li>
+                                    <li> à partir de 2 personnes = 25 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Reims - Orgeval</td>
+                            <td>Place Pierre de Fermat, 51100 Reims.</td>
+                            <td>
+                                <ul>
+                                    <li>Oran</li>
+                                </ul>
+                            </td>
+                            <td>01h00</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 30 €</li>
+                                    <li> à partir de 2 personnes = 25 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sézanne</td>
+                            <td>Office de Tourisme, place de la République 51120 Sézanne.</td>
+                            <td>
+                                <ul>
+                                    <li>Marrakech</li>
+                                    <li>Porto</li>
+                                </ul>
+                            </td>
+                            <td>0h30</td>
+                            <td>
+                                <ul>
+                                    <li>1 adulte = 35 €</li>
+                                    <li> à partir de 2 personnes = 30 € / personne</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        {#<tr>#}
+                            {#<td>Troyes (à mettre en stand-by pour le moment)</td>#}
+                            {#<td>Esplanade Delestraint, 1000 Troyes.</td>#}
+                            {#<td>#}
+                                {#<ul>#}
+                                    {#<li>Marrakech</li>#}
+                                    {#<li>Porto</li>#}
+                                {#</ul>#}
+                            {#</td>#}
+                            {#<td>0h00</td>#}
+                            {#<td>#}
+                                {#<ul>#}
+                                    {#<li>1 adulte = 35 €</li>#}
+                                    {#<li> à partir de 2 personnes = 60 € / personne</li>#}
+                                    {#<li> 3 personnes ou plus = 25 € /personne</li>#}
+                                    {#<li>Enfants = 15 € /enfant</li>#}
+                                {#</ul>#}
+                            {#</td>#}
+                        {#</tr>#}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
+

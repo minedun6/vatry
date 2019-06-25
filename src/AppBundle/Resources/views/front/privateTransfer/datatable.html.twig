@@ -1,0 +1,38 @@
+{% extends '@App/front/privateTransfer/index.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('#datatabletest').DataTable();
+        });
+
+    </script>
+
+{% endblock %}
+
+
+{% block main %}
+<table id="datatabletest" class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <td>Rendez vous</td>
+        <td>Zip code</td>
+        <td>location</td>
+        <td>Adulte Price</td>
+        <td>Child Price</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ville in villes %}
+        <tr>
+            <td>{{ville.rdv}}</td>
+            <td>{{ville.zipcode }}</td>
+            <td>{{ville.location.name}}</td>
+            <td>{{ville.adultePrice}}</td>
+            <td>{{ville.childPrice}}</td>
+        </tr>
+    {% endfor  %}
+    </tbody>
+</table>
+{% endblock %}

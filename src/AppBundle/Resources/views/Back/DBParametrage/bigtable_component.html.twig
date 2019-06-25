@@ -1,0 +1,301 @@
+{% block javascripts %}
+
+    <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+
+<script>
+    function resetModal()
+    {
+        $('.modal-header').html('<button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title"></h4>')
+        $("#OpModal").removeClass('modal-sm');
+        $("#OpModal").addClass('modal-lg');
+        $('.modal-footer').remove();
+    }
+    var dt=null;
+    var dtColumns=null;
+    var type='{{ jsvar }}';
+    switch (type) {
+        case 'privatelocation' :
+            dtColumns = [
+                {"data": "id"},
+                {"data": "location"},
+                {"data": "price"},
+                {"data": "minCapacity"},
+                {"data": "maxCapacity"},
+                {"data": "zipCode"},
+                {"data": "distance"},
+                {"data": "action"}
+            ];
+            break;
+        case 'location':
+                dtColumns = [
+                    {"data": "id"},
+                    {"data": "name"},
+                    {"data": "zipCode"},
+                    {"data": "type"},
+                    {"data": "lat"},
+                    {"data": "lng"},
+                    {"data": "action"}
+                ];
+                break;
+
+    }
+    $(function() {
+
+        dt=$('#dataZone').DataTable({
+            language : {
+                url : "/app/js/French.json"
+            },
+            dom: '<"#custom.pull-right">lBrtip',
+            buttons: [
+                {
+                    text: '+ Ajouter',
+                    action: function (e, dt, node, config) {
+                        resetModal();
+                        $('.modal-body').html('<center><h3> Preparing form ... </h3></center>')
+                        $("#OpModal").modal()
+                        $.ajax({
+                            type: "GET",
+                            url:'{{ path('new_'~jsvar ) }}',
+                            dataType: "json",
+                            success: function (data) {
+                                $('.modal-body').html(data.html);
+                            }
+                        });
+                    }
+                }
+                ,
+            ],
+            "initComplete": function(s,j){
+                $("#custom").html('<div class="input-group custom-search">' +
+                        '<input type="text" class="form-control" placeholder="Search" id="tabsearch" >' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-custom" type="button" id="submitsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>' +
+                        '<button class="btn btn-custom-reset" type="button" id="resettable"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span></div>');
+                $('#submitsearch').on( 'click', function () {
+                    dt.search($("#tabsearch").val()).draw();
+                } );
+                $('#resettable').on( 'click', function () {
+                    $("#tabsearch").val('');
+                    dt.search('').draw();
+                } );
+            },
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ path(datasource) }}",
+            "sAjaxDataProp": "data",
+            "pageLength": 10,
+            "columns": dtColumns,
+            "initComplete": function(settings, json) {
+                $("#custom").html('<div class="input-group custom-search">' +
+                        '<input type="text" class="form-control" placeholder="Search" id="tabsearch" >' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-custom" type="button" id="submitsearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>' +
+                        '<button class="btn btn-custom-reset" type="button" id="resettable"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span></div>');
+                $('#submitsearch').on( 'click', function () {
+                    dt.search($("#tabsearch").val()).draw();
+                } );
+                $('#resettable').on( 'click', function () {
+                    $("#tabsearch").val('');
+                    dt.search('').draw();
+
+                } );
+            }
+        });
+
+
+    });
+
+</script>
+    <script>
+        var currentRowUpdate = null;
+        function updateRow(id, elem) {
+
+            resetModal();
+            $('.modal-body').html('<center><h3> Preparing form ... </h3></center>');
+            $("#OpModal").modal();
+            currentRowUpdate = id;
+            $(elem).parents('tr').addClass('selectedRow');
+            $.ajax({
+                type: "GET",
+                url: '{{ path('edit_'~jsvar ) }}',
+                dataType: "json",
+                data: {id: id},
+                success: function (data) {
+                    $('.modal-body').html(data.html);
+                }
+            });
+        }
+
+    </script>
+    <script>
+        function updateRowSubmit() {
+
+            $.ajax({
+                type: "post",
+                url: '{{ path('edit_'~jsvar ) }}',
+                dataType: "json",
+                data: $('#updateForm').serialize() + "&id=" + currentRowUpdate,
+                success: function (data) {
+                    dt.draw();
+                    $('tr').removeClass('selectedRow');
+                    $("#OpModal").modal('toggle');
+
+                }
+            });
+
+        }
+
+        function disableSubmitButton() {
+            $('form .form-group button').css({"pointer-events": "none", "opacity": "0.3"});
+        }
+
+        $(document).on('submit', "#updateForm", function (e) {
+            e.preventDefault();
+
+            if ($('#updateForm')[0].checkValidity()) {
+                disableSubmitButton();
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('edit_'~jsvar ) }}',
+                    dataType: "json",
+                    data: $('#updateForm').serialize() + "&id=" + currentRowUpdate,
+                    success: function (data) {
+                        dt.draw();
+                        $('tr').removeClass('selectedRow');
+                        $("#OpModal").modal('toggle');
+
+                    }
+                });
+
+            }
+            return false;
+        });
+
+    </script>
+    <script>
+        function addFormSubmit(evt) {
+            $.ajax({
+                type: "post",
+                url: '{{ path('new_'~jsvar ) }}',
+                dataType: "json",
+                data: $('#addForm').serialize(),
+                success: function (data) {
+
+                    dt.draw();
+                    $("#OpModal").modal('toggle');
+                }
+            });
+
+        }
+
+        $(document).on('submit', "#addForm", function (e) {
+            e.preventDefault();
+
+            if ($('#addForm')[0].checkValidity()) {
+                disableSubmitButton();
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('new_'~jsvar ) }}',
+                    dataType: "json",
+                    data: $('#addForm').serialize(),
+                    success: function (data) {
+
+                        dt.draw();
+                        $("#OpModal").modal('toggle');
+                    },
+                    error: function (data) {
+                        $('#error-zone').html('<b style="color:red">' + JSON.parse(data.responseText) + '</b><br>');
+                        $('form .form-group button').css({"pointer-events": "auto", "opacity": "1"});
+
+                    }
+                });
+
+            }
+            return false;
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', "#CancelOp", function () {
+                $("#OpModal").modal('toggle');
+            });
+            $(document).on('click', "#ConfirmOp", function () {
+                $flightID = $(this).data('id');
+                $('#ConfirmOp').css("pointer-events", "none");
+                $('#ConfirmOp').css("opacity", "0.3");
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('delete_'~jsvar ) }}',
+                    dataType: "json",
+                    data: {id: $flightID},
+                    success: function (data) {
+                        dt.draw();
+                        $("#OpModal").modal('toggle');
+
+                    },
+                    error(data){
+                        $('.modal-header').html('<h3>Erreur</h3>');
+                        $('.modal-body').html(JSON.parse(data.responseText));
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        function deleteRow(id, elem) {
+            resetModal();
+            $(elem).parents('tr').addClass('selectedRow');
+            $("#OpModal").removeClass('modal-lg');
+            $("#OpModal").addClass('modal-sm');
+            $('.modal-header').html('<h3>Confirmation</h3>');
+            $('.modal-body').html('Etes-vous certain de vouloir <b>supprimer<b>?');
+            $('.modal-content').append('<div class="modal-footer"></div>');
+            $('.modal-footer').html('<input type="button" class="btn btn-warning" id="CancelOp" value="Annuler"><input type="button" id="ConfirmOp" data-id="' + id + '" class="btn btn-danger" value="Confirm">');
+            $("#OpModal").modal();
+        }
+
+    </script>
+{% endblock %}
+{% block dataZone %}
+    <form id="FileUpload" action="" method="post" enctype="multipart/form-data">
+        <input type="file" id="uploadFile" name="imported" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+    </form>
+    <div id="notifBox">
+
+    </div>
+    <table id="dataZone">
+        <thead>
+        <tr>
+
+            {% for i in 0..headers|length-1 %}
+                <th>{{ headers[i] }}</th>
+            {% endfor %}
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <div id="OpModal" class="modal fade modal-lg" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

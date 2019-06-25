@@ -1,0 +1,143 @@
+{% include '@App/pdf/pdf_html_css.html.twig' %}
+
+<div class="container">
+
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 40%">
+                <img src="{{ asset('app/images/images_v2/transfers.jpg',null,true) }}"/>
+            </td>
+            <td style="width: 60%">
+                <div class="background-gold" style="width: 100%; ">
+                    Facture
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                SAS Navette de Vatry au Capital de 40.000 € <br>
+                RCS Châlons-en-Champagne 815 356 902<br>
+                Rue Louis Blériot 51000 Châlons-en-Champagne<br>
+                Téléphone : 03 51 31 01 01 <br>
+                e-mail : info@navettevatry.fr<br>
+                TVA intracommunautaire : FR 87 815356902
+            </td>
+            <td>
+                <br>
+                DATE : {{ transfer.createdAt|date('d/m/Y') }}<br>
+                N° FACTURE : {{ transfer.referenceWithBank }}
+                {% if transfer.paymentTypeFacture != '' %}
+                    <br>
+                    Paiement : {{ transfer.paymentTypeFacture }}
+                {% endif %}
+                <br><br>
+                {{ transfer.affectedTo.agencePartner.agence.nom|title }},<br>
+                RC : {{ transfer.affectedTo.agencePartner.rc|title }},<br>
+                {{ transfer.affectedTo.agencePartner.agence.adresse }} <br>
+                {{ transfer.affectedTo.agencePartner.agence.cp }}, {{ transfer.affectedTo.agencePartner.agence.ville }}
+                <br>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="width: 100%">
+                {% set comm2 = 0 %}
+                {% if (transfer.commission is not null) and (transfer.commission != 0) %}
+                    {% set comm2 = transfer.commission %}
+                {% endif %}
+                {% set totalPersonne = transfer.qty + transfer.qtyChild + transfer.qtyBaby %}
+                {% set montantHT = ((transfer.price + comm2)/1.1) %}
+                {% set montantNet = (transfer.price/1.1) %}
+                {% set comm = transfer.price * (transfer.affectedTo.agencePartner.commission/100) %}
+                {% set commPourc = '-' %}
+                {% if (transfer.commission is not null) and (transfer.commission != 0) %}
+                    {% set comm = transfer.commission /1.1 %}
+                    {% set commPourc =  (comm / montantNet) * 100 | round %}
+                {% endif %}
+                {% set TVA = montantNet * 0.1 %}
+                {% set ttc = transfer.price %}
+                {% set traj = "Aller simple" %}
+                {% if transfer.roundTrip %}
+                    {% set traj = "Aller/Retour" %}
+                {% endif %}
+                <table class="bordered centered">
+
+                    <tr>
+                        <td> Code</td>
+                        <td> Designation</td>
+                        <td> Nombre de personne</td>
+                        <td> Tarif HT</td>
+                        <td> Tarif TTC</td>
+                        <td> Com</td>
+                        <td> Montant net</td>
+                    </tr>
+
+                    <tr>
+                        <td> {{ transfer.reference }} </td>
+                        <td> {{ transfer.getPrestationTypeToDisplay() }},<br>
+                            {% if transfer.type ==  constant('PARTICULAR_COMMAND',transfer) %}
+                                {{ transfer.address~' - '~ transfer.address2 }}
+                            {% else %}
+                                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                                    {{ transfer.location.name }} - Aéroport Paris-Vatry,
+                                {% else %}
+                                    Aéroport Paris-Vatry - {{ transfer.location.name }},
+                                {% endif %}
+                            {% endif %}
+                            <br>{{ traj }}
+                        </td>
+                        <td>
+                            {{ totalPersonne }}
+                        </td>
+                        <td>
+                            {{ montantHT | round }}
+                        </td>
+                        <td>
+                            {{ (transfer.price + comm2)| round  }}
+                        </td>
+                        <td>
+                            {{ commPourc }} %
+                        </td>
+
+                        <td>
+                            {{ montantNet | round }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"></td>
+                        <td colspan="4" rowspan="4"></td>
+                        <td>Montant HT</td>
+                        <td>
+                            {{ montantNet| round  }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>TVA(10%)</td>
+                        <td>{{ TVA| round  }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Montant TTC</td>
+                        <td>{{ ttc| round  }}</td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 100%" colspan="2">
+                <div class="background-gold" style="width: 100%; text-align: center">
+                    Ce document fait état d'une transaction individuelle <br>
+                    Une facture globale est éditée le 1er de chaque mois <br>
+                    MERCI DE VOTRE CONFIANCE !
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+</div>

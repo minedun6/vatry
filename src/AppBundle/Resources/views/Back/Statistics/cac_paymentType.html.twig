@@ -1,0 +1,46 @@
+{% extends '@App/Back/Statistics/PieChart.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#collapse3').collapse();
+            $('#collapse3title').addClass('highlightLi');
+            $('#cac_paymentType').addClass('highlightLi');
+        });
+    </script>
+{% endblock %}
+{% block onglet_title %} Chiffre d'affaire des commandes par type de paiement {% endblock %}
+{% block table %}
+    {% if total!=0 %}
+        <div class="panel panel-default withPadding" id="tzone">
+            <table id="StatTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Type de paiement</th>
+                    <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in transfers %}
+                    <tr>
+                        <td>{{ t.id }}</td>
+                        <td> {{ t.date|date('d/m/Y H:i') }}</td>
+                    {% if t.type==constant('AppBundle\\Entity\\Transfer::TYPE_B2B') %}
+                        <td>B2B</td>
+                        {% elseif t.type==constant('AppBundle\\Entity\\Transfer::TYPE_CACHE') %}
+                        <td>Cash</td>
+                        {% elseif t.type==constant('AppBundle\\Entity\\Transfer::TYPE_CREDIT_CARD') %}
+                        <td>Carte de crédit</td>
+                        {% else %}
+                        <td>{{ t.type }}</td>
+                        {% endif %}
+                        <td>{{ t.price|number_format(2, '.', '') }}€</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

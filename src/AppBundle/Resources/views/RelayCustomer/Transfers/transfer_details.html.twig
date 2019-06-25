@@ -1,0 +1,196 @@
+{% extends parent %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var transferID = {{ transfer.id }};
+
+        function showConfirmationPopUp() {
+
+            $.ajax({
+                url: Routing.generate('cancel_transfer', {transfer: transferID}),
+                dataType: 'json',
+                success: function (receivedData) {
+                    showDefaultModal("Annulation d'une commande", receivedData.html, "");
+                }
+            })
+
+        }
+
+        $(document).on('click', '#cancel-order-btn', function () {
+            showConfirmationPopUp();
+        });
+
+        $(document).on('click', '#non-cancel', function () {
+            closeDefaultModal();
+        })
+
+
+    </script>
+{% endblock %}
+
+{% block page_title %}
+    Détail du transfert
+{% endblock %}
+
+{% block content %}
+
+    <h3>Informations du passager</h3>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Nom et Prénom: </label></div>
+        <div class="col-xs-8">
+            {{ transfer.passenger.name|title }} {{ transfer.passenger.lastname|title }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Nombre d'adultes : </label></div>
+        <div class="col-xs-8"> {{ transfer.qty }}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4"><label>Nombre d'enfants : </label></div>
+        <div class="col-xs-8">
+            {% if transfer.qtyChild  ==null %} 0 {% else %} {{ transfer.qtyChild }} {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4"><label>Nombre de bébés : </label></div>
+        <div class="col-xs-8">
+            {% if transfer.qtyBaby  == null %} 0 {% else %} {{ transfer.qtyBaby }} {% endif %}
+        </div>
+    </div>
+
+    <h3>Détails de l'aller</h3>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Lieu de prise en charge : </label></div>
+        <div class="col-xs-8">
+            {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                {{ transfer.address }}
+            {% else %}
+                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                    {{ transfer.location.name }}
+                {% else %}
+                    Aéroport Paris-Vatry
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Lieu de destination : </label></div>
+        <div class="col-xs-8">
+            {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                {{ transfer.address2 }}
+            {% else %}
+                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                    Aéroport Paris-Vatry
+                {% else %}
+                    {{ transfer.location.name }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Date du Transfer: </label></div>
+        <div class="col-xs-8">
+            {{ transfer.pickupDate|date('d/m/Y') }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4"><label>Heure de prise en charge: </label></div>
+        <div class="col-xs-8">
+
+            {% if (transfer.status==constant('STATUS_PAID',transfer) and transfer.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                L'heure du transfert vous sera communiquée ultérieurement
+            {% elseif transfer.status==constant('STATUS_PAID',transfer) %}
+                {{ transfer.pickupDate|date('H:i') }}
+            {% elseif transfer.status==constant('STATUS_PAID_PENDING',transfer) %}
+                En attente de validation
+            {% else %}
+                Votre transfert a été annulé
+            {% endif %}
+        </div>
+    </div>
+
+    {% if transfer.roundTrip %}
+
+        <h3>Détails du retour</h3>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Lieu de prise en charge : </label></div>
+            <div class="col-xs-8">
+                {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                    {{ transfer.address2 }}
+                {% else %}
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        Aéroport Paris-Vatry
+                    {% else %}
+                        {{ transfer.location.name }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Lieu de destination : </label></div>
+            <div class="col-xs-8">
+                {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                    {{ transfer.address }}
+                {% else %}
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        {{ transfer.location2.name }}
+                    {% else %}
+                        Aéroport Paris-Vatry
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Date du Transfer: </label></div>
+            <div class="col-xs-8">
+                {{ transfer.pickupDate2|date('d/m/Y') }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Heure de prise en charge: </label></div>
+            <div class="col-xs-8">
+                {% if (transfer.status==constant('STATUS_PAID',transfer) and transfer.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                    L'heure du transfert vous sera communiquée ultérieurement
+                {% elseif transfer.status==constant('STATUS_PAID',transfer) %}
+                    {{ transfer.pickupDate2|date('H:i') }}
+                {% elseif transfer.status==constant('STATUS_PAID_PENDING',transfer) %}
+                    En attente de validation
+                {% else %}
+                    Votre transfert a été annulé
+                {% endif %}
+            </div>
+        </div>
+
+    {% endif %}
+
+    <div class="row">
+        <div class="col-xs-4"><label>Statut</label></div>
+        <div class="col-xs-4">
+            {% if transfer.status==constant('STATUS_PAID',transfer) %}
+                Payé
+            {% elseif transfer.status==constant('STATUS_PAID_PENDING',transfer) %}
+                En attente de validation
+            {% else %}
+                Annulé
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <h3>Total commande: {{ transfer.NdvPrice|number_format(2, '.', '') }}€ (&euro;)</h3>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends parent %}
+
+{% block main_block %}
+    <style>
+        body {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+
+        h2, h3, h4 {
+            line-height: 40px;
+        }
+
+        div {
+            padding-bottom: 20px;
+        }
+
+        .space {
+
+            margin-left: 47px;
+            font-size: 16px;
+        }
+    </style>
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>Commande particulière</h1>
+                <nav role="navigation" class="breadcrumbs">
+                    <ul>
+                        <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                        <li>Commande particulière</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- //Page info -->
+
+    <div class="wrap">
+        <div class="row">
+
+            <!--- Content -->
+            <div class="full-width content textongrey">
+                <h2>Détail du transfert</h2>
+            </div>
+            <!--- //Content -->
+
+            <!-- Form -->
+            <div>
+                <form method="post" action="{{ path('particular_command_agency') }}">
+                    <div id="message"></div>
+                    <div class="f-row">
+                        <div class="one-half">
+                            <label for="email">Aller/Retour</label>
+                            <input type="checkbox" name="round-trip" id="round-trip"/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div class="one-third">
+                            <label for="sujet">Lieu de prise en charge</label>
+                            <input type="text" name="departure_place" required/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Ville</label>
+                            <input type="text" name="ville" required/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Code postal</label>
+                            <input type="text" name="zip_code" required/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div class="one-third">
+                            <label for="sujet">Lieu de dépôt</label>
+                            <input type="text" name="arrival_place" required/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Ville</label>
+                            <input type="text" name="ville1" required/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Code postal</label>
+                            <input type="text" name="zip_code1" required/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div id="date" class="one-half">
+                            <label for="sujet">Date et heure de la prestation aller</label>
+                            <input type="text" name="flight_time" required id="start_flight_date"/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div class="one-third">
+                            <label for="sujet">Nombre d'adultes</label>
+                            <input type="text" name="adults_number" required/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Nombre d'enfants (2 - 12 ans)</label>
+                            <input type="text" name="infants_number"/>
+                        </div>
+                        <div class="one-third">
+                            <label for="sujet">Nombre de bébés (< 2 ans)</label>
+                            <input type="text" name="babies_number"/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div class="one-half" id="informations-aller">
+                            <label for="comments">Informations complémentaires aller</label>
+                            <textarea name="message-aller" id="comments"></textarea>
+                            <div id="warning-message" style="font-size: 13px; color: red;">
+                                Au cas où le lieu de prise en charge et/ou le lieu de destination correspond à une gare
+                                ou un
+                                aéroport, merci de saisir les informations du train ou du vol (numéro, heure,
+                                provenance/destination)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <input type="submit" value="Soumettre" id="submit" name="submit"
+                               class="btn color medium right"/>
+                    </div>
+                </form>
+            </div>
+            <!-- //Form -->
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/js/infobox.js') }}"></script>
+    <!--<script src="{{ asset('app/js/v2/scripts.js') }}"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
+    <script>
+        $(function () {
+            $('#start_flight_date').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
+                minDate: new Date(),
+                sideBySide: true
+            })
+            ;
+
+            $(document).on("change", "#round-trip", function () {
+                $is_checked = $(this).parent().hasClass('checked');
+                if ($is_checked) {
+                    $parent = $("#date");
+                    $clone = $parent.clone();
+                    $clone.attr('id', 'date-round-trip');
+                    $label = $clone.find('label');
+                    $label.text('Date et heure de la prestation retour');
+                    $input = $clone.find('input');
+                    $input.attr({'id': 'round_trip_flight_date', 'name': 'roundtrip-date'});
+                    $input.datetimepicker({
+                        format: 'DD/MM/YYYY HH:mm',
+                        minDate: new Date(),
+                        sideBySide: true
+                    });
+                    $parent.after($clone);
+
+                    $messageBlock = $("#informations-aller");
+                    $messageBlockClone = $messageBlock.clone();
+                    $messageBlockClone.attr('id', 'informations-retour');
+                    $messageBlockClone.find("label").text("Informations complémentaires retour");
+                    $messageBlockClone.find("textarea").attr({'name': 'message-retour', 'id': 'message-retour'});
+                    $messageBlockClone.find("#warning-message").remove();
+                    $messageBlock.after($messageBlockClone);
+                } else {
+                    $("#date-round-trip").remove();
+                    $("#informations-retour").remove();
+                }
+            });
+
+            $('#start_flight_date').on("dp.change", function (e) {
+                if ($('#round_trip_flight_date').length > 0)
+                    $('#round_trip_flight_date').data("DateTimePicker").minDate(e.date);
+            });
+            function getFormattedDate(date) {
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear().toString().slice(2);
+                return day + '-' + month + '-' + year;
+            }
+        });
+    </script>
+{% endblock %}

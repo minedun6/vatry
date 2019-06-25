@@ -1,0 +1,76 @@
+{# extends '@App/AgentAdmin/index.html.twig'  #}
+{% extends parent  %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #balance-table th {
+            background-color: #cb8d1e;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: capitalize;
+            text-align: left;
+        }
+
+        .tb1 label {
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        tbody {
+            text-transform: capitalize !important;
+            font-size: 13px;
+        }
+
+        .sorting_disabled {
+            width: 70px;
+        }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Détail balance
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <table id="balance-table">
+                <thead>
+                <tr>
+                    <th>Montant</th>
+                    <th>Date de paiement</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for transaction in balance.getHistory %}
+                    <tr>
+                        <td>{{ transaction.amount }} &euro;</td>
+                        <td>{{ transaction.getCreatedAt ? transaction.getCreatedAt.format('Y-m-d') : '' }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfooter>
+                    <tr>
+                        <td>total Reçu</td>
+                        <td>{{ balance.getReceived }} &euro;</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{ balance.getCash }} &euro;</td>
+                    </tr>
+                </tfooter>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#balance-table").dataTable();
+    </script>
+{% endblock %}

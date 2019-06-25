@@ -1,0 +1,91 @@
+{% extends parent %}
+
+{% block page_title %}
+    Réservation {{ type }}
+{% endblock %}
+{% block content %}
+
+
+    <div class="row">
+        {% if type=='B2C' %}
+
+            <div class="col-xs-4">
+                <a href="{{ path('interVille_transfer_first_step') }}" target="_blank"
+                   title="Transfert collectif - Navette inter-villes"><img src="{{ asset('app/images/ban/n05.png') }}" alt="B2C"
+                                                              style="margin-bottom: 15px"/></a>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('porteAporte_transfer_first_step') }}" target="_blank"
+                   title="Transfert collectif - navette Aéroport - domicile"><img src="{{ asset('app/images/ban/n03.png') }}" alt="B2C"
+                                                                  style="margin-bottom: 15px"/></a>
+            </div>
+
+            <div class="col-xs-4">
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}"
+                   target="_blank" title="Navette Aéroport- Gare de Châlons-en-Champagne"><img
+                            src="{{ asset('app/images/ban/08.png') }}" alt="B2C"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+
+            <div class="col-xs-4">
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}"
+                   target="_blank" title="Navette Aéroport – Gare de Reims"><img
+                            src="{{ asset('app/images/ban/09.png') }}" alt="B2C"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+
+            <div class="col-xs-4">
+                <a href="{{ path('private_aeroport_transfer_first_step') }}"
+                   target="_blank" title="Transfert privé Aéroport – Aéroport"><img
+                            src="{{ asset('app/images/ban/n12.png') }}" alt="B2C"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+
+            <div class="col-xs-4">
+                <a href="{{ path('private_transfer_first_step') }}"
+                   target="_blank" title="Transfert privé Aéroport – Domicile"><img
+                            src="{{ asset('app/images/ban/n13.png') }}" alt="B2C"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+
+
+        {% else %}
+            <div class="col-xs-4">
+                <a href="{{ path('interVille_transfer_first_step') }}" target="_blank"
+                   title="Transfert collectif - Navette inter-villes"><img
+                            src="{{ asset('app/images/ban/n02.png') }}" alt="B2B" style="margin-bottom: 15px"/></a>
+            </div>
+
+            <div class="col-xs-4">
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}"
+                   target="_blank" title="Navette Aéroport- Gare de Châlons-en-Champagne"><img
+                            src="{{ asset('app/images/ban/07.png') }}" alt="B2B"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}"
+                   target="_blank" title="Navette Aéroport – Gare de Reims"><img
+                            src="{{ asset('app/images/ban/10.png') }}" alt="B2B"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('private_aeroport_transfer_first_step') }}"
+                   target="_blank" title="Transfert privé Aéroport – Aéroport"><img
+                            src="{{ asset('app/images/ban/n11.png') }}" alt="B2B"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('private_transfer_first_step') }}" target="_blank"
+                   title="Transfert privé Aéroport – Domicile"><img src="{{ asset('app/images/ban/n14.png') }}" alt="B2B"
+                                                                    style="margin-bottom: 15px"/></a>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('porteAporte_transfer_first_step') }}"
+                   target="_blank" title="Transfert collectif - navette Aéroport - domicile"><img
+                            src="{{ asset('app/images/ban/n16.png') }}" alt="B2B"
+                            style="margin-bottom: 15px"/></a>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

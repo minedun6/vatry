@@ -1,0 +1,9 @@
+/app/config/spec_dev_config.yml
+vendor/*
+app/cache/*
+app/logs/*
+web/plugins/*
+.idea/*
+data/import/logs/*
+data/tmp/*
+app/config/parameters.prod.yml

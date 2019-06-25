@@ -1,0 +1,40 @@
+{#<body>#}
+
+{#<h3>Inscription avec succès</h3>#}
+
+{#Bonjour {{ user.person.civility }} {{ user.person.name }} {{ user.person.lastname }}<br>#}
+
+{#Votre inscription est faite avec succès.<br>#}
+{#Votre login est {{ user.email }}<br>#}
+{#Votre MDP est {{ password }}<br>#}
+
+{#<br><br>#}
+{#Cordialement,<br>#}
+{#Equipe Vatry#}
+{#</body>#}
+
+<html>
+<head></head>
+<body>
+
+
+Bonjour {{ transfert.passenger.civility }} {{ transfert.passenger.name }} {{ transfert.passenger.lastname }}<br><br>
+Votre transfert {{ transfert.getPrestationTypeToDisplay()}} à partir de
+{% if transfert.direction == constant('TO_VATRY',transfert) %}
+    {{ transfert.location.name }} vers l'Aéroport Paris-Vatry,
+{% else %}
+    l' Aéroport Paris-Vatry vers {{ transfert.location.name }},
+{% endif %} le {{ transfert.flight.time|date('d/m/Y') }} pour le vol N° {{ transfert.flight.num }} de  {{ transfert.flight.provDistLabel|lower }} {{ transfert.flight.volDir }} dont
+{% if transfert.direction == constant('TO_VATRY',transfert) %}
+    le départ est prévu
+{% else %}
+    l'arrivée est prévue
+{% endif %}
+à {{ transfert.flight.time|date('H:i') }} a été mis à jour. Veuillez consulter votre voucher.
+<br><br>
+
+Cordialement<br>
+Le service client de navette de Vatry
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+{% extends '@App/front/interVilleTransfer/index.html.twig' %}
+
+{% set first_step = true %}
+
+{% block step_title %}
+    1. Détails du Transfert
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/js/interVilleTransfer/firstStepNR.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+
+    {{ form_start(form,{ 'method' : 'POST' }) }}
+
+    <div id="first-part-zone">
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="{{ form.direction.vars.id }}" class="required">Sens du transfert</label>
+                {{ form_widget(form.direction,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row" id="vatry_direction_block_1" style="display: none">
+            <div class="col-xs-12" id="label_location_direction">
+                <label>Lieu de prise en charge</label>
+                <label style="display: none;">Lieu de destination</label>
+            </div>
+            <div class="col-xs-12">
+                Aéroport Paris-Vatry
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label>Lieu de prise en charge</label>
+            </div>
+            <div class="col-xs-6">
+                <a target="_blank" href="{{ path('available_town_list') }}">Liste des villes desservies </a>
+                {{ form_widget(form.cp,{ 'attr' : { 'class' : 'form-control' , 'placeholder' : "Veuillez sélectionner un code postal" } }) }}
+            </div>
+            <div class="col-xs-6">
+                <br>
+                {{ form_widget(form.locationName,{ 'attr' : {  'disabled' : 'disabled' } }) }}
+                {{ form_widget(form.location) }}
+            </div>
+        </div>
+
+        <div class="row" id="vatry_direction_block_2">
+            <div class="col-xs-12">
+                <label>Lieu de destination</label>
+            </div>
+            <div class="col-xs-12">
+                Aéroport Paris-Vatry
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-4">
+                <label for="{{ form.qty.vars.id }}" class="required">Nombre d'adultes</label>
+                {{ form_widget(form.qty,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+
+            <div class="col-xs-4">
+                <label for="{{ form.qtyChild.vars.id }}" class="required">Nombre d'enfants</label>
+                {{ form_widget(form.qtyChild,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+
+            <div class="col-xs-4">
+                <label for="{{ form.qtyBaby.vars.id }}" class="required">Nombre de bébés</label>
+                {{ form_widget(form.qtyBaby,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- End First Part -->
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12">
+            <button class="btn btn-success pull-right" type="button" id="validate-transfer-information">
+                Afficher le tarif
+            </button>
+            <button style="display: none;" type="button" class="btn btn-primary pull-right"
+                    id="modify-first-part-information">
+                Changer les informations du transfert
+            </button>
+        </div>
+    </div>
+
+    <div class="row" id="tarif-row" style="display: none">
+        <div class="col-xs-12 tarif-zone">
+            Tarif : <span id="tarif-amount"></span> &euro; (TTC)<br>
+        </div>
+        <div class="col-xs-12" id="unit-price-zone">
+            <div class="col-xs-4">
+                <label>Prix unitaire Adulte : </label>
+                <span id="tarif-adult-amount"></span> &euro; (TTC)
+            </div>
+
+            <div class="col-xs-4">
+                <label>Prix unitaire Enfant : </label>
+                <span id="tarif-child-amount"></span> &euro; (TTC)
+            </div>
+
+            <div class="col-xs-4">
+                <label>Prix unitaire Bébé : </label>
+                <span> 0 </span> &euro; (TTC)
+            </div>
+            <div class="col-xs-12" style="text-align: center">
+                <small class="notice-text" style="font-size: 1em;">
+                    Les navettes de 19h00 à 6h00 seront majorées de 30% par rapport au prix initial
+                </small>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12" id="order-btn" style="text-align: right">
+            <button type="button" class="btn btn-success">Commander</button>
+        </div>
+    </div>
+
+
+    <div style="display: none" id="form-part-2">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="{{ form.date.vars.id }}">Date du transfert</label>
+                {{ form_widget(form.date,{ 'attr' : { 'class' : 'form-control'   } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-4">
+                <label for="vol-destination">Provenance/Destination du Vol</label>
+                <select id="vol-destination" class="form-control" disabled></select>
+            </div>
+            <div class="col-xs-4">
+                <label for="flight-select">Numéro du Vol</label>
+                <select id="flight-select" class="form-control" disabled></select>
+                {{ form_widget(form.flight) }}
+            </div>
+            <div class="col-xs-4">
+                <label for="Heure du vol ">Heure du vol</label>
+                <input class="form-control" id="heure-vol" readonly>
+            </div>
+
+        </div>
+        <div class="row" id="rdv">
+            <div class="col-xs-12">
+                <label>Heure du rendez-vous :</label>
+            </div>
+            <div class="col-xs-2" id="time-block">
+                {{ form_widget(form.time,{ 'attr' : { 'class' : 'form-control' , 'required' : 'false' , 'disabled' : 'disabled' , 'placeholder' : 'HH:MM'} }) }}
+            </div>
+            <div class="col-xs-10" id="rdv-msg">
+
+            </div>
+
+        </div>
+
+        <div class="row" id="rdv-lieu">
+            <div class="col-xs-12">
+                <label>Lieu du rendez-vous :</label>
+
+                <div id="rdv-lieu-msg">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label>Lieu de dépôt</label>
+            </div>
+            <div class="col-xs-12" id="depot-lieu">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label>Heure de dépôt</label>
+                <input style="width: 150px;" type="text" disabled placeholder="HH:MM" id="depot-heure">
+            </div>
+        </div>
+
+        <div style="clear: both"></div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-success pull-right">
+                    Confirmer et Passer à l'étape suivante
+                </button>
+            </div>
+        </div>
+
+        <div class="hidden">
+            {{ form_rest(form) }}
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+
+
+{% endblock %}

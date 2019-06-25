@@ -1,0 +1,93 @@
+{% include '@App/pdf/pdf_html_css.html.twig' %}
+
+<div class="container">
+
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 40%">
+                <img src="{{ asset('app/images/images_v2/transfers.jpg',null,true) }}" width="300px"/>
+            </td>
+            <td style="width: 60%">
+                <div class="background-gold" style="width: 100%; ">
+                    Ristourne
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {#SAS Navette de Vatry au Capital de 40.000 € <br>#}
+                {#RCS Châlons-en-Champagne 815 356 902<br>#}
+                {#Rue Louis Blériot 51000 Châlons-en-Champagne<br>#}
+                {#Téléphone : 03 51 31 01 01 <br>#}
+                {#e-mail : info@navettevatry.fr<br>#}
+                {#TVA intracommunautaire : FR 87 815356902#}
+            </td>
+            <td>
+                <br>
+                DATE : <br>
+                N° FACTURE :<br>
+                Client ID :<br>
+                <br>
+            </td>
+        </tr>
+    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <u>Ristourne dûe à :</u> <br>
+            <strong>Nom Client Relais</strong> <br>
+            Adresse <br>
+            Complément Adresse <br>
+            Code postal, Ville <br>
+            Tél: <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-responsive" style="width: 100%">
+                <thead>
+                <tr>
+                    <th colspan="8">Description</th>
+                    <th>Ristourne</th>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Pick-up</th>
+                    <th>Client</th>
+                    <th>PAX</th>
+                    <th>Destination</th>
+                    <th>Prestation</th>
+                    <th>Vol</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-offset-2">
+                Merci de votre confiance!
+                <span class="pull-right">
+                    <strong><u>Total €</u></strong>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h6><em>Pour toute information concernant le total de la ristourne
+                        contact : +33 6 73 39 47 52</em></h6>
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <strong>
+                Navette de Vatry, Aéroport Paris-Vatry, rue Louis Blériot 51320 Bussy-Lettrée France <br>
+                Tel : +33 3 51 31 01 02 ; E-mail : contact@navettevatry.fr ; Web : www.navettevatry.fr
+            </strong>
+        </div>
+    </div>
+</div>

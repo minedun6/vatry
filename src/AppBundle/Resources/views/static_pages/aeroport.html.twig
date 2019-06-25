@@ -1,0 +1,153 @@
+{% extends '::base.html.twig' %}
+{% block description %}Le transfert privé Aéroport – Aéroport est une prestation à la demande des voyageurs assurant une correspondance entre l’aéroport de Vatry et un autre aéroport.{% endblock %}
+
+{% block title %}
+    Transfert privé Aéroport Vatry - Autre aéroport
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+
+
+    ul{
+        list-style: none;
+        padding: 0;
+        margin:0 ;
+    }
+    li{
+
+        padding-right: 16px;
+    }
+    li:before{
+
+        content: "•" !important;
+        padding-right: 5px !important;
+        font-size: 39px;
+        color: #DBBC94;
+        position: absolute;
+        margin-left: -16px;
+        font-size: 39px;
+
+    }
+
+</style>
+
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <div class="wrap cWrap">
+                <div class="container">
+                    <h1>Transfert privé Aéroport – Aéroport</h1>
+                    <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                        <ul>
+                            <div class="row">
+                                <a href="{{ path('private_aeroport_transfer_first_step') }}"
+                                                class="btn costum medium black right wow fadeInRight">Réservez ici !</a>
+                            </div>
+                            <div class="row">
+                                <img src="{{ asset('app/images/img_entet_aero_half.jpg') }}"
+                                                  alt="Navette taxi Aéroport Aéroport"/>
+                            </div>
+                        </ul>
+                    </nav>
+
+                </div>
+        </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div class="text-justify">
+                            Le <strong>transfert privé Aéroport – Aéroport</strong> est une prestation à la demande des
+                            voyageurs assurant une correspondance entre l’aéroport de Vatry et l’un des aéroports
+                            suivants :
+                            <br><br>
+                            <ul class="itemcolor" style=" margin-left:30px;">
+                                <li >Aéroport de Charles de Gaules</li>
+                                <li>Aéroport d'Orly</li>
+                                <li>Aéroport Paris-Beauvais</li>
+                                <li>Aéroport de Metz - Nancy</li>
+                                <li>Aéroport de Luxembourg-Findel</li>
+                                <li>Aéroport de Doles-Jura</li>
+                                <li>Aéroport de Luxembourg-Findel</li>
+                            </ul>
+
+                            <p> Le transfert privé Aéroport – Aéroport est assuré dans les mêmes conditions que celui du transfert Aéroport - Domicile</p>
+
+
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/priveAA.jpg') }}" alt="Navette privée Aéroport Aéroport" /></center>
+                    </div>
+                    <div class="full-width">
+                        <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a>
+                        <br><br>
+                        <div id="tonDiv">
+
+                            <h3><u>Conditions de réservations</u></h3>
+                            <ul>
+                                <li>Réservation en ligne possible jusqu’au jour J-3 de votre voyage.  </li>
+                                <li>Au-delà de J-3, commande possible par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport.  </li>
+                                <li>Commandes en last minute possibles sous réserve de disponibilité des véhicules.</li>
+                            </ul>
+
+                            <h3><u>Conditions d’annulation</u></h3>
+                            <ul><li>Jusqu’au jour J-3 : Annulation possible sans frais</li>
+                                <li>A partir du jour J-2 : Commande non annulable non remboursable. </li></ul>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour consulter les destinations du Transfert Privé Aeroport Aeroport    </p>
+                <a href="{{ path('taxi_aeroport_aeroport') }}" class="btn medium black right wow fadeInRight">Cliquez ici !</a>
+            </div>
+        </div>
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+        h2, h3, h4{
+            line-height: 40px;
+        }
+        div{
+            padding-bottom: 20px;
+        }
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <div class="wrap">
+                <div class="container">
+                    <h1>Transfert privé Aéroport – Aéroport</h1>
+                    <nav role="navigation" class="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                            <li>Transfert privé Aéroport – Aéroport</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>Le transfert privé Aéroport – Aéroport est une prestation à la demande des voyageurs assurant une correspondance entre l’aéroport de Vatry et l’un des aéroports suivants : Aéroport de Charles de Gaules, Aéroport d'Orly, Aéroport Paris-Beauvais, Aéroport de Metz - Nancy, Aéroport de Lille-Lesquin, Aéroport de Doles-Jura, Aéroport de Luxembourg-Findel.
+                            Ce transfert peut être assuré par taxi, bus, minibus, monospace moyennant des tarifications.
+                            Les commandes relatives à ce type de prestations sont payées en ligne et confirmées instantanément par l’équipe de Navette de Vatry. Ce service est accessible sans limites et sans demande préalable de devis.
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/images_v3/4-transfert-aeroport-aeroport.jpg') }}" alt="Carte" /></center>
+                    </div>
+                    <div class="full-width">
+                        <h2>Indications supplémentaires à propos du Transfert privé Aéroport - Aéroport</h2>
+
+                        <ul><li>Il suffit de remplir le code postal et le nom de votre ville et de renseigner le nombre de personnes pour obtenir le tarif de votre commande</li>
+                            <li>Si le tarif du transfert vous convient vous pouvez remplir le formulaire de réservation pour confirmer votre commande. Autrement, vous pouvez consulter nos autres prestations proposées afin de trouver celle qui répondra le mieux à votre besoin et votre budget  </li>
+                            <li>Vous recevez le Voucher de confirmation de votre commande par mail dès validation de votre payement en ligne. </li>
+                            <li>Le Voucher de confirmation contient les informations de votre rendez-vous. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.</li></ul>
+                        <h3><u>Conditions de réservations</u></h3>
+                        <ul><li>Réservation en ligne possible jusqu’au jour J-3 de votre voyage.  </li>
+                            <li>Au-delà de J-3, commande possible par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport.  </li>
+                            <li>Commandes en last minute possibles sous réserve de disponibilité des véhicules.</li></ul>
+
+                        <h3><u>Conditions d’annulation</u></h3>
+                        <ul><li>Jusqu’au jour J-3 : Annulation possible sans frais</li>
+                            <li>A partir du jour J-2 : Commande non annulable non remboursable. </li></ul>
+
+                    </div>
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour toutes vos consultations pour les Transferts privés Aéroport – Aéroport</p>
+                <a href="{{ path('private_aeroport_transfer_first_step') }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+
+{% endblock %}

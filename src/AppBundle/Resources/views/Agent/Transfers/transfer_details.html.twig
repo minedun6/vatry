@@ -1,0 +1,250 @@
+{% extends parent %}
+
+
+{% block page_title %}
+    Détail de la commande
+{% endblock %}
+
+{% block content %}
+
+    <h3>Commande {{ transfer.reference }}</h3>
+
+    <h3>Informations du passager</h3>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Nom et Prénom : </label></div>
+            <div class="col-xs-6">
+                {{ transfer.passenger.civility }}
+                . {{ transfer.passenger.name|title }} {{ transfer.passenger.lastname|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Adresse mail : </label></div>
+            <div class="col-xs-6">
+                {{ transfer.passenger.email|title }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Nombre d'adultes : </label></div>
+            <div class="col-xs-6"> {{ transfer.qty }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Téléphone : </label></div>
+            <div class="col-xs-6">
+                {{ transfer.passenger.tel|title }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Nombre d'enfants : </label></div>
+            <div class="col-xs-6">
+                {% if transfer.qtyChild  ==null %} 0 {% else %} {{ transfer.qtyChild }} {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Nombre de bébés : </label></div>
+            <div class="col-xs-6">
+                {% if transfer.qtyBaby  == null %} 0 {% else %} {{ transfer.qtyBaby }} {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <h3>Détails de l'aller</h3>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Lieu de prise en charge : </label></div>
+            <div class="col-xs-6">
+                {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                    {{ transfer.address }}
+                {% else %}
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        {{ transfer.rdvLocationTransfer|raw }}
+                    {% else %}
+                        Aéroport Paris-Vatry
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Vol vers : </label></div>
+                <div class="col-xs-6">
+                    {{ transfer.flight.toLocation }} </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Lieu de destination : </label></div>
+            <div class="col-xs-6">
+                {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                    {{ transfer.address2 }}
+                {% else %}
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        Aéroport Paris-Vatry
+                    {% else %}
+                        {{ transfer.rdvLocationTransfer|raw }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Vol N° : </label></div>
+                <div class="col-xs-6">
+                    {{ transfer.flight.num }} </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Date du Transfer : </label></div>
+            <div class="col-xs-6">
+                {{ transfer.pickupDate|date('d/m/Y') }}
+            </div>
+        </div>
+        {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Heure du vol : </label></div>
+                <div class="col-xs-6">
+                    {{ transfer.flight.time|date('Y-m-d H:i') }} </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Heure de prise en charge : </label></div>
+            <div class="col-xs-6">
+                {{ transfer.pickupDate|date('H:i') }}
+            </div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label> </label></div>
+            <div class="col-xs-6"></div>
+        </div>
+    </div>
+
+    {% if transfer.roundTrip %}
+
+        <h3>Détails du retour</h3>
+
+        <div class="row">
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Lieu de prise en charge : </label></div>
+                <div class="col-xs-6">
+                    {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                        {{ transfer.address2 }}
+                    {% else %}
+                        {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                            Aéroport Paris-Vatry
+                        {% else %}
+                            {{ transfer.rdvLocationTransfer(true)|raw }}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Vol depuis : </label></div>
+                    <div class="col-xs-6">
+                        {{ transfer.flight2.fromLocation }} </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Lieu de destination : </label></div>
+                <div class="col-xs-6">
+                    {% if transfer.type == constant('PARTICULAR_COMMAND',transfer) %}
+                        {{ transfer.address }}
+                    {% else %}
+                        {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                            {{ transfer.rdvLocationTransfer(true)|raw }}
+                        {% else %}
+                            Aéroport Paris-Vatry
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Vol N° : </label></div>
+                    <div class="col-xs-6">
+                        {{ transfer.flight2.num }} </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Date du Transfer: </label></div>
+                <div class="col-xs-6">
+                    {{ transfer.pickupDate2|date('d/m/Y') }}
+                </div>
+            </div>
+            {% if transfer.type != constant('PARTICULAR_COMMAND',transfer) %}
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Heure d'arrivée : </label></div>
+                    <div class="col-xs-6">
+                        {{ transfer.flight2.time|date('Y-m-d H:i') }} </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label>Heure de prise en charge: </label></div>
+                <div class="col-xs-6">
+                    {{ transfer.pickupDate2|date('H:i') }}
+                </div>
+            </div>
+            <div class="row col-xs-6">
+                <div class="col-xs-6"><label> </label></div>
+                <div class="col-xs-6"></div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Statut</label></div>
+            <div class="col-xs-6"> {{ transfer.status|trans }} </div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label> </label></div>
+            <div class="col-xs-6"></div>
+        </div>
+    </div>
+
+    {% if transfer.remarques %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Remarques :</h3> {{ transfer.remarques }}
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="row">
+        <div class="col-xs-4">
+            <h3>Total commande: {{ transfer.NdvPrice|number_format(2, '.', '') }}€</h3>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+1- Vérifier lors de la validation de l'agencePartenaire vers quel compte il y a envoi de mail il doit etre envoyé vers le commercial qui a créer la commande. -->ok
+
+2- Changer le mail -->ok
+
+3- ajouter la possibilité de modifier les types de paiement mais pour garder la trace on peut prévoir une table ou on stocke les changements dans les transferts -->modif type uniquement
+
+3- Pour les commandes last minutes et les commandes de l'agence il y a un problème il n'affiche pas les bons 
+
+4- il faut stocker les factures B2B si la commission change (validation last minute ou direct)
+
+   * date facturation 
+   * prix ( de la commande )
+   * commission (nombre) 
+   * prixNet ( prix ttc - (1*comm/100))
+   * id Transfert 
+
+5- Changer le mail a envoyer lors de la validation du transfert B2B -->ok

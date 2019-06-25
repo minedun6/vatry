@@ -1,0 +1,147 @@
+{% extends parent %}
+
+
+{% block page_title %}
+    Détail de l'agence {% if agency.agencePartner %}partenaire {% endif %}{{ agency.nom }}
+{% endblock %}
+
+{% block content %}
+
+    <h3>Informations générales</h3>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Agence : </label></div>
+            <div class="col-xs-6">
+                {{ agency.nom|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Type : </label></div>
+            <div class="col-xs-6">
+                {% if agency.agencePartner %}Partenaire {% else %}Non partenaire{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Source : </label></div>
+            <div class="col-xs-6">
+                {{ agency.source|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Réseau : </label></div>
+            <div class="col-xs-6">
+                {{ agency.reseau|title }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Adresse1 : </label></div>
+            <div class="col-xs-6"> {{ agency.adresse|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Adresse2 : </label></div>
+            <div class="col-xs-6">
+                {{ agency.adresse2|title }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>CP : </label></div>
+            <div class="col-xs-6"> {{ agency.cp|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Ville : </label></div>
+            <div class="col-xs-6">
+                {{ agency.ville|title }} </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>E-mail : </label></div>
+            <div class="col-xs-6"> {{ agency.email|title }}</div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Web : </label></div>
+            <div class="col-xs-6"> {{ agency.web|title }}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Téléphone : </label></div>
+            <div class="col-xs-6">
+                {{ agency.tel|title }} </div>
+        </div>
+        <div class="row col-xs-6">
+            <div class="col-xs-6"><label>Fax : </label></div>
+            <div class="col-xs-6"> {{ agency.fax|title }}</div>
+        </div>
+    </div>
+    {% if not is_granted('ROLE_PARTNER') %}
+        {% if agency.agencePartner %}
+            <h3>Détails partenaire</h3>
+
+            <div class="row">
+                <div class="row col-xs-6"  >
+                    <div class="col-xs-6"><label>Activité : </label></div>
+                    <div class="col-xs-6">
+                        {{ agency.agencePartner.activity|trans }} </div>
+                </div>
+                <div class="row col-xs-6"  >
+                    <div class="col-xs-6"><label>Referent : </label></div>
+                    <div class="col-xs-6">
+                        {{ agency.agencePartner.referent|title }} </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-xs-6"  >
+                    <div class="col-xs-6"><label>Référent poste : </label></div>
+                    <div class="col-xs-6"> {{ agency.agencePartner.posteRefernet|title }}</div>
+                </div>
+                <div class="row col-xs-6"  >
+                    <div class="col-xs-6"><label>Email/Nom d'utilisateur : </label></div>
+                    <div class="col-xs-6"> {{ agency.agencePartner.user.email|title }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Email 2 : </label></div>
+                    <div class="col-xs-6"> {{ agency.agencePartner.email|title }}</div>
+                </div>
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Téléphone : </label></div>
+                    <div class="col-xs-6">
+                        {{ agency.agencePartner.tel }} </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-xs-6"  >
+                    <div class="col-xs-6"><label>Commission : </label></div>
+                    <div class="col-xs-6">
+                        {{ agency.agencePartner.commission }} </div>
+                </div>
+                <div class="row col-xs-6">
+                    <div class="col-xs-6"><label>Nombre de jours : </label></div>
+                    <div class="col-xs-6"> {{ agency.agencePartner.nbjours }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-xs-12">
+                    <div class="col-xs-3"><label>Destinations : </label></div>
+                    <div class="col-xs-9"> {{ agency.agencePartner.destination }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-xs-12">
+                    <div class="col-xs-3"><label>Observations : </label></div>
+                    <div class="col-xs-9"> {{ agency.agencePartner.observations }}</div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

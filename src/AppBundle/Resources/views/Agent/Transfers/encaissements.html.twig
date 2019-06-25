@@ -1,0 +1,301 @@
+{% extends '@App/AgentAdmin/index.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+
+
+        <script type="text/javascript">
+
+
+                    $("#txtFromDate").datepicker({
+                        dateFormat: 'dd-mm-yy',
+                        numberOfMonths: 1,
+                        onSelect: function(selected) {
+
+                            $("#txtToDate").datepicker("option","minDate", selected)
+                        }
+                    });
+                    $("#txtToDate").datepicker({
+                        dateFormat: 'dd-mm-yy',
+                        numberOfMonths: 1,
+
+                        onSelect: function(selected) {
+
+                            $("#txtFromDate").datepicker("option","maxDate", selected)
+                        }
+
+                    });
+
+                    $(document).ready(function () {
+                        $('#recherche').click(function() {
+                        $totalcb=0;
+                        $totalesp=0;
+                        $totalvad=0;
+                        $total=0;
+                            $.ajax({
+                                type: "post",
+                                url: "{{ path('list_between_dates') }}",
+                                dataType: "json",
+                                data: {day1: $('#txtToDate').val(), day2: $('#txtFromDate').val()},
+                                success: function (data) {
+                                    $('tbody').html('');
+                                    $.each(data,function(key,value){
+                                       $('tbody').append('<tr><td>'+data[key].createdAt+'</td><td>'+data[key].price.toFixed(2)+' €'+'</td><td>'+data[key].type+'</td></tr>')
+                                        if(data[key].type=='Espece')
+                                        {
+                                        $totalesp +=parseFloat(data[key].price);
+                                        }
+                                        else if (data[key].type=='VAD')
+                                        {
+                                            $totalvad +=parseFloat(data[key].price);
+                                        }
+                                        else {
+                                            $totalcb +=parseFloat(data[key].price,3);
+                                        }
+                                    });
+
+                                    var totalcb=$totalcb;
+                                    totalcb=totalcb.toFixed(2);
+                                    var totalvad=$totalvad;
+                                    totalvad=totalvad.toFixed(2);
+                                    var totalesp=$totalesp;
+                                    totalesp=totalesp.toFixed(2);
+                                    $total =$totalcb+$totalvad+$totalesp
+                                    var total=$total;
+                                    total=total.toFixed(2);
+
+                                    $('#total').html(total);
+                                    $('#totalcb').html(totalcb);
+                                    $('#totalvad').html(totalvad);
+                                    $('#totalesp').html(totalesp);
+                                },
+
+                            });
+                        });
+                    });
+
+
+    </script>
+
+
+
+{% endblock %}
+
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <style>
+
+        /* CSS used here will be
+
+     */
+        @media only screen and (max-width: 800px) {
+
+            /* Force table to not be like tables anymore */
+            #no-more-tables table,
+            #no-more-tables thead,
+            #no-more-tables tbody,
+            #no-more-tables th,
+            #no-more-tables td,
+            #no-more-tables tr {
+                display: block;
+            }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            #no-more-tables tr { border: 1px solid #ccc; }
+
+            #no-more-tables td {
+                /* Behave  like a "row" */
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                white-space: normal;
+                text-align:left;
+            }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align:left;
+                font-weight: bold;
+            }
+
+            /*
+            Label the data
+            */
+            #no-more-tables td:before { content: attr(data-title); }
+        }
+
+        .topspace{
+            margin-top:88px;
+
+        }
+
+        .table th{
+
+            background-color: #cb8d1e ;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+            text-transform:capitalize;
+            text-align: left;
+
+        }
+
+        label{
+
+            text-transform:capitalize;
+            font-weight: bold;
+
+        }
+
+        tbody{
+            text-transform: capitalize !important;
+            font-size:13px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block page_title %}
+   Encaissement
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-5">
+
+
+                <div class="panel panel-primary space">
+                    <div class="panel-heading">Entrer votre période</div>
+                    <div class="panel-body">
+
+                        <form id="eventForm" method="post" class="form-horizontal" data-toggle="validator">
+
+
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">premiere date</label>
+                                <div class="col-lg-7 dateContainer">
+
+                                    <input type="text" id="txtFromDate" />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">deuxiéme date</label>
+                                <div class="col-lg-7 dateContainer">
+
+                                    <input type="text" id="txtToDate" />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-5 col-xs-offset-3">
+                                    <input type="button" class="btn btn-success" id="recherche" value="Recherche" />
+                                </div>
+                            </div>
+                        </form>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-7">
+
+                <table class="table table-list-search" id="encaissement-table">
+                    <thead>
+                    <tr>
+
+                        <th>Date</th>
+                        <th>paiements</th>
+                        <th>Type</th>
+
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for x in encaissement %}
+
+                    <tr>
+
+
+
+                        <td>
+                            {{ x.createdAt|date('d/m/Y')}}
+                        </td>
+
+
+                        <td>
+                            {{ x.price|number_format(2, '.', '') }} €
+                        </td>
+
+                        <td>
+                            {{ x.paymentType }}
+                        </td>
+
+
+
+
+                    </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3" >Total : <b id="total">{{ total|number_format(2, '.', '') }} </b>(€) </th>
+
+
+                    </tr>
+                    <tr>
+                    <th colspan="3" >Total VAD : <b id="totalvad">{{ totalvad|number_format(2, '.', '') }}</b> (€) </th>
+                    </tr>
+                    <tr>
+                    <th colspan="3" >Total CB : <b id="totalcb">{{ totalcb|number_format(2, '.', '') }}</b> (€) </th>
+                    </tr>
+                    <tr>
+                    <th colspan="3" >Total Espece : <b id="totalesp">{{ totalesp|number_format(2, '.', '') }}</b> (€) </th>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,110 @@
+{% extends ':default:index_partner_agency.html.twig' %}
+
+{% block nav_bar %}
+
+    <ul>
+        <li class="active"><a href="{{ path('homepage') }}" title="">Accueil</a></li>
+        <li>
+            <a href="#" title="">Commandes</a>
+            <ul>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "paye" }) }}" title="">Commandes payees</a></li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "valid" }) }}" title="">Commandes validés</a>
+                </li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "wait" }) }}" title="">Commandes en attente</a>
+                </li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "open" }) }}" title="">Commandes ouvertes</a>
+                </li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "annule" }) }}" title="">Commandes annulees</a>
+                </li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "all" }) }}" title="">Toutes les commandes</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" title="">Commandes archivés</a>
+            <ul>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "paye" }) }}" title="">Commandes
+                        payees</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "valid" }) }}" title="">Commandes
+                        validés</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "wait" }) }}" title="">Commandes en
+                        attente</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "annule" }) }}" title="">Commandes
+                        annulees</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "all" }) }}" title="">Toutes les
+                        commandes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" title="">Last minute</a>
+            <ul>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "paye" ,'affected' : true }) }}" title="">Commandes
+                        payees</a></li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "valid" ,'affected' : true}) }}" title="">Commandes
+                        validés</a></li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "wait", 'affected' : true }) }}" title="">Commandes
+                        en attente</a></li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "annule", 'affected' : true }) }}" title="">Commandes
+                        annulees</a></li>
+                <li><a href="{{ path('agency_all_transfers',{ 'type' : "all", 'affected' : true }) }}" title="">Toutes
+                        les commandes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" title="">Last minute archivés</a>
+            <ul>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "paye", 'affected' : true }) }}"
+                       title="">Commandes payees</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "valid", 'affected' : true }) }}"
+                       title="">Commandes validés</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "wait", 'affected' : true }) }}"
+                       title="">Commandes en attente</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "annule", 'affected' : true }) }}"
+                       title="">Commandes annulees</a></li>
+                <li><a href="{{ path('agency_all_transfers_archives',{ 'type' : "all", 'affected' : true }) }}"
+                       title="">Toutes les commandes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Factures</a>
+            <ul>
+                <li><a href="{{ path('agency_monthly_invoices_list', {'type' : 'inProgress'}) }}">Volume du mois en
+                        cours</a></li>
+                <li><a href="{{ path('agency_latest_invoice_details') }}">Factures en cours</a></li>
+                <li><a href="{{ path('agency_monthly_invoices_list', {'type' : 'historical'}) }}">Historique des
+                        factures</a>
+                <li><a href="{{ path('agency_monthly_invoices_list') }}">Toutes les factures</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Reservation</a>
+            <ul>
+                <li><a href="{{ path('reservationB2',{ 'type' : "B2B" }) }}" title="">Reservation B2B</a></li>
+                <li><a href="{{ path('particular_command_agency') }}" title="">Commande Particulière</a></li>
+            </ul>
+        </li>
+        <li class="active"><a href="{{ path('partner_agency_account') }}" title="">Mon Compte</a></li>
+        <li class="active"><a href="{{ path('logout') }}" title="">Déconnexion</a></li>
+    </ul>
+
+{% endblock nav_bar %}
+
+{% block main %}
+
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>
+                    {% block page_title %}
+                    {% endblock %}
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+
+    {% endblock %}
+
+{% endblock %}

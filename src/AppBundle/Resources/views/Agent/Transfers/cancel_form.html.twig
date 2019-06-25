@@ -1,0 +1,8 @@
+{{ form_start(form,{ 'method': 'post', 'action' : path('admin_cancel_transfer',{'transfer': transfer.id}) }) }}
+<h3 style="text-align: center">
+    Êtes-vous sûr de vouloir annuler cette commande
+</h3>
+<input class="btn btn-primary" type="submit" value="Oui" style="float: right; margin-left: 10px;">
+<button type="button" class="btn" id="non-cancel" style="float: right;">Non</button>
+<div style="clear: both"></div>
+{{ form_end(form) }}

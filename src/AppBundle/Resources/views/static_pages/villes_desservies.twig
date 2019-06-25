@@ -1,0 +1,282 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}Retrouvez les destinations des vols réguliers et les villes desservis à partir de l’aéroport Paris-Vatry directement sur notre site web. Ajaccio, Marrakech, Alger, Porto, Oran, Malaga ….{% endblock %}
+
+{% block title %}
+    Aéroport Châlons Vatry destinations - Vols aéroport Paris Vatry
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+        var aeroportMap = null;
+
+        var villes = [
+            {
+                name: 'Aéroport Ajaccio',
+                lat: 41.920026,
+                lng: 8.793933
+            },
+            {
+                name: 'Aéroport Marrakech',
+                lat: 31.601482,
+                lng: -8.027080
+            },
+            {
+                name: 'Aéroport Alger',
+                lat: 36.698071,
+                lng: 3.206841
+            },
+            {
+                name: 'Aéroport Nice',
+                lat: 43.660689,
+                lng: 7.215079
+            },
+            {
+                name: 'Aéroport Bjaia',
+                lat: 36.715593,
+                lng: 5.071332
+            },
+            {
+                name: 'Aéroport Oran',
+                lat: 35.620608,
+                lng: -0.606017
+            },
+            {
+                name: 'Aéroport Constantine',
+                lat: 36.283704,
+                lng: 6.622131
+            },
+            {
+                name: 'Aéroport Porto',
+                lat: 41.242353,
+                lng: -8.678627
+            },
+            {
+                name: 'Aéroport Malaga',
+                lat: 36.675279,
+                lng: -4.489716
+            },
+            {
+                name: 'Aéroport Tlemcen',
+                lat: 35.012542,
+                lng: -1.447937
+            }
+        ];
+
+
+        $(function () {
+
+            aeroportMap = new GMaps({
+                div: "#aeroport-map",
+                lat: 41.920026,
+                lng: 8.793933,
+                zoom: 4
+            });
+
+            aeroportMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+
+            $.each(villes, function (key, value) {
+                aeroportMap.addMarker({
+                    lat: value.lat,
+                    lng: value.lng,
+                    title: value.name,
+                    icon: '/app/images/airport_runway.png'
+                    //icon: '/app/images/airport2.png'
+
+                    //icon: '/app/images/tgv.png'
+                });
+            });
+
+
+        })
+    </script>
+{% endblock %}
+
+{% block main_block %}
+    <style>
+        body {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+
+        h2, h3, h4 {
+            line-height: 40px;
+        }
+
+        div {
+            padding-bottom: 20px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 385px;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: white;
+        }
+
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <div class="wrap">
+                <div class="container">
+                    <h1>Villes desservies par l'aéroport Paris-Vatry</h1>
+                    <nav role="navigation" class="breadcrumbs">
+
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <p>Retrouvez les destinations des vols réguliers et les villes desservis à partir de l’aéroport
+            Paris-Vatry directement sur notre site web. Ajaccio, Marrakech, Alger, Porto, Oran, Malaga ….</p>
+        <!-- //Page info -->
+
+
+        <div class="one-half">
+            <div><h2>Destinations des vols réguliers à partir de l’aéroport <br>Paris-Vatry  :</h2>
+            </div>
+            <br>
+            <div class="col-xs col-xs-offset-3">
+                <table class="table">
+                    <tr>
+                        <td>1. Ajaccio - France</td>
+                        <td>2. Marrakech - Maroc</td>
+                    </tr>
+                    <tr>
+                        <td>3. Alger - Algerie</td>
+                        <td>4. Nice - France</td>
+                    </tr>
+                    <tr>
+                        <td>5. Bjaia - Algerie</td>
+                        <td>6. Oran - Algerie</td>
+                    </tr>
+                    <tr>
+                        <td>7. Constantine - Algerie</td>
+                        <td>8. Porto - Portugal</td>
+                    </tr>
+                    <tr>
+                        <td>9. Malaga - Espagne</td>
+                        <td>10. Tlemcen - Algerie</td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+
+        <div class="one-half">
+            <div class="map-container" >
+                <div style="width: 100%; height: 100%;" id="aeroport-map">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="services boxed " id="services">
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".4s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/correspondance-gares.jpg') }}" alt="Correspondance gares"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Navettes Aéroport – Gares</h4>
+
+                        &#10003; <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}">Gare de Châlons-en- Champagne</a><br><br>
+                        &#10003; <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}">Gare de Reims Centre</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".2s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img2.jpg') }}" alt="Transfert privé"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Transfert privé</h4>
+
+                        &#10003; <a href="{{ path('private_transfer_first_step') }}">Taxi Aéroport &#8651; Domicile</a><br><br>
+                        &#10003; <a href="{{ path('private_aeroport_transfer_first_step') }}">Taxi Aéroport &#8651; Aéroport</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img1.jpg') }}" alt="Navette partagé"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Navettes partagées</h4>
+
+                        &#10003; <a href="{{ path('porteAporte_transfer_first_step') }}">Navette Aéroport &#8651; Domicile</a><br><br>
+                        &#10003; <a href="{{ path('interVille_transfer_first_step') }}">Navette Inter-Villes</a><br>
+
+
+                    </div>
+                </article>
+                <!-- //Item -->
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".6s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img3.jpg') }}" alt="Service Last Minute"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Service last minute</h4>
+
+                        &#10003; <a href="{{ path('description_lastminute') }}">Découvrez le service</a><br><br>
+                        &#10003; <a href="{{ path('contact') }}">Consultez la disponibilité</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+            </div>
+        </div>
+
+    </main>
+    <!-- //Main -->
+
+{% endblock %}

@@ -1,0 +1,596 @@
+{% extends '@App/front/privateTransfer/index.html.twig' %}
+
+{% set fourth_step = true %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+
+            submitRegisterFormBindEvent(
+                    function () {
+                        loader.showGlobalLoader();
+                    },
+                    function () {
+                        loader.hideGlobalLoader();
+                        $("#inscription-failure-block").hide();
+                        $("#inscription-success-block").show();
+                        $("#inscription-block").hide();
+                        $('#register-title').hide();
+                    }, function (data) {
+                        loader.hideGlobalLoader();
+                        $("#inscription-failure-block").show();
+                        $("#inscription-block").html(data.html);
+                    }
+            );
+
+
+            loginSubmitBtn(
+                    function () {
+                        loader.showGlobalLoader();
+                    },
+                    function () {
+                        loader.hideGlobalLoader();
+                        window.location.reload();
+                    }, function (data) {
+                        loader.hideGlobalLoader();
+                        $('.form-login-error').html(data.message);
+                        $('.form-login-error').show();
+                    }
+            );
+        });
+
+        $(document).on('click', '#confirm-vad-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked') || $('#checkbox-conditions-b2b').is(':checked')) {
+                $('#paymentForm').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $(document).on('click', '#cach-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#cachModal').modal('show');
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+        $(document).on('click', '#confirm-cach-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#cachModal').modal('hide');
+                $('#paymentCachForm').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $(document).on('click', '#cb-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#cbModal').modal('show');
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $(document).on('click', '#recouve-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#recouveModal').modal('show');
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+        //paiement recouverment
+        $(document).on('click', '#confirm-recouve-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#recouveModal').modal('hide');
+                $('#recouve-form').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $(document).on('click', '#confirm-cb-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                var cbRef = $('#cbRef').val();
+                if (cbRef) {
+                    $('#cbModal').modal('hide');
+                    $('#paymentCBForm').submit();
+                } else
+                    $('#cbRef').addClass('wrong-field');
+
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+        $(document).on('click', '#cancel-cb-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                var cbRef = $('#cbRef').val(null);
+//                $('#inputRefCB').val(null);
+                $('#cbRef').removeClass('wrong-field')
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $("#checkbox-conditions").on('change', function (event) {
+
+            if ($(this).is(':checked')) {
+                $('#confirm-vad-btn').removeAttr('disabled');
+                $('#cach-btn').removeAttr('disabled');
+                $('#cb-btn').removeAttr('disabled');
+                //recouve payment
+                $('#recouve-btn').removeAttr('disabled');
+                //bonus payment
+                $('#bonus-btn').removeAttr('disabled');
+                //b2b
+                $('#confirm-b2b-btn').removeAttr('disabled');
+                $('#b2b-btn').removeAttr('disabled');
+                $('#relay-btn').removeAttr('disabled');
+            } else {
+                $('#confirm-vad-btn').attr('disabled', 'disabled');
+                $('#cach-btn').attr('disabled', 'disabled');
+                $('#cb-btn').attr('disabled', 'disabled');
+                $('#bonus-btn').attr('disabled', 'disabled');
+                $('#recouve-btn').attr('disabled', 'disabled');
+                //b2b
+                $('#confirm-b2b-btn').attr('disabled', 'disabled');
+                $('#b2b-btn').attr('disabled', 'disabled');
+                $('#relay-btn').attr('disabled', 'disabled');
+            }
+
+        });
+
+        /******* B2B **********/
+
+        $(document).on('click', '#b2b-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#b2bModal').modal('show');
+            } else {
+                validator.errorHilight($('#checkbox-conditions-b2b'));
+                return false;
+            }
+        });
+        $(document).on('click', '#confirm-b2b-btn', function (event) {
+//            if ($('#checkbox-conditions-b2b').is(':checked')) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#b2bModal').modal('hide');
+                $('#paymentB2BForm').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+        $(document).on('click', '#confirm-b2b-btn-partner', function (event) {
+            if ($('#checkbox-conditions-b2b').is(':checked')) {
+                $('#paymentb2bPartnerForm').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions-b2b'));
+                return false;
+            }
+        });
+
+
+        $("#checkbox-conditions-b2b").on('change', function (event) {
+            if ($(this).is(':checked')) {
+                $('#confirm-b2b-btn-partner').removeAttr('disabled');
+                $('#confirm-vad-btn').removeAttr('disabled');
+            } else {
+                $('#confirm-b2b-btn-partner').attr('disabled', 'disabled');
+                $('#confirm-vad-btn').attr('disabled', 'disabled');
+            }
+
+        });
+
+
+        /******* relay customer **********/
+
+        $(document).on('click', '#relay-btn', function (event) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#relayModal').modal('show');
+            } else {
+                validator.errorHilight($('#checkbox-conditions-b2b'));
+                return false;
+            }
+        });
+
+
+        $(document).on('click', '#confirm-relay-btn', function (event) {
+//            if ($('#checkbox-conditions-b2b').is(':checked')) {
+            if ($('#checkbox-conditions').is(':checked')) {
+                $('#relayModal').modal('hide');
+                $('#paymentrelayForm').submit();
+            } else {
+                validator.errorHilight($('#checkbox-conditions'));
+                return false;
+            }
+        });
+
+
+    </script>
+{% endblock %}
+
+{% block step_title %}
+    4. Détails Facturation
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% if app.user or is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+
+        <div style="text-align: left">
+        <h3>Informations de facturation</h3>
+
+        {% if not is_granted('ROLE_PARTNER_AGENCY') %}
+
+            <div class="row">
+                <div class="col-xs-3"><label>Nom et Prénom/Raison sociale</label></div>
+                <div class="col-xs-8"> {{ app.user.person.name|title }} {{ app.user.person.lastName }} </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Adresse</label></div>
+                <div class="col-xs-3"> {{ app.user.person.address }} </div>
+                <div class="col-xs-3"><label>Code postal</label></div>
+                <div class="col-xs-3"> {{ app.user.person.zipCode }} </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Ville</label></div>
+                <div class="col-xs-3">{{ app.user.person.town }}</div>
+                <div class="col-xs-3"><label>Pays</label></div>
+                <div class="col-xs-3">{{ app.user.person.country|country('fr') }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Email</label></div>
+                <div class="col-xs-3">{{ app.user.person.email }}</div>
+                <div class="col-xs-3"><label>Tél</label></div>
+                <div class="col-xs-3">{{ app.user.person.tel }}</div>
+            </div>
+            <hr>
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="checkbox" id="checkbox-conditions"> J'accepte les <a target="_blank"
+                                                                                      href="{{ path('conditions') }}">Conditions
+                        générales
+                        d'utilisation</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {% if is_granted('ROLE_AGENT') %}
+                        <div class="col-md-2">
+                            <button type="button"
+                                    id="cach-btn"
+                                    disabled class="btn medium btn-success pull-right">Espèce
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button"
+                                    id="cb-btn"
+                                    disabled class="btn medium btn-success pull-right">CB
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button"
+                                    id="recouve-btn"
+                                    disabled class="btn medium btn-success pull-right">Recouve
+                            </button>
+                        </div>
+                        {% if is_granted('ROLE_COMMERCIAL') %}
+                            <div class="col-md-2">
+                                <button type="button"
+                                        id="b2b-btn"
+                                        disabled class="btn medium btn-success pull-right">B2B
+                                </button>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <button type="button"
+                                        id="relay-btn"
+                                        disabled class="btn medium btn-success pull-right">Client relai
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    {% endif %}
+
+                    <div class="col-md-2 pull-right">
+                        <button type="button"
+                                id="confirm-vad-btn"
+                                disabled
+                                class="btn medium btn-success pull-right"> {% if is_granted('ROLE_CUSTOMER') %}
+                                Paiement
+                            {% else %}
+                                VAD
+                            {% endif %}
+                        </button>
+                        {#<a href="{{ path('test_payment', {'id' : transfer.id}) }}">Payer</a>#}
+                    </div>
+                    {% if is_granted('ROLE_RELAY_CUSTOMER') %}
+                        {% if app.user.relayCustomerDetail is defined %}
+                            {% if app.user.relayCustomerDetail.bonus >= transfer.price %}
+                                <div class="col-lg-2">
+                                    <a class="btn medium btn-success pull-right" disabled id="bonus-btn"
+                                       href="{{ path('relay_customer_pay', {'transfer' : transfer.id }) }}">Bonus
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {#{% if is_granted('ROLE_COMMERCIAL') %}#}
+        {#<div class="row">#}
+        {#<div class="col-xs-12">#}
+        {#<input type="checkbox" id="checkbox-conditions-b2b"> J'accepte les <a target="_blank" href="{{ path('conditions_b2b') }}">Conditions B2B#}
+        {#d'utilisation</a>#}
+        {#</div>#}
+        {#</div>#}
+
+        {#<div class="row">#}
+        {#<div class="col-xs-12">#}
+        {#<div class="col-md-3">#}
+        {#<button type="button"#}
+        {#id="b2b-btn"#}
+        {#disabled class="btn medium btn-success pull-right">B2B#}
+        {#</button>#}
+        {#</div>#}
+        {#</div>#}
+        {#</div>#}
+        {#{% endif %}#}
+
+        {% if is_granted('ROLE_PARTNER_AGENCY') %}
+            <div class="row">
+                <div class="col-xs-3"><label>Raison sociale</label></div>
+                <div class="col-xs-8"> {{ app.user.agencePartner.agence.nom|title }} </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Adresse</label></div>
+                <div class="col-xs-3"> {{ app.user.agencePartner.agence.adresse }} </div>
+                <div class="col-xs-3"><label>Adresse2</label></div>
+                <div class="col-xs-3"> {{ app.user.agencePartner.agence.adresse2 }} </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Code postal</label></div>
+                <div class="col-xs-3"> {{ app.user.agencePartner.agence.cp }} </div>
+                <div class="col-xs-3"><label>Ville</label></div>
+                <div class="col-xs-3">{{ app.user.agencePartner.agence.ville }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-3"><label>Email</label></div>
+                <div class="col-xs-3">{{ app.user.agencePartner.agence.email }}</div>
+                <div class="col-xs-3"><label>Tél</label></div>
+                <div class="col-xs-3">{{ app.user.agencePartner.agence.tel }}</div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="checkbox" id="checkbox-conditions-b2b"> J'accepte les <a target="_blank"
+                                                                                          href="{{ path('conditions') }}">Condition
+                        d'utilisation</a>
+                </div>
+            </div>
+            {% if app.user.agencePartner.isPrepayment %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-md-3">
+                            <button type="button"
+                                    id="confirm-vad-btn"
+                                    disabled
+                                    class="btn medium btn-success pull-right">VAD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-md-3">
+                            <button type="button"
+                                    id="confirm-b2b-btn-partner"
+                                    disabled class="btn medium btn-success pull-right">Valider
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <form method="post" id="paymentb2bPartnerForm"
+                      action="{{ path('payement_b2b_partner',{ 'transfer' : transfer.id }) }}">
+                </form>
+            {% endif %}
+        {% endif %}
+
+        <div>
+            {% include '@App/front/payment/payment_form.html.twig' with { 'model' : paymentService.createPaymentModel(transfer) } %}
+
+            <form method="post" id="paymentCachForm"
+                  action="{{ path('payement_agent',{ 'transfer' : transfer.id, 'type' : 'cach' }) }}">
+            </form>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-xs-4" style="border: solid 1px #D6D5D5;">
+                <h3>Se Connecter</h3>
+                {% include '@App/Security/login_form.html.twig' %}
+            </div>
+            <div class="col-xs-1">
+
+            </div>
+            <div class="col-xs-7" style="border: solid 1px #D6D5D5;">
+                <div id="inscription-failure-block" style="display: none;">
+                    <div class="alert alert-danger" role="alert">
+                        L'inscription a échouée
+                    </div>
+                </div>
+                <h3 id="register-title">S'inscrire</h3>
+                <div id="inscription-block">
+                    {{ render(controller('AppBundle:Security/Security:register')) }}
+                </div>
+
+                <div id="inscription-success-block" style="display: none;">
+                    <div class="alert alert-success" role="alert">
+                        {% include '@App/front/common/register_ok_confirmation.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if is_granted('ROLE_AGENT') %}
+        <form method="post" id="recouve-form"
+              action="{{ path('payement_agent',{ 'transfer' : transfer.id, 'type': 'recouve' }) }}">
+        </form>
+        <div class="modal fade" id="cachModal" tabindex="-1" role="dialog" aria-labelledby="cachModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cachModalLabel">Confirmer le paiement en espèse</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Souhaitez vous confirmer le paiement en espèce?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        <button type="button" id="confirm-cach-btn" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="recouveModal" tabindex="-1" role="dialog" aria-labelledby="recouveModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cachModalLabel">Confirmer la commande</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Souhaitez vous confirmer une commande en attente de recouvrement ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        <button type="button" id="confirm-recouve-btn" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="cbModal" tabindex="-1" role="dialog" aria-labelledby="cbModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cbModalLabel">Confirmer le paiement par carte bancaire</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Souhaitez vous confirmer le paiement par carte bancaire ?</p>
+                        <label>Entrez la référence de paiement</label>
+                        <form method="post" id="paymentCBForm"
+                              action="{{ path('payement_agent',{ 'transfer' : transfer.id, 'type' : 'cb' }) }}">
+                            <input type="text" class="form-control" name="cbRef" id="cbRef"
+                                   placeholder="Référence de paiement" required>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancel-cb-btn" class="btn btn-danger" data-dismiss="modal">Annuler
+                        </button>
+                        <button type="button" id="confirm-cb-btn" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_COMMERCIAL') or is_granted('ROLE_PARTNER_AGENCY') %}
+        <div class="modal fade" id="b2bModal" tabindex="-1" role="dialog" aria-labelledby="b2bModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cbModalLabel">Confirmer le paiement B2B</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Choisir l'agence partenaire</label>
+                        <form method="post" id="paymentB2BForm"
+                              action="{{ path('payement_agent',{ 'transfer' : transfer.id, 'type' : 'b2b' }) }}">
+                            <select type="text" class="form-control" name="affectedTo" id="cbRef" required>
+                                {% for agency in partnerAgencies %}
+                                    <option value="{{ agency.user.id }}">{{ agency.agence.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancel-b2b-btn" class="btn btn-danger" data-dismiss="modal">Annuler
+                        </button>
+                        <button type="button" id="confirm-b2b-btn" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+
+
+    {% if is_granted('ROLE_COMMERCIAL') or is_granted('ROLE_PARTNER_AGENCY') %}
+        <div class="modal fade" id="relayModal" tabindex="-1" role="dialog" aria-labelledby="relayModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="cbModalLabel">Confirmer le paiement Client relai</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Choisir le client relai</label>
+                        <form method="post" id="paymentrelayForm" action="{{ path('payement_agent',{ 'transfer' : transfer.id, 'type' : 'rc' }) }}">
+                            <select type="text" class="form-control" name="affectedTo" id="cbRef" required>
+                                {% for customer in relayCustomers %}
+                                    <option value="{{ customer.user.id }}">{{ customer.user.person.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="cancel-b2b-btn" class="btn btn-danger" data-dismiss="modal">Annuler
+                        </button>
+                        <button type="button" id="confirm-relay-btn" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

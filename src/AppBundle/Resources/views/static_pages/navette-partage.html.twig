@@ -1,0 +1,79 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+
+
+</style>
+
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/img_entet_domi.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div> <p class="text-align:justify;">
+                                La navette partagée Aéroport – Domicile permet de prendre en charge ou de déposer les résidents des villes avoisinantes de l’aéroport Paris-Vatry à leurs domiciles. <br><br>
+                                Ce service permet la prise en charge des passagers à leurs domiciles et leurs transferts à l’aéroport Paris-Vatry, et inversement, en effectuant un nombre limité d’arrêts intermédiaires.  <br><br>
+                                La navette n’est confirmée que si le seuil de remplissage est atteint. <br><br>
+                                Les villes desservies par la navette partagée Aéroport - Domicile sont situées dans les agglomérations suivantes :
+
+                            </p>
+
+
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center>    <!--- //Map Aymen --> </center>
+                    </div>
+                </div>
+
+            </div>
+            <!--- //Content -->
+
+        </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez votre taxi </p>
+                <a href="#" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+
+    </main>
+    <!-- //Main -->
+
+
+{% endblock %}

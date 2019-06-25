@@ -1,0 +1,291 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}Prestation à la fois confortable et économique. Le service consiste à la prise en charge ou le dépôt des passagers à leurs domiciles et transfert vers l’aéroport en effectuant un nombre limité d’arrêt afin de récupérer ou déposer d’autres passagers.{% endblock %}
+
+{% block title %}
+    Transfert/Navette partagée Aéroport - Domicile
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #myImg:hover {opacity: 0.7;}
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+        /* Modal Content (Image) */
+        .modal-content {
+            margin: auto;
+            margin-top: 95px;
+            display: block;
+            width: 50%;
+            max-width: 586px;
+        }
+        /* Caption of Modal Image (Image Text) - Same Width as the Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 100px;
+        }
+        /* Add Animation - Zoom in the Modal */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top:95px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px){
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+        .text-justify {
+            text-align: justify;
+        }
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0 ;
+        }
+        li{
+
+            padding-right: 16px;
+        }
+        li:before{
+
+            content: "•" !important;
+            padding-right: 5px !important;
+            font-size: 39px;
+            color: #DBBC94;
+            position: absolute;
+            margin-left: -16px;
+            font-size: 39px;
+
+        }
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+            <div class="wrap cWrap">
+                <div class="container">
+                    <h1>Transfert Aéroport Domicile </h1>
+                    <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                        <ul>
+                            <div class="row">
+                                <a href="{{ path('porteAporte_transfer_first_step') }}" class="btn costum medium black right wow fadeInRight">Réservez
+                                    ici !</a>
+                            </div>
+                            <div class="row">
+                                <img src="{{ asset('app/images/img_entet_domi_half.jpg') }}" alt="Navette partagée Aéroport Domicile" />
+                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </header>
+        <!-- //Page info -->
+
+
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div> <p class="text-justify">
+                                Le service de <strong>transfert Aéroport-Domicile</strong> consiste à la prise en
+                                charge ou le dépôt des passagers à leurs domiciles et transfert vers l’aéroport en
+                                effectuant un nombre limité d’arrêt afin de récupérer ou déposer d’autres passagers.
+                                <br>
+                                Le transfert en navette partagée de Porte à Porte est assuré par des voitures de 9 places. <br>
+                                Ce sont les agglomérations des communes (les grandes villes avec les villes limitrophes) situées dans un rayon de 70 km qui sont concernées par ce service. <br>
+                                Il s’agit d’une prestation à la fois confortable et économique. Le prix de la navette est beaucoup moins couteuse que le transfert privé (le taxi) et légèrement plus chère que la navette partagée Inter-Villes. La navette partagée de Porte à Porte à destination d’une ville n’est confirmée que si un minimum de remplissage est atteint
+                                En cas de non validation de votre navette, l’équipe de Navette de Vatry s’engage à vous proposer une ou plusieurs solutions alternatives adéquates. </p>
+                            <br>
+                            <u> Recommandation :</u>  <br>
+                            N’attendez pas les derniers jours pour réserver votre navette. Enregistrer votre commande suffisamment en avance afin d’augmenter les chances de sa  validation de votre navette et faciliter sa planification. Nous vous rappelons qu’en cas de sur-remplissage de la navette, les clients ayant commandé en premiers seront prioritaires dans la prise en charge.<br></p>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="one-half">
+                        <center>
+
+                            <img class="fancybox" id="myImg" src="{{ asset('app/images/map-big.png') }}" data-big="images/map-big.png" alt="Carte Transfert Partagé Aéroport Domicile" >
+
+                        </center>
+                        <div id="myModal" class="modal">
+                            <span class="close">×</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="full-width">
+                    <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a>
+                    <div id="tonDiv"><br><br>
+                        <ul><li>Un tarif unitaire est associé à chaque agglomération de villes. Il suffit de renseigner  le nombre de personnes pour obtenir le montant total de votre demande.</li>
+                            <li>Remplissez le formulaire de réservation pour enregistrer votre commande. </li>
+                            <li>Votre carte bancaire servira à garantir la commande et aucun payement n’est effectué avant la confirmation définitive de la navette.
+                            </li>
+                            <li>En cas de non validation de la navette, pour non atteinte du seuil de remplissage, l’équipe de Navette de Vatry prendra contact avec vous pour vous proposer des solutions alternatives. Si l’une des solutions proposées vous convienne, votre nouvelle commande sera validée et payée le jour même. Un voucher de confirmation vous sera envoyé par mail dès la validation.
+                            </li>
+
+                            <li>Le Voucher de confirmation contient les informations de votre rendez-vous. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.
+                            </li>
+                            </ul>
+                        <h3><u>Conditions de réservations</u></h3>
+                        <ul><li>Enregistrement des commandes optionnelles possible jusqu’au jour J - 4 de votre voyage. </li>
+                            <li>Au-delà du J - 4, commande possible, sous réserve de disponibilité, par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport. </li>
+                            <li>Commandes en last minute possibles sous réserve de disponibilité.</li></ul>
+
+                        <h3><u>Conditions d’annulation</u></h3>
+                        <ul><li>Jusqu’au jour J-4 : Annulation possible sans frais</li>
+                            <li>A partir du jour J-3 : Commande non annulable non remboursable. </li></ul>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--- //Content -->
+
+        </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour consulter les destinations de la Navette partagée Aéroport Domicile </p>
+                <a href="{{ path('available_aggro_list') }}"  class="btn medium black right wow fadeInRight">Cliquez ici !</a>
+            </div>
+        </div>
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(function($){
+            var addToAll = false;
+            var gallery = false;
+            var titlePosition = 'inside';
+            $(addToAll ? 'img' : 'img.fancybox').each(function(){
+                var $this = $(this);
+                var title = $this.attr('title');
+                var src = $this.attr('data-big') || $this.attr('src');
+                var a = $('<a href="#" class="fancybox"></a>').attr('href', src).attr('title', title);
+                $this.wrap(a);
+            });
+            if (gallery)
+                $('a.fancybox').attr('rel', 'fancyboxgallery');
+            $('a.fancybox').fancybox({
+                titlePosition: titlePosition
+            });
+        });
+        $.noConflict();
+    </script>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    </script>
+
+
+
+{% endblock %}

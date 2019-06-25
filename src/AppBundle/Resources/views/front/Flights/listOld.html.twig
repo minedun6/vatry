@@ -1,0 +1,46 @@
+<table class="table">
+    <thead>
+    <tr>
+
+        <td>Numéro du Vol</td>
+        {% if dir == 'to' %}
+            <td >
+                Provenance
+            </td>
+            <td>
+                Atterrissage
+            </td>
+        {% else %}
+            <td>
+                Déstination
+            </td>
+            <td>
+                Décollage
+            </td>
+        {% endif %}
+        <td >
+            Détails
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for l in list %}
+        <tr >
+            <td>
+                {{ l.num }}
+            </td>
+            {% if dir == 'to' %}
+            <td>{{ l.fromLocation }}</td>
+            {% else %}
+                <td>{{ l.toLocation }}</td>
+            {% endif %}
+            <td>
+                {{ l.time|date('H:i') }}
+            </td>
+            <td style="position: relative">
+                <span title="Voir les détails" class="glyphicon glyphicon-plane flight-details"></span>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

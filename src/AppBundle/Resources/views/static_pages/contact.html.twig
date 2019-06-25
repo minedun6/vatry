@@ -1,0 +1,202 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}En remplissant le formulaire de contact en ligne, la Sté Navette de Vatry répondra à votre requête/demande concernant ses prestations dans les meilleurs délais{% endblock %}
+
+{% block title %}
+    Contacter Navette de Vatry
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+    <style>
+        body {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+
+        h2, h3, h4 {
+            line-height: 40px;
+        }
+
+        div {
+            padding-bottom: 20px;
+        }
+        .space{
+
+            margin-left: 47px;
+            font-size: 16px;
+        }
+    </style>
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>Contact</h1>
+                <nav role="navigation" class="breadcrumbs">
+                    <ul>
+                        <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                        <li>Contact</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- //Page info -->
+
+    <!--- Google map -->
+    <div id="map_canvas" class="gmap"></div>
+    <!--- //Google map -->
+
+    <div class="wrap">
+        <div class="row">
+
+            <!--- Content -->
+            <div class="full-width content textongrey">
+                <h2>Formulaire de contact</h2>
+            </div>
+            <!--- //Content -->
+
+            <!-- Form -->
+            <div class="three-fourth">
+                <form method="post" action="{{ path('contact_Mail')}}" >
+                    <div id="message"></div>
+                    <div class="f-row">
+                        <div class="one-half">
+                            <label for="name">Nom Prénom</label>
+                            <input type="text" required name="nom" id="name"/>
+                        </div>
+                        <div class="one-half">
+                            <label for="tel">Tél</label>
+                            <input required name="tel" type="text" id="tel" pattern="([0-9]|[+]?)[0-9]+$"/>
+                        </div>
+                        <div class="one-half">
+                            <label for="email">Email</label>
+                            <input type="email" required name="email" id="email"/>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <div class="full-width">
+                            <label for="sujet">Sujet</label>
+                            <input type="text" name="sujet" required id="sujet"/>
+                        </div>
+                        <div class="full-width">
+                            <label for="comments">Message</label>
+                            <textarea required name="message" id="comments"></textarea>
+                        </div>
+                    </div>
+                    <div class="f-row">
+                        <input type="submit" value="Soumettre" id="submit" name="submit"
+                               class="btn color medium right"/>
+                    </div>
+                </form>
+            </div>
+            <!-- //Form -->
+
+            <!--- Sidebar -->
+            <aside class="one-fourth sidebar right">
+                <!-- Widget -->
+                <div class="widget">
+                    <h4>BESOIN D'AIDE?</h4>
+
+                    <div class="textwidget">
+                        <p>Vous avez besoin d’une information ?</p>
+
+                        <p>Nous restons à votre disposition pour répondre à toutes vos interrogations 7jours/7.</p>
+
+                        <p>Appelez-nous sur : </p>
+
+                        <p class="contact-data"><span class="ico phone black"></span> 03 51 31 01 01 </p>
+                    </div>
+                </div>
+                <!-- //Widget -->
+
+                <!-- Widget -->
+                <div class="widget">
+                    <h4>Facebook</h4>
+                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fnavettevatry%2F%3Ffref%3Dts&tabs=timeline&width=270&height=300&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="270" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                            allowTransparency="true"></iframe>
+                </div>
+                <!-- //Widget -->
+            </aside>
+            <!--- //Sidebar -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/js/infobox.js') }}"></script>
+    <!--<script src="{{ asset('app/js/v2/scripts.js') }}"></script>-->
+    <script>
+        $(function () {
+            function initialize() {
+                var secheltLoc = new google.maps.LatLng(48.7805327, 4.1912283);
+
+                var myMapOptions = {
+                    zoom: 14
+                    , center: secheltLoc
+                    , mapTypeId: google.maps.MapTypeId.ROADMAP
+                    , scrollwheel: false
+                };
+                var theMap = new google.maps.Map(document.getElementById("map_canvas"), myMapOptions);
+
+                var myIcon = new google.maps.MarkerImage('');
+
+                var marker = new google.maps.Marker({
+                    map: theMap,
+                    draggable: true,
+                    position: new google.maps.LatLng(48.7805327, 4.1912283),
+                    visible: true,
+                    icon: myIcon
+                });
+
+                var boxText = document.createElement("div");
+                boxText.innerHTML = "<span>Navette de Vatry</span><br>51320 Aéroport de Paris-Vatry";
+
+                var myOptions = {
+                    content: boxText
+                    , disableAutoPan: false
+                    , maxWidth: 0
+                    , pixelOffset: new google.maps.Size(-140, 0)
+                    , zIndex: null
+                    , closeBoxURL: ""
+                    , infoBoxClearance: new google.maps.Size(1, 1)
+                    , isHidden: false
+                    , enableEventPropagation: false
+                };
+
+                google.maps.event.addListener(marker, "click", function (e) {
+                    ib.open(theMap, this);
+                });
+
+                var ib = new InfoBox(myOptions);
+
+                ib.open(theMap, marker);
+
+            }
+
+            initialize();
+        });
+    </script>
+{% endblock %}

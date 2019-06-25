@@ -1,0 +1,51 @@
+{% extends ':default:index.html.twig' %}
+
+{% block main %}
+
+    <style>
+        #airport-town img,#airport-airport img{
+            width: 50%;
+            margin: auto;
+            border: solid 2px #8D8A86;
+            padding: 30px;
+            border-radius: 25px;
+        }
+
+        #airport-town:hover ,#airport-airport:hover{
+            opacity: 1;
+        }
+
+        #airport-town:hover a ,#airport-airport:hover a{
+            text-decoration: none !important;
+        }
+
+        #airport-town ,#airport-airport{
+            opacity: 0.8;
+
+        }
+
+        .transfer-type{
+            font-size: 1.6em;
+            text-transform: uppercase;
+            color: #8D8A86;
+            font-weight: bolder;
+        }
+    </style>
+
+    <div class="row">
+        <div style="text-align: center" class="col-xs-6" id="airport-town" >
+            <a href="{{ path('private_transfer_first_step') }}">
+            <img src="{{ asset('app/images/location_ico.png') }}"  class="img-responsive" />
+            <span class="transfer-type">Aéroport/Domicile</span>
+            </a>
+        </div>
+
+        <div style="text-align: center" class="col-xs-6" id="airport-airport">
+            <a href="{{ path('private_aeroport_transfer_first_step') }}">
+            <img src="{{ asset('app/images/airport.png') }}"  class="img-responsive" />
+            <span class="transfer-type">Aéroport/Aéroport</span>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

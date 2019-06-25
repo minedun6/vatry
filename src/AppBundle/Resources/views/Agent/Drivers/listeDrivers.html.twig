@@ -1,0 +1,317 @@
+{% extends parent %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script>
+
+    $(function(){
+        initDataTable('#driverstable',{
+            lengthChange: false,
+            columnDefs: [
+                {
+                    targets: [-1],
+                    orderable: false
+                }
+            ]
+        });
+    });
+
+    </script>
+{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('app/css/bootstrap-combined.no-icons.min.css') }}" rel="stylesheet">
+    {{ parent() }}
+
+    <style>
+
+        #backtransfers th {
+            background-color: #cb8d1e;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: capitalize;
+            text-align: left;
+
+        }
+
+        .tb1 label {
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        tbody {
+            text-transform: capitalize !important;
+            font-size: 13px;
+        }
+
+        .sorting_disabled {
+            width: 70px;
+        }
+
+        .sorting_asc {
+
+            font-size: 10px !important;
+        }
+
+        .sorting {
+
+            font-size: 10px !important;
+        }
+
+        .sorting_disabled {
+
+            width: 77px !important;
+            font-size: 10px !important;
+        }
+
+        .size {
+
+            font-size: 13px !important;
+        }
+
+        tbody td {
+
+            font-size: 10px !important;
+        }
+
+        .dt-buttons {
+            margin-top: 18px;
+            height: 44px !important;
+            margin-left: 20px;
+            float: left;
+        }
+
+        .dt-button {
+            font-size: 1.2em !important;
+            color: #fff !important;
+            background-color: #5cb85c !important;
+            border-color: #4cae4c !important;
+            border: 5px solid transparent !important;
+            border-radius: 4px !important;
+            background-image: none !important;
+            text-decoration: none !important;
+            padding: 4px !important;
+        }
+
+        .dt-button:hover {
+            color: #fff !important;
+            background-color: #cb8d1e !important;
+            border: 0;
+        }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Liste des chauffeurs
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-xs-12 tb1">
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addchauffeur">Ajouter un chauffeur</button>
+  </div>
+</div>
+
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <table id="driverstable">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Societé</th>
+                    <th>Activité</th>
+                    <th>Telephone</th>
+                    <th>Email</th>
+                    <th>Vehicule</th>
+                    <th>Capacité du véhicule</th>
+                    <th>Couleur du véhicule</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for d in drivers %}
+
+                      <tr>
+                            <td>
+                                {{ d.name }}
+                            </td>
+
+                            <td>
+                                {{ d.lastname }}
+                            </td>
+
+                            <td>
+                                  {{ d.company }}
+                            </td>
+
+                            <td>
+                                  {{ d.activity }}
+                            </td>
+
+                            <td>
+                                  {{ d.phone }}
+                            </td>
+
+
+                            <td>
+                                  {{ d.email }}
+                            </td>
+
+                            <td>
+                                  {{ d.vehicule }}
+                            </td>
+
+                            <td>
+                                  {{ d.vehiculecapacity }}
+                            </td>
+
+                            <td>
+                                  {{ d.vehiculecolor }}
+                            </td>
+
+                            <td>
+                                  {{ d.getStatusDesignation() }}
+                            </td>
+
+                            <td class="size">
+
+                              <a href="{{ path('edit_driver',{'driver' : d.id } ) }}" title="Modifier">
+                                  <span class="glyphicon glyphicon-edit"></span>
+                              </a>
+                               {% if d.status %}
+                              <a href="{{ path('toggle_driver',{'driver' : d.id } ) }}" title="Desactiver">
+                              <span class="glyphicon glyphicon-folder-close"></span>
+                              </a>
+                              {% else %}
+                              <a href="{{ path('toggle_driver',{'driver' : d.id } ) }}" title="Activer">
+                              <span class="glyphicon glyphicon-folder-open"></span>
+                              {% endif %}
+
+                            </td>
+
+                        </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="addchauffeur">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+              <form id="formRegister" name="formx" action="{{ path('add_driver') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title">Ajouter un nouveau chauffeur</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                {{ form_row(form._token) }}
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Nom</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[name]" id="idTransfert">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Prenom</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[lastname]" id="idTransfert">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Societé</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[company]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Activité</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[activity]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Telephone</label>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control" name="appbundle_driver[phone]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Email</label>
+                                        <div class="col-md-6">
+                                            <input type="email" class="form-control" name="appbundle_driver[email]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Vehicule</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[vehicule]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Capacité du vehicule</label>
+                                        <div class="col-md-6">
+                                            <input type="number" class="form-control" name="appbundle_driver[vehiculeCapacity]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Couleur du vehicule</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="appbundle_driver[vehiculeColor]" required="required">
+                                            <small class="help-block"></small>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Valider</button>
+                                </div>
+                            </form>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

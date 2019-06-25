@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+
+    <meta name="google-site-verification" content="_ftwk4Xrv3wK9Sm3TWc33jqkrvqz1scwodxxFL9jH54"/>
+    <meta name="description" content="{% block description %}La Société Navette de Vatry vous propose
+        des offres économiques tout confort pour rejoindre l'aéroport Paris-Vatry, que vous voyagez seul,
+        en groupe ou en famille. Des navettes de/à l'aéroport Paris-Vatry au tarif le moins cher.{% endblock %}">
+
+    <title>
+        {% block title %} Navettes Aéroport Paris Vatry, transport Paris Vatry, shuttle Paris Vatry : Navette de Vatry {% endblock %}
+    </title>
+
+    <meta name="keywords" content="Navette de Vatry"/>
+    <meta name="author" content="Copyright Navette de Vatry">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    {% block stylesheets %}
+        <link href="{{ asset('app/css/bootstrap-combined.no-icons.min.css') }}" rel="stylesheet"> 
+
+        <link href="{{ asset('app/css/font-awesome.css') }}" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ asset('app/css/animate.css') }}"/>
+        <link href="{{ asset('app/css/js-image-slider.css') }}" rel="stylesheet" type="text/css"/>
+        <script src="{{ asset('app/js/js-image-slider.js') }}" type="text/javascript"></script>
+        <link href="{{ asset('app/css/generic.css') }}" rel="stylesheet" type="text/css"/>
+        <!---        <link href='http://fonts.googleapis.com/css?family=Raleway:400,500,600,700|Montserrat:400,700' rel='stylesheet'
+                      type='text/css'> -->
+        <link rel="shortcut icon" href="{{ asset('app/images/favicon.ico') }}"/>
+
+
+        <!-- Bootstrap -->
+        <link href="{{ asset('plugins/jqueryui/themes/base/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+
+        <!-- SELECTIZE -->
+        <link href="{{ asset('plugins/selectize/dist/css/selectize.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('plugins/selectize/dist/css/selectize.default.css') }}" rel="stylesheet" type="text/css">
+
+        <!--reset file -->
+        <link href="{{ asset('app/css/reset-style.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('plugins/datatables.net-dt/css/jquery.dataTables.min.css') }}" rel="stylesheet"  type="text/css">
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.dataTables.min.css"/>
+        <link rel="stylesheet" href="{{ asset('app/css/theme-yellow.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('app/css/style.css') }}"/>
+
+
+        <link href="{{ asset('app/js/Minimal-Sliding-Timer-Picker-Plugin-For-jQuery-mtimepicker/Minimal-Sliding-Timer-Picker-Plugin-For-jQuery-mtimepicker/css/mtimepicker.css') }}"
+              rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('app/Slider/cssSlider/style2.css') }}"/>
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="{{ asset('app/Slider/cssSlider/nojs.css') }}"/>
+        </noscript>
+        <link rel="stylesheet" href="{{ asset('app/css/custom-v3.css') }}"/>
+        <link href="{{ asset('app/js/clock/bootstrap-clockpicker.min.css') }}" rel="stylesheet"
+              type="text/css">
+
+        <style>
+            .alert{
+                border-width: 1px;
+                padding: 6px;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                margin-top: 2px;
+            }
+            .alert.custom-info{
+                background-color: #e0ebf9;
+                border-color: #e0ebf9;
+                color: #327ad5;
+            }
+            .alert.custom-warning{
+                background-color: #f9e491;
+                border-color: #f9e491;
+                color: #c29d0b;
+            }
+            .clockpicker-popover .popover-title span {
+                cursor: pointer;
+                float: none;
+                margin-left: 0px;
+            }
+
+        </style>
+    {% endblock %}
+
+
+</head>
+
+<body class="home">
+<!-- Header -->
+<header class="header" role="banner">
+    <div class="wrap">
+        <!-- Logo -->
+        <div class="logo">
+            {% block logo %}
+            <h1>
+                <a href="{{ path('homepage') }}" title="Transfers"><img
+                        src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+            </h1>
+            {% endblock %}
+        </div>
+        <!-- //Logo -->
+
+        <!-- Main Nav -->
+        <nav role="navigation" class="main-nav">
+            {% block nav_bar %}
+                <ul>
+
+                    <li class="active"><a href="{{ path('homepage') }}" title=""><i
+                                    class="icon-fixed-width icon-home"></i> Accueil</a></li>
+                    <li><a href="{{ path('about_us') }}" title="Qui sommes-nous"><i class="icon-book"></i> Qui
+                            sommes-nous</a></li>
+                    {#<li><a href="#" title="Prestations"><i class="icon-map-marker"></i> Prestations</a>#}
+                        {#<ul>#}
+                            {#<li><a href="#" title="Transfert direct">Transfert direct, service privé</a>#}
+                                {#<ul>#}
+                                    {#<li><a href="{{ path('t_domicile') }}" title="Transfert privé Aéroport – Domicile">Transfert#}
+                                            {#prive#}
+                                            {#Aeroport – Domicile</a></li>#}
+                                    {#<li><a href="{{ path('t_aeroport') }}" title="Transfert privé Aéroport – Aéroport">Transfert#}
+                                            {#prive#}
+                                            {#Aeroport – Aeroport</a></li>#}
+                                {#</ul>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('description_interville') }}" title="Navette partagée inter-Villes">Transfert collectif,#}
+                                    {#navette inter-villes</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('description_porteaporte') }}"#}
+                                   {#title="Navette partagée de Porte à Porte">Transfert collectif,#}
+                                    {#navette Aéroport - domicile</a>#}
+                            {#</li>#}
+                            {#<li><a href="#" title="Transfert direct">Gare</a>#}
+                                {#<ul>#}
+                                    {#<li>#}
+                                    {#<a href="{{ path('gare_description',{'gare' :'chalon'}) }}"#}
+                                           {#title="Navette Aéroport- Gare de Châlons-en-Champagne">Gare 1</a>#}
+                                    {#</li>#}
+                                    {#<li>#}
+                                        {#<a href="{{ path('gare_description',{'gare' :'reims'}) }}"#}
+                                           {#title="Navette Aéroport – Gare de Reims">Gare 2</a>#}
+                                    {#</li>#}
+                                {#</ul>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('region_paris') }}" title="Navette partagée inter-Villes">Navette#}
+                                    {#partagee#}
+                                    {#Aeroport - Region parisienne</a></li>#}
+                            {#<li><a href="{{ path('gare_description',{'gare' :'chalon'}) }}"#}
+                                   {#title="Navette Aéroport- Gare de Châlons-en-Champagne">Navette#}
+                                    {#Aeroport- Gare de Châlons-en-Champagne</a></li>#}
+                            {#<li><a href="{{ path('gare_description',{'gare' :'reims'}) }}"#}
+                                   {#title="Navette Aéroport – Gare de Reims">Navette Aeroport – Gare de#}
+                                    {#Reims Centre</a></li>#}
+                            {#<li><a href="{{ path('t_domicile') }}" title="Transfert privé Aéroport – Domicile">Transfert#}
+                                    {#prive Taxi#}
+                                    {#Aeroport – Domicile</a></li>#}
+                            {#<li><a href="{{ path('t_aeroport') }}" title="Transfert privé Aéroport – Aéroport">Transfert#}
+                                    {#prive Taxi#}
+                                    {#Aeroport – Aeroport</a></li>#}
+                            {#<li><a href="{{ path('description_porteaporte') }}"#}
+                                   {#title="Navette partagée de Porte à Porte">Navette partagee#}
+                                    {#Aeroport – Domicile</a></li>#}
+
+
+                            {#<li><a href="{{ path('description_interville') }}" title="Navette partagée inter-Villes">Navette#}
+                                    {#partagee#}
+                                    {#inter-Villes</a></li>#}
+
+                        {#</ul>#}
+
+
+                    {#</li>#}
+
+                    <li><a href="{{ path('reservations-navettes-aeroport-vatry') }}" title="Réservation"><i
+                                    class="icon-building"></i> Reservation</a>
+                        <ul>
+                            <li>
+                                <a>Transfert direct - service privé</a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('private_transfer_first_step') }}"
+                                           title="Transfert privé Aéroport – Domicile">Aéroport –
+                                            Domicile</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('private_aeroport_transfer_first_step') }}"
+                                           title="Transfert privé Aéroport – Aéroport">Aéroport –
+                                            Aéroport</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Transfert collectif - Navette Gares</a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}"
+                                           title="Navette Aéroport- Gare de Châlons-en-Champagne">Gare de
+                                            Châlons-en-Champagne</a></li>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}"
+                                           title="Navette Aéroport – Gare de Reims">Gare de Reims Centre</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{ path('interVille_transfer_first_step') }}"
+                                   title="Transfert collectif navette inter-villes">Transfert collectif - navette inter-villes</a>
+                            </li>
+                            {#<li><a href="{{ path('paris_airport_first_step') }}">Navette Aeroport-Paris <span style="font-size: 10px;"><strong>(Offre Speciale Nice Malaga)</strong></span></a></li>#}
+                            {#<li><a href="{{ path('paris_transfer_first_step') }}"#}
+                                   {#title="Navette partagee Aeroport - Region parisienne">Navette partagee Aeroport -#}
+                                    {#Region#}
+                                    {#parisienne</a></li>#}
+                            {#<li><a href="{{ path('porteAporte_transfer_first_step',{'type' : 'ARC'}) }}"#}
+                                   {#title="Navette partagee Aeroport - Region parisienne">Navette partagee <span style="font-size: 10px;"><strong>(Agglomérations de Châlons et Reims)</strong></span></a></li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}"#}
+                                   {#title="Navette Aéroport- Gare de Châlons-en-Champagne">Navette Aeroport - Gare de#}
+                                    {#Châlons-en-Champagne</a></li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}"#}
+                                   {#title="Navette Aéroport – Gare de Reims">Navette Aeroport – Gare de Reims Centre</a>#}
+                            {#</li>#}
+                            <li>
+                                <a href="{{ path('porteAporte_transfer_first_step') }}"
+                                   title="Transfert collectif navette Aéroport - domicile">Transfert collectif - navette Aéroport - domicile</a>
+                            </li>
+
+                            {#<li><a href="{{ path('private_transfer_first_step') }}"#}
+                                   {#title="Transfert privé Aéroport – Domicile">Transfert prive Taxi Aeroport –#}
+                                    {#Domicile</a></li>#}
+                            {#<li><a href="{{ path('private_aeroport_transfer_first_step') }}"#}
+                                   {#title="Transfert privé Aéroport – Aéroport">Transfert prive Taxi Aeroport –#}
+                                    {#Aeroport</a></li>#}
+                            {#{% if is_granted('ROLE_PARTNER_AGENCY') %}#}
+                                {#<li><a href="#" class="b2b-btn-reserv-impossible"#}
+                                       {#title="Navette partagée de Porte à Porte">Navette partagee Aeroport –#}
+                                        {#Domicile</a>#}
+                                {#</li>#}
+
+                                {#<li><a href="#" class="b2b-btn-reserv-impossible"#}
+                                       {#title="Navette partagée inter-Villes">Navette partagee inter-Villes</a>#}
+                                {#</li>#}
+                            {#{% else %}#}
+                                {#<li><a href="{{ path('porteAporte_transfer_first_step') }}"#}
+                                       {#title="Navette partagée de Porte à Porte">Navette partagee Aeroport –#}
+                                        {#Domicile</a>#}
+                                {#</li>#}
+
+                                {#<li><a href="{{ path('interVille_transfer_first_step') }}"#}
+                                       {#title="Navette partagée inter-Villes">Navette partagee inter-Villes</a>#}
+                                {#</li>#}
+                            {#{% endif %}#}
+                            <li><a href="{{ path('send_particular_command') }}">Autre prestation - demande de devis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('liste_tarifs_interville') }}" title="Tarifs et horaires des navettes inter-villes"><i class="icon-dollar"></i> Tarifs et horaires</a></li>
+                    {#<li><a href="#" title="Partenaires"><i class="icon-plane"></i> Infos vols reguliers</a>#}
+                        {#<ul>#}
+                            {#<li><a href="{{ path('villes_desservies') }}">Villes Desservies</a></li>#}
+                            {#<li><a href="{{ path('volsTempsReel') }}">Horaires des vols</a></li>#}
+
+                        {#</ul>#}
+                    {#</li>#}
+
+                    <li><a href="{{ path('nos_partenaires') }}" title="Partenaires"><i class="icon-group"></i> Partenaires</a>
+                    </li>
+
+
+                    <li><a href="{{ path('contact') }}" title="Contact"><i class="icon-envelope"></i>
+                            Contact</a></li>
+
+                    {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('back_index') }}"><span class="glyphicon glyphicon-user"></span> Admin</a>
+                            </li>
+                        {% elseif is_granted('ROLE_SECRETARY') %}
+                            <li>
+                                <a href="{{ path('home_secretary') }}"><span class="glyphicon glyphicon-user"></span>
+                                    Secrétaire</a>
+                            </li>
+                        {% elseif is_granted('ROLE_COMMERCIAL') %}
+                            <li>
+                                <a href="{{ path('home_agent_admin') }}"><span class="glyphicon glyphicon-user"></span>
+                                    Commercial</a>
+                            </li>
+                        {% elseif is_granted('ROLE_AGENT') %}
+                            <li>
+                                <a href="{{ path('home_agent') }}"><span class="glyphicon glyphicon-user"></span> Agent</a>
+                            </li>
+                        {% elseif is_granted('ROLE_PARTNER') %}
+                            <li>
+                                <a href="{{ path('partners_index') }}"><span class="glyphicon glyphicon-user"></span>
+                                    Partenaire</a>
+                            </li>
+                        {% elseif is_granted('ROLE_CUSTOMER') %}
+                            <li>
+                                <a href="{{ path('home_user') }}"><span class="glyphicon glyphicon-user"></span> Client</a>
+                            </li>
+                        {% elseif is_granted('ROLE_PARTNER_AGENCY') %}
+                            {#{% elseif is_granted('ROLE_PARTNER_AG')  %}#}
+                            <li>
+                                <a href="{{ path('home_partner_agency') }}"><span
+                                            class="glyphicon glyphicon-user"></span> Espace pro</a>
+                            </li>
+                        {% elseif is_granted('ROLE_RELAY_CUSTOMER') %}
+                            <li>
+                                <a href="{{ path('relay_customer_transfers') }}"><span
+                                            class="glyphicon glyphicon-user"></span> Client Relais</a>
+                            </li>
+                        {% elseif is_granted('ROLE_ASSOCIATE') %}
+                            <li>
+                                <a href="{{ path('partners_index') }}"><span
+                                            class="glyphicon glyphicon-user"></span> Associé</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ path('logout') }}"><span class="glyphicon glyphicon-log-out"></span></a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('login') }}"><span class="glyphicon glyphicon-log-in"></span></a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            {% endblock nav_bar %}
+        </nav>
+        <!-- //Main Nav -->
+    </div>
+</header>
+<!-- //Header -->
+
+<!-- Main -->
+
+{% block main_block %}
+    <!-- Main -->
+<main class="main" role="main">
+
+
+    <div class=" iconic " style="padding-top:83px">
+
+
+        <div id="da-slider" class="da-slider">
+            <div class="da-slide">
+                <p class="sliderp">Vous souhaitez rejoindre l'<sapan style="color:#d59729 ; font-size : 40px; font-weight: bold "><strong>aéroport <br> Paris-Vatry</strong></sapan> ? </p>
+                {# <h2><p>Vous souhaitez joindre l<strong>'aéroport Paris-Vatry ?</strong> </p>
+                 </h2> #}
+                     <p></p>
+                 <div class="da-img"><img src="{{ asset('app/Slider/images/1.png') }}" alt="Services de transfert de/à l'Aéroport"/></div>
+             </div>
+             <div class="da-slide">
+                 <p class="sliderp">Vous souhaitez une <sapan style="color:#d59729 ; font-size : 40px; font-weight: bold ">formule économique</sapan> ou une offre de <sapan style="color:#d59729 ; font-size : 40px; font-weight: bold ">confort</sapan> ?</p>
+                 <p></p>
+                 <div class="da-img"><img src="{{ asset('app/Slider/images/2.png') }}" alt="Services de transfert de/à l'Aéroport"/></div>
+             </div>
+             <div class="da-slide">
+                 <p class="sliderp">Vous voyagez <sapan style="color:#d59729 ; font-size : 40px; font-weight: bold ">seul</sapan>, en <sapan style="color:#d59729 ; font-size : 40px; font-weight: bold ">groupe</sapan> ou en <sapan style="color:#d59729 ; font-size : 40px; font-weight: bold ">famille</sapan>,
+                 </p>
+                 <p></p>
+                 <div class="da-img"><img src="{{ asset('app/Slider/images/1.png') }}" alt="Services de transfert de/à l'Aéroport"/></div>
+             </div>
+             <div class="da-slide">
+                 <div class="da-img"><img src="{{ asset('app/Slider/images/Logo001.png') }}" alt="Services de transfert de/à l'Aéroport"/></div>
+
+                 <p class="sliderp">vous apporte la solution
+                     <sapan style="color:#d59729"> adéquate</sapan>
+                     et vous offre le tarif le
+                     <sapan style="color:#d59729">moins cher</sapan>
+                 </p>
+                 <p>"Navette de Vatry s’inscrit dans une démarche citoyenne en favorisant <br>le transport
+                     collectif comme choix écologique pour accéder à l'aéroport"</p>
+             </div>
+             <nav class="da-arrows">
+                 <span class="da-arrows-prev"></span>
+                 <span class="da-arrows-next"></span>
+             </nav>
+         </div>
+     </div>
+
+    <div >
+        {#<div class="services iconic" style="margin-top:-5px">#}
+            {#<p>La Société <strong>Navette de Vatry</strong> vous propose des offres économiques tout confort pour#}
+                {#rejoindre l'aéroport Paris-Vatry, que vous voyagez seul, en groupe ou en famille. Bénéficiez de <strong>navettes#}
+                    {#de/à l'aéroport Paris-Vatry</strong> au tarif le moins cher. </p>#}
+
+        {#</div>#}
+
+        <div style="height:20px;margin-top:0px !important;">
+
+         {#<div class=" full-width-2" id="services">#}
+             {#<div class="one-fifth wow fadeIn" style="padding: 0 1px 30px;">#}
+                 {#<a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}">#}
+                     {#<img src="{{ asset('app/images/service1.jpg') }}" alt="Pour rejoindre la gare la plus proche"/>#}
+                 {#</a>#}
+             {#</div>#}
+
+             {#<div class="one-fifth wow fadeIn" style="padding: 0 1px 30px;">#}
+                 {#<a href="{{ path('paris_transfer_first_step') }}">#}
+                     {#<img src="{{ asset('app/images/service2.jpg') }}" alt="Pour rejoindre la région Parisienne">#}
+
+                 {#</a>#}
+             {#</div>#}
+
+             {#<div class="one-fifth wow fadeIn" style="padding: 0 1px 30px;">#}
+                 {#<a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}">#}
+                     {#<img src="{{ asset('app/images/service3.jpg') }}" alt="Pour rejoindre la gare de Reims"/>#}
+                 {#</a>#}
+             {#</div>#}
+
+             {#<div class="one-fifth wow fadeIn" style="padding: 0 1px 30px;">#}
+                 {#<a href="{{ path('paris_airport_first_step') }}">#}
+                     {#<img src="{{ asset('app/images/n01.png') }}" alt="Pour rejoindre Paris Offre Spéciale pour les vols de Nice et Malaga"/>#}
+                 {#</a>#}
+             {#</div>#}
+
+             {#<div class="one-fifth wow fadeIn" style="padding: 0 1px 30px;">#}
+                 {#<a href="{{ path('porteAporte_transfer_first_step',{'type' : 'ARC'}) }}">#}
+                     {#<img src="{{ asset('app/images/ppreimschalon.png') }}" alt="Pour rejoindre votre domicile, Grand Reims, Châlons-en-champagne et communes voisines"/>#}
+                 {#</a>#}
+             {#</div>#}
+
+         {#</div>#}
+
+     </div>
+
+     {#<h1 class="service wow fadeIn">Toutes nos offres</h1>#}
+    <!-- Services iconic -->
+    <div class="services iconic ">
+        <div class="wrap">
+            <div class="row" style="margin-top: -25px">
+                <!-- Item -->
+                <div class="one-third wow fadeIn">
+                    <span class="circle"><span class="icon-magic" style="font-size: 23px"></span></span>
+                    <h2>Flexibilité</h2>
+                    <p class="custom_p">En quelques clics, réservez le transfert de/à Aéroport Paris-Vatry qui correspond le mieux à votre besoin ! </p>
+                </div>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <div class="one-third wow fadeIn" data-wow-delay=".2s">
+                    <span class="circle"><span class="icon-phone" style="font-size: 23px"></span></span>
+                    <h2>Réactivité</h2>
+                    <p class="custom_p">Un service client à votre disposition, 7 jours sur 7, 24 heures sur 24, pour répondre à toutes vos interrogations.</p>
+                </div>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <div class="one-third wow fadeIn" data-wow-delay=".4s">
+                    <span class="circle"><span class="icon-star" style="font-size: 23px"></span></span>
+                    <h2>Qualité</h2>
+                    <p class="custom_p">Des véhicules de qualité pour vous garantir confort et quiétude pendant votre navette de/à Aéroport de Paris-Vatry.</p>
+                </div>
+                <!-- //Item -->
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <div class="services boxed " id="services">
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".4s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/correspondance-gares.jpg') }}" alt="Correspondance gares Aéroport Paris Vatry"/>
+
+            </figure>
+            <div class="details">
+                <h4>Navette gares</h4>
+
+                &#10003; <a href="{{ path('gare_description',{'gare' :'chalon'}) }}">Gare de Châlons-en-
+                    Champagne</a><br><br>
+                &#10003; <a href="{{ path('gare_description',{'gare' :'reims'}) }}">Gare de Reims Centre</a><br>
+
+            </div>
+        </article>
+        <!-- //Item -->
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".2s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/img2.jpg') }}" alt="Transfert privé de l’Aéroport Paris Vatry"/>
+
+            </figure>
+            <div class="details">
+                <h4>Transfert direct - service privé</h4>
+
+                &#10003; <a href="{{ path('t_domicile') }}">Aéroport &#8651; Domicile</a><br><br>
+                &#10003; <a href="{{ path('t_aeroport') }}">Aéroport &#8651; Aéroport</a><br>
+
+            </div>
+        </article>
+        <!-- //Item -->
+
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/priveAG.png') }}" alt="Navette partagée Vatry"/>
+
+            </figure>
+            <div class="details">
+                <h4>Transfert collectif</h4>
+
+                &#10003; <a href="{{ path('description_porteaporte') }}">Navette Aéroport &#8651; Domicile</a><br><br>
+                &#10003; <a href="{{ path('description_interville') }}">Navette Inter-Villes</a><br>
+
+
+            </div>
+        </article>
+        <!-- //Item -->
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".6s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/img3.jpg') }}" alt="Service Last Minute Navette de Vatry"/>
+
+            </figure>
+            <div class="details">
+                <h4>Autre prestation - demande de devis</h4>
+
+                &#10003; <a href="{{ path('description_lastminute') }}">Découvrez le service</a><br><br>
+                &#10003; <a href="{{ path('contact') }}">Consultez la disponibilité</a><br>
+
+            </div>
+        </article>
+        <!-- //Item -->
+    </div>
+    <!-- //Services -->
+
+        <a href="http://www.vatry.com/" target="_blank">
+            <div class=" iconic white">
+                <img src="{{ asset('app/images/imgpsh_fullsize2.jpg') }}" alt="Aéroport Paris Vatry"/>
+            </div>
+        </a>
+
+    <div class=" iconic " style="    margin-top: 31px;
+    margin-bottom: 31px;">
+        <img src="{{ asset('app/images/img_logos.png') }}" alt="Nos partenaires"/>
+    </div>
+
+
+    {# flight reservation to the partner agency b2b#}
+    {% if is_granted('ROLE_PARTNER_AGENCY') %}
+        <div class="modal fade in" id="flight-reservation-modal" tabindex="-1" role="dialog"
+             style="padding-right: 15px;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                        <h3 class="modal-title" style="text-align: left;padding: 0px;"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger">
+                            Ce service n'est pas inclut dans le contrat avec navettedevatry. Pour plus d'informations
+                            veuillez contacter le service commercial de navettedevatry.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {##}
+
+    {% endblock %}
+
+</main>
+<!-- //Main -->
+
+<!-- Footer -->
+<footer class="footer black" role="contentinfo">
+    <div class="wrap">
+        <div class="row">
+            <!-- Column -->
+            <article class="one-half">
+                <h4>Navette de Vatry en bref</h4>
+                <p style="text-align: justify"><strong>Navette de Vatry</strong> est une centrale de gestion des transports terrestres, partenaire
+                    de l'<strong>aéroport Paris-Vatry</strong>. Elle offre aux passagers de l'aéroport une solution
+                    complétée de prestations terrestres flexibles et pratiques. Des formules économiques aux offres de
+                    confort, Navette de Vatry propose des tarifs accessibles à tous les budgets.</p>
+            </article>
+            <!-- //Column -->
+
+            <!-- Column -->
+            <article class="one-half">
+                <h4>Contactez-nous</h4>
+                <p class="contact-data"><span class="icon-phone-sign" style="color: #cb8d1e;"></span> +33 (0) 3 51 31 01 01
+                </p>
+                <p class="contact-data"><span class="icon-mail-reply" style="color: #cb8d1e;"></span> <a href="{{ path('contact') }}"> Contactez nous
+                        par mail </a>&nbsp;<span class="icon-briefcase" style="color: #cb8d1e;"></span> 51320 Aéroport de Paris-Vatry</p>
+            </article>
+            <!-- //Column -->
+
+        </div>
+
+        <div class="copy">
+            <p>Navette de Vatry Copyright 2016, powered by Creative@Work & peaksource. </p>
+            <ul class="social">
+                <li class="facebook"><a href="https://www.facebook.com/navettevatry/" title="facebook">facebook</a></li>
+                <li class="twitter"><a href="https://twitter.com/NavetteVatry" title="twitter">twitter</a></li>
+            </ul>
+            <nav role="navigation" class="foot-nav">
+                <ul>
+
+                    <li><a href="{{ path('mentions_legale') }}" title="Home">Mentions légales</a></li>
+                    <li><a href="{{ path('cgv') }}" title="CGV">CGV</a></li>
+                    <li><a href="{{ path('contact') }}" title="About us"> Contact </a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+<!-- //Footer -->
+
+<!-- Preloader -->
+<div class="preloader" style="display: none">
+    <div id="followingBallsG">
+        <div id="followingBallsG_1" class="followingBallsG"></div>
+        <div id="followingBallsG_2" class="followingBallsG"></div>
+        <div id="followingBallsG_3" class="followingBallsG"></div>
+        <div id="followingBallsG_4" class="followingBallsG"></div>
+    </div>
+</div>
+<!-- //Preloader -->
+
+{% include ':parts:modals.html.twig' %}
+
+{% block javascripts %}
+    <!-- FOS JS BUNDLE -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/jqueryui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery.uniform/jquery.uniform.min.js') }}"></script>
+    <script src="{{ asset('plugins/datetimepicker/jquery.datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('plugins/slicknav/dist/jquery.slicknav.min.js') }}"></script>
+    <script src="{{ asset('app/js/wow.min.js') }}"></script>
+    <script src="{{ asset('app/js/search.js') }}"></script>
+    <script src="{{ asset('app/js/scripts.js') }}"></script>
+    <script src="{{ asset('plugins/sifter/sifter.min.js') }}"></script>
+    <script src="{{ asset('plugins/microplugin/src/microplugin.js') }}"></script>
+    <script src="{{ asset('plugins/selectize/dist/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('app/js/Minimal-Sliding-Timer-Picker-Plugin-For-jQuery-mtimepicker/Minimal-Sliding-Timer-Picker-Plugin-For-jQuery-mtimepicker/mtimepicker.js') }}"></script>
+
+
+    <!-- Bootstrap TEST -->
+    <script src="{{ asset('plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('plugins/moment/min/moment.min.js') }}"></script>
+
+    <script src="{{ asset('app/js/common.js') }}"></script>
+    <script src="{{ asset('app/js/general.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('app/js/marketing.js') }}"></script>
+    <script src="https://maps.google.com/maps/api/js"></script>
+
+    <script src="{{ asset('plugins/gmaps/gmaps.min.js') }}"></script>
+
+    <script src="{{ asset('app/js/flights.js') }}"></script>
+    <!-- use jssor.slider.debug.js instead for debug -->
+    <script type="text/javascript" src="{{ asset('app/Slider/jsSlider/modernizr.custom.28468.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('app/Slider/jsSlider/jquery.cslider.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $('#da-slider').cslider({
+                autoplay: true,
+                bgincrement: 0,
+                interval: 4500
+            });
+
+        });
+
+        //b2b partner agency
+        {% if is_granted('ROLE_PARTNER_AGENCY') %}
+        $(document).on('click', '.b2b-btn-reserv-impossible', function (event) {
+            $('#flight-reservation-modal').modal('show');
+        });
+        {% endif %}
+    </script>
+    <!-- Google Code for R&eacute;servation Conversion Page -->
+    <script type="text/javascript">
+
+        /* <![CDATA[ */
+
+        var google_conversion_id = 878751926;
+
+        var google_conversion_language = "en";
+
+        var google_conversion_format = "3";
+
+        var google_conversion_color = "ffffff";
+
+        var google_conversion_label = "h4QjCK2lvGgQtuGCowM";
+        var google_remarketing_only = false;
+
+        /* ]]> */
+
+    </script>
+
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+
+    </script>
+
+    <noscript>
+
+        <div style="display:inline;">
+
+            <img height="1" width="1" style="border-style:none;" alt=""
+
+                 src="//www.googleadservices.com/pagead/conversion/878751926/?label=h4QjCK2lvGgQtuGCowM&amp;guid=ON&amp;script=0"/>
+
+        </div>
+
+    </noscript>
+
+    <script src="{{ asset('app/js/clock/bootstrap-clockpicker.min.js') }}"></script>
+{% endblock %}
+
+
+</body>
+</html>

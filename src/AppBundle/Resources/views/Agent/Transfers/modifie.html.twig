@@ -1,0 +1,181 @@
+{% extends parent %}
+
+
+{% block page_title %}
+    Modifier transfert
+{% endblock %}
+
+{% block content %}
+
+    {% if b2b %}
+        {{ form_start(form,{ 'action': path('agent_modif_transfer_b2b',{'transfer': transfer.id}) }) }}
+    {% else %}
+        {{ form_start(form,{ 'action': path('agent_modif_transfer',{'transfer': transfer.id}) }) }}
+    {% endif %}
+    <div class="row">
+        <div class="col-xs-6">
+            <H3> Vol aller </H3>
+        </div>
+        {% if transfer.roundTrip %}
+            <div class="col-xs-6">
+                <H3> Vol retour </H3>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <H3> Adresse Passager Aller </H3>
+            {{ form_widget(form.address) }}
+            <H3> Ville Passager Aller </H3>
+            {{ form_widget(form.location) }}
+        </div>
+        {% if transfer.roundTrip %}
+            <div class="col-xs-6">
+                <H3> Adresse Passager Retour </H3>
+                {{ form_widget(form.address2) }}
+                <H3> Ville Passager Retour </H3>
+                {{ form_widget(form.location2) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="{{ form.pickupDate.vars.id }}">Date du transfert (YYYY-MM-dd HH:mm)</label>
+            {#{{ form_widget(form.pickupDate | date('Y-MM-dd HH:mm')) }}#}
+            {{ form_widget(form.pickupDate) }}
+        </div>
+        {% if transfer.roundTrip %}
+            <div class="col-xs-6">
+                <label for="{{ form.pickupDate2.vars.id }}">Date du transfert (YYYY-MM-dd HH:mm)</label>
+                {{ form_widget(form.pickupDate2) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="num">N° du Vol aller</label>
+            {{ form_widget(form.flight) }}
+        </div>
+        {% if transfer.roundTrip %}
+            <div class="col-xs-6">
+                <label for="{{ form.pickupDate.vars.id }}">Date du vol retour</label>
+                {{ form_widget(form.flight2) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="num">Statut du transfert</label>
+            {{ form_widget(form.status) }}
+        </div>
+        <div class="col-xs-6">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <H3> Informations sur le paiement </H3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="type">Type transfert</label>
+            <input type="text" disabled value="{{ transfer.type|trans }}"/>
+            {#{{ form_widget(form.type) }}#}
+        </div>
+        <div class="col-xs-6">
+            <label for="pay">Mode paiement </label>
+            {% if transfer.status == constant('STATUS_RECOUVE', transfer) %}
+                {{ form_widget(form.payment.type) }}
+                <div class="col-xs-6" id="cb-ref" hidden>
+                    <label for="cb-ref">CB Reférence</label>
+                    <input type="text" id="cb-ref-input" name="cb-ref" class="form-control"/>
+                </div>
+            {% else %}
+                <input type="text" disabled value="{{ transfer.getPaymentType }}">
+            {% endif %}
+            {#<input type="text" disabled value="#}
+            {#{% if transfer.status==constant('STATUS_PAID',transfer) or transfer.status==constant('STATUS_PAID_B2B',transfer) %}#}
+            {#{% if transfer.payment %}{{ transfer.payment.type|trans }}#}
+            {#{% else %}VAD{% endif %}#}
+            {#{% endif %}"/>#}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <H3> Informations sur le passager </H3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2">
+            <label for="cv">Civilité</label>
+            {{ form_widget(form.passenger.civility) }}
+        </div>
+        <div class="col-xs-5">
+            <label for="prenom">Prénom</label>
+            {{ form_widget(form.passenger.name) }}
+        </div>
+        <div class="col-xs-5">
+            <label for="nom">Nom</label>
+            {{ form_widget(form.passenger.lastname) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="mail">Mail</label>
+            {{ form_widget(form.passenger.email) }}
+        </div>
+        <div class="col-xs-6">
+            <label for="adr">Adresse</label>
+            {{ form_widget(form.passenger.address) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="numtel">N° de Teléphone</label>
+            {{ form_widget(form.passenger.tel) }}
+        </div>
+        <div class="col-xs-6">
+            <label for="ville">Ville</label>
+            {{ form_widget(form.passenger.town) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="remarques">Remarques</label>
+            {{ form_widget(form.remarques) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+        </div>
+        <div class="col-xs-3">
+            <button class="btn btn-success pull-right" type="submit">Valider les modifications</button>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on("change", "#modif_payment_type", function () {
+            if ($(this).val() == 'credit_card') {
+                $("#cb-ref").show();
+                $("#cb-ref-input").attr('required', true);
+            } else {
+                $("#cb-ref-input").removeAttr('required');
+                $("#cb-ref").hide();
+            }
+        })
+    </script>
+{% endblock %}

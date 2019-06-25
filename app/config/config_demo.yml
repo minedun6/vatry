@@ -1,0 +1,15 @@
+imports:
+    - { resource: config_dev.yml }
+
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: vatry
+    database_user: root
+    database_password: root
+    bank.action: "http://vps262660.ovh.net:8080/simulate_payment_form"
+
+swiftmailer:
+    delivery_address:
+        - nouira.amjed@gmail.com
+        - aymen.sellaouti@gmail.com

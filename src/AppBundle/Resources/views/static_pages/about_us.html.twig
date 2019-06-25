@@ -1,0 +1,113 @@
+{% extends '::base.html.twig' %}
+{% block description %}Navette de Vatry est une centrale de réservation des prestations terrestres installée à l’aéroport Paris-Vatry,
+    sa solution consiste à développer une nouvelle approche d’accessibilité routière à l’aéroport.{% endblock %}
+
+{% block title %}
+    Centrale de réservation navettes aéroport Paris-Vatry : Navette de Vatry
+{% endblock %}
+{% block logo %}
+
+        <a href="{{ path('homepage') }}" title="Transfers"><img
+                    src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0 ;
+        }
+        li{
+
+            padding-right: 16px;
+        }
+        li:before{
+
+            content: "•" !important;
+            padding-right: 5px !important;
+            font-size: 39px;
+            color: #DBBC94;
+            position: absolute;
+            margin-left: -16px;
+            font-size: 39px;
+
+        }
+
+
+
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+            <div class="wrap cWrap">
+                <div class="container">
+                    <h1>Qui sommes-nous ?</h1>
+                    <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                        <ul>
+                            <div class="row">
+                                <img src="{{ asset('app/images/somme-ent-half.jpg') }}" alt="Qui sommes nous" />                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half imgHalf">
+                        <img src="{{ asset('app/images/logoblac.jpg') }}" alt="Navette de Vatry"/>
+                    </div>
+                    <br><br>
+                    <div class="one-half sommHalf">
+                        est une centrale de réservation des prestations terrestres installée à
+                        l’<a href="{{ path('homepage') }}">aéroport Paris-Vatry</a>, sa solution consiste à développer une nouvelle approche
+                        d’accessibilité routière à l’aéroport
+                    </div>
+
+                    <div class="full-width content textongrey">
+
+                    <br><br> <h2>Sa forme juridique</h2><br><br>
+                    <div>Société par Actions Simplifiée, dénommée Navette de Vatry et domiciliée aux locaux de la S.E.V.E, à l’aéroport Paris Vatry</div>
+                    <br><br> <h2>Ses objectifs</h2><br><br>
+                    <ul><li class="rightspace">Participer à la dynamisation et au développement de l’aéroport</li>
+                        <li>Inciter au transport collectif comme solution alternative au transport par le véhicule personnel pour voyager via l'aéroport Paris-Vatry</li>
+                        <li>Renforcer l'offre réceptive de la Champagne en offrant une solution terrestre à partir de l'aéroport Paris-Vatry</li>
+                        <li>Optimiser et étendre la zone de chalandise de l’aéroport Paris-Vatry </li>
+                    </ul>
+                    <br><br> <h2>Sa mission</h2><br><br>
+                    <div>Développer la connectivité terrestre de l’aéroport Paris-Vatry et proposer un ensemble de prestations terrestres à la demande et régulières, flexibles et adaptées à l’environnement de l’aéroport</div>
+                    <br><br> <h2>Son équipe</h2><br><br>
+                    <div>Une équipe d’employés administratifs, de commerciaux et d’agents d’accueil, appuyée sur un groupe d’ingénieurs et de développeurs informatiques</div>
+                    <div>
+                        <img src="{{ asset('app/images/shema2.png') }}" alt="Solutions transport terrestre Aéroport Paris Vatry"/>
+                    </div>
+                    <br><br> <h2>Sa démarche en 5 points</h2><br><br>
+                    <p>1.	Créer et concevoir des prestations terrestres permettant l’amélioration de l’accès à l’aéroport à partir des villes et des départements avoisinants</p>
+                    <p>2.	Commercialiser les produits terrestres offerts auprès du grand public en ciblant la clientèle pouvant être intéressée par le voyage via l’aéroport Paris Vatry</p>
+                    <p>3.	Diversifier les supports de vente des prestations terrestres proposées grâce à l’établissement de partenariats avec les opérateurs du voyage concernés</p>
+                    <p>4.	Gérer et affecter les transferts commandés par les clients aux transporteurs partenaires</p>
+                    <p>5.	Coordonner et suivre l’exécution par les transporteurs des prestations commandées</p>
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+{% endblock %}

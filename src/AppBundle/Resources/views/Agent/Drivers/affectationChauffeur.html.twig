@@ -1,0 +1,61 @@
+{% extends parent  %}
+
+
+{% block page_title %}
+    Affectation d'un chauffeur
+{% endblock %}
+
+{% block content %}
+
+
+        {{ form_start(form,{ 'action': path('affect_driver',{'transfer': transfer.id}) }) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="{{ form.pickupDate.vars.id }}">Date du transfert (YYYY-MM-dd HH:mm)</label>
+            {#{{ form_widget(form.pickupDate | date('Y-MM-dd HH:mm')) }}#}
+            {{ form_widget(form.pickupDate) }}
+        </div>
+        {% if transfer.roundTrip %}
+            <div class="col-xs-6">
+                <label for="{{ form.pickupDate2.vars.id }}">Date du transfert (YYYY-MM-dd HH:mm)</label>
+                {{ form_widget(form.pickupDate2) }}
+            </div>
+        {% endif %}
+
+        <div class="col-xs-6">
+            <label for="{{ form.driver.vars.id }}">Chauffeur</label>
+            {{ form_widget(form.driver) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xs-3">
+        </div>
+        <div class="col-xs-3">
+            <button class="btn btn-success pull-right" type="submit">Affecter chauffeur</button>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on("change", "#modif_payment_type", function () {
+            if ($(this).val() == 'credit_card') {
+                $("#cb-ref").show();
+                $("#cb-ref-input").attr('required', true);
+            } else {
+                $("#cb-ref-input").removeAttr('required');
+                $("#cb-ref").hide();
+            }
+        })
+    </script>
+{% endblock %}

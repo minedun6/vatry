@@ -1,0 +1,60 @@
+{% extends '@App/AgentAdmin/index.html.twig' %}
+
+{% block page_title %}
+    {% if new is defined and new == true %}
+        Création d'un agent
+    {% else %}
+        Modification d'un agent
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Username de l'agent</label>
+            {{ form_widget(form.username,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.username) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Nom de l'agent</label>
+            {{ form_widget(form.lastname,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Prénom de l'agent</label>
+            {{ form_widget(form.firstname,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Téléphone de l'agent</label>
+            {{ form_widget(form.tel,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.tel) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Email/Nom d'utilisateur</label>
+            {{ form_widget(form.user.email,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.user.email) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="text-align: right" class="col-xs-6">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -1,0 +1,247 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+        var intervilleMap = null;
+
+        var deps = [
+            {
+                name: '77',
+                lat: 48.6185381,
+                lng: 2.4152665
+            },
+            {
+                name: '75',
+                lat: 48.8589507,
+                lng: 2.2775175
+            },
+            {
+                name: '92',
+                lat: 48.8399131,
+                lng: 2.1009995
+            },
+            {
+                name: '93',
+                lat: 48.9098801,
+                lng: 2.375762
+            },
+            {
+                name: '94',
+                lat: 48.7746554,
+                lng: 2.3921195
+            }
+        ];
+
+        $(function () {
+
+            intervilleMap = new GMaps({
+                div: "#interville-map",
+                lat: 48.907466,
+                lng: 3.466182,
+                zoom: 8
+            });
+
+            intervilleMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+            var trs = $(".aggro-name");
+            $.each(trs, function (key, value) {
+                intervilleMap.addMarker({
+                    lat: $(value).attr('lat'),
+                    lng: $(value).attr('lng'),
+                    title: $(value).html()
+                });
+            });
+
+//            $.each(deps,function(key,value){
+//                intervilleMap.addMarker({
+//                    lat: value.lat,
+//                    lng: value.lng,
+//                    title: value.name
+//                });
+//            });
+
+            $("#town-table").dataTable({
+                lengthChange: false,
+                language: {
+                    url: "/app/js/French.json",
+                    searchPlaceholder: "Ville/Code postal"
+                }
+            });
+
+            $(".aggro-name").on('click',function(event){
+                var self= $(this);
+                intervilleMap.setCenter({
+                    lng :  parseFloat(self.attr('lng')),
+                    lat :  parseFloat(self.attr('lat'))
+                });
+                intervilleMap.setZoom(11);
+                event.stopImmediatePropagation();
+            })
+        })
+    </script>
+{% endblock %}
+
+        {% block main_block %}
+            <style>
+                .row{
+
+                    margin:10px;
+                }
+                body{
+                    padding-top: 100px;
+                }
+
+                .bordered-left {
+                    border-left: solid 1px #DDDDDD;
+                }
+
+                .bordered-bottom {
+                    border-bottom: solid 1px #DDDDDD;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+
+                .map-container {
+                    width: 100%;
+                    height: 385px;
+                    margin-top: 40px;
+                    padding: 10px;
+                    background-color: white;
+                }
+                .aggro-name{
+                    height: 40px;
+                }
+                .aggro-name:hover{
+                    cursor: pointer;
+                    background-color: #ececec;
+                }
+
+                h2 {
+                    font-size: 24px;
+                    padding: 0 0 28px;
+
+                }
+                ul > li:before {
+                    content: "\2022";
+                    font-size: 30px;
+                    color: #DBBC94;
+                    position: absolute;
+                    /* top: -10px; */
+                    left: 0;
+                }
+                h2, h3, h4{
+                    line-height: 40px;
+                }
+                .text_form{
+
+                    text-align:justify;
+                }
+                tbody{
+
+                    text-transform: capitalize;
+                }
+
+            </style>
+
+            <!-- Page info -->
+            <header class="site-title color">
+
+
+                <div class=" iconic ">
+                    <img src="{{ asset('app/images/img_entet_domi.jpg') }}" alt="" />
+                </div>
+            </header>
+            <!-- //Page info -->
+            <div class="row">
+                             <p class="text_form">
+                                La navette partagée Aéroport – Domicile permet de prendre en charge ou de déposer les résidents des villes avoisinantes de l’aéroport Paris-Vatry à leurs domiciles. <br>
+                                Ce service permet la prise en charge des passagers à leurs domiciles et leurs transferts à l’aéroport Paris-Vatry, et inversement, en effectuant un nombre limité d’arrêts intermédiaires. <br>
+                                La navette n’est confirmée que si le seuil de remplissage est atteint. <br><br>
+                                Les villes desservies par la navette partagée Aéroport - Domicile sont situées dans les agglomérations suivantes :
+                            </p>
+
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <table id="aggro-list" style="margin-top: 40px; " class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;text-transform: capitalize">Liste d'agglomerations</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="without-margin" style="padding: 0px;">
+
+                                {% for a in aggro %}
+
+                                    {% if loop.index % 4 == 1 %}
+                                        <div class="col-xs-12 bordered-left" >
+                                    {% endif %}
+                                    <div class="row bordered-bottom">
+                                        <div class="col-xs-12 aggro-name" lat="{{ a.lat }}" lng="{{ a.lng }}">
+                                            {{ a.name }}
+                                        </div>
+                                    </div>
+                                    {% if loop.index % 4 == 0 %}
+                                        </div>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-6">
+                    <div class="map-container" >
+                        <div style="width: 100%; height: 100%;" id="interville-map">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+           <div class="row">
+            <table id="town-table" class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th width="30%">Code postal</th>
+                    <th>Ville</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for z in list %}
+                    <tr>
+                        <td>{{ z.zipCode }}</td>
+                        <td>{{ z.location.name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+           </div>
+
+            <div class="color cta">
+                <div class="wrap">
+                    <p class="wow fadeInLeft">Pour commandez votre navette </p>
+                    <a href="{{ path('porteAporte_transfer_first_step') }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+                </div>
+            </div>
+
+            <div class=" white">
+                <div class="wrap">
+                </div>
+            </div>
+
+        {% endblock %}

@@ -1,0 +1,44 @@
+{% extends '@App/Back/Statistics/PieChart.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#collapse3').collapse();
+            $('#collapse3title').addClass('highlightLi');
+            $('#cac_source').addClass('highlightLi');
+        });
+    </script>
+{% endblock %}
+{% block onglet_title %} Chiffre d'affaire des commandes par source {% endblock %}
+{% block table %}
+    {% if total!=0 %}
+        <div class="panel panel-default withPadding" id="tzone">
+            <table id="StatTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Nom du partenaire</th>
+                    <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in transfers %}
+                    <tr>
+                        <td>{{ t.id }}</td>
+                        <td> {{ t.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ t.type }}</td>
+                        {% if t.partner is null %}
+                            <td>-</td>
+                        {% else %}
+                            <td>{{ t.partner }}</td>
+                        {% endif %}
+                        <td>{{ t.price|number_format(2, '.', '') }}€</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

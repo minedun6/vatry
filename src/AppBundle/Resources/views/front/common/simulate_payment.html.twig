@@ -1,0 +1,46 @@
+{% extends '@App/front/privateTransfer/index.html.twig' %}
+
+{% block step_title %}
+    5. Payement
+{% endblock %}
+
+{% set fifth_step = true %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% if yesNo is not defined %}
+        <div class="row">
+            <div class="col-xs-6">
+                <a href="{{ path('simulate_payment_test',{ 'transfer' : transfer.id , 'yesNo': 1 }) }}"
+                   class="btn btn-success">
+                    Paiement OK
+                </a>
+            </div>
+            <div class="col-xs-6">
+                <a href="{{ path('simulate_payment_test',{ 'transfer' : transfer.id , 'yesNo': 0 }) }}" class="btn btn-danger">
+                    Paiement NOK
+                </a>
+            </div>
+        </div>
+    {% else %}
+
+        {% if yesNo == '1' %}
+            <div class="alert alert-success">
+                Paiement avec succès
+            </div>
+        {% elseif yesNo == '0' %}
+            <div class="alert alert-danger">
+                Paiement échoué
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                Ce transfert est déjà traité
+            </div>
+        {% endif %}
+
+    {% endif %}
+
+
+
+{% endblock %}

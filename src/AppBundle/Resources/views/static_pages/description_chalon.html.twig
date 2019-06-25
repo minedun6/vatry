@@ -1,0 +1,118 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+
+
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+
+    <!-- Main -->
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <div class="wrap cWrap">
+                <div class="container">
+                    <h1>Navette Aéroport- Gare de Châlons-en-Champagne</h1>
+                    <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                        <ul>
+                            <div class="row">
+                                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}" class="btn costum medium black right wow fadeInRight">Réservez
+                                    ici !</a>
+                            </div>
+                            <div class="row">
+                                <img src="{{ asset('app/images/img_entet_gare_half.jpg') }}" alt="Transfert partagé Aéroport de Vatry Gare Châlons en Champagne"/>
+                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div> <br><br>
+                            <p class="text-justify"> La navette Aéroport – Gare de Châlons-en-Champagne assure régulièrement le transfert dans les deux sens entre la Gare et l’aéroport. Les horaires des navettes sont associés aux vols en départ ou en arrivée à l’aéroport pour chaque jour.</p>
+                            <p>C’est un service simple et économique assuré en bus ou avec des véhicules de 9 places.
+                                La réservation des places dans la navette Aéroport – Gare de Châlons-en-Champagne est effectuée en ligne ou auprès du comptoir de Navette de Vatry. Les commandes sont payées et confirmées immédiatement par l’équipe de Navette de Vatry. </p>
+                            <h1>Tarif fixe : 14 € /personne</h1>
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/img1.jpg') }}" alt="Carte" /></center>
+                    </div>
+                    <div class="full-width">
+                        <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a>
+                        <div id="tonDiv">
+                            <ul><li>Un tarif unitaire est associé au transfert à la Gare de Châlons-en-Champagne. Il suffit de renseigner le nombre de personnes pour obtenir le montant total de votre demande.
+                                </li>
+                                <li>Remplissez le formulaire de réservation pour confirmer votre commande.
+                                </li>
+                                <li>Vous recevez le voucher de confirmation de votre commande par mail dès validation de votre paiement en ligne.
+                                </li>
+                                <li>Le voucher de confirmation contient les informations de votre rendez-vous. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.
+                                </li></ul>
+                            <h3><u>Conditions de réservations</u></h3>
+                            <ul><li>Réservation en ligne possible jusqu’au jour J-3 de votre voyage.  </li>
+                                <li>Au-delà de J-3, commande possible par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport.
+                                </li>
+                                <li>Commandes en last minute possibles sous réserve de disponibilité des véhicules.</li></ul>
+
+                            <h3><u>Conditions d’annulation</u></h3>
+                            <ul><li>Jusqu’au jour J-3 : Annulation possible sans frais</li>
+                                <li>A partir du jour J-2 : Commande non annulable non remboursable. </li></ul>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez vos places dans la navette </p>
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+
+{% endblock %}

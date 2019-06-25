@@ -1,0 +1,37 @@
+{% extends ':default:index.html.twig' %}
+
+{% block nav_bar %}
+
+    <ul>
+        <li class="active"><a href="/" title="">Accueil</a></li>
+        {% if is_granted('ROLE_RELAY_CUSTOMER') %}
+            <li class="active"><a href="{{ path('relay_customer_transfers') }}" title="">Mes Commandes</a></li>
+            <li class="active"><a href="{{ path('relay_customer_commissions') }}" title="">Mes transactions</a></li>
+            <li class="active"><a href="{{ path('confirm_rc') }}" title="">Mes commandes en attente</a></li>
+        {% else %}
+            <li class="active"><a href="{{ path('user_transfers') }}" title="">Mes Commandes</a></li>
+        {% endif %}
+        <li class="active"><a href="{{ path('account') }}" title="">Mon Compte</a></li>
+        <li class="active"><a href="{{ path('logout') }}" title="">Déconnexion</a></li>
+    </ul>
+
+{% endblock nav_bar %}
+
+{% block main %}
+
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>
+                    {% block page_title %}
+                    {% endblock %}
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+
+    {% endblock %}
+
+{% endblock %}

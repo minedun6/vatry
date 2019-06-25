@@ -1,0 +1,80 @@
+{% extends ':default:index_back.html.twig' %}
+
+{% block nav_bar %}
+
+    <ul>
+        <li class="active"><a href="{{ path('homepage') }}" title="">Accueil</a></li>
+        {% if is_granted('ROLE_PARTNER') or is_granted('ROLE_ASSOCIATE') %}
+            <li>
+                <a href="#">Commandes</a>
+                <ul>
+                    {% if app.user.getPartner is not null %}
+                        <li><a href="#"> Mes Commandes</a>
+                            <ul>
+                                <li><a href="{{ path('my_transfers') }}">En cours</a></li>
+                                <li><a href="{{ path('my_transfers', {type : 'archive'}) }}">Archivées</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    {% if (app.user.getPartner.isAirport is defined and app.user.getPartner.isAirport) or is_granted('ROLE_ASSOCIATE') %}
+                        <li><a href="#"> Toutes les Commandes</a>
+                            <ul>
+                                <li><a href="{{ path('list_transfer_for_partner') }}">En cours</a>
+                                </li>
+                                <li><a href="{{ path('list_transfer_for_partner', {type : 'archive'}) }}">Archivées</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+            {% if app.user.getPartner.isAirport is defined and app.user.getPartner.isAirport %}
+                <li>
+                    <a href="#">Agences</a>
+                    <ul>
+                        <li><a href="{{ path('liste_agence') }}">Liste des agences</a></li>
+                        <li><a href="{{ path('agence_add') }}">Ajouter une agence</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ path('stat_main') }}">Statistiques</a>
+                </li>
+            {% endif %}
+
+        {% endif %}
+        {% if(is_granted('ROLE_ASSOCIATE')) %}
+            <li>
+                <a href="{{ path('balance_receipe') }}"> Encaissements</a>
+            </li>
+            <li>
+                <a href="{{ path('stat_main') }}">Statistiques</a>
+            </li>
+        {% endif %}
+        {% if app.user.getPartner is not null %}
+            <li class="active"><a href="{{ path('account_partner') }}" title="">Mon Compte</a></li>
+        {% endif %}
+        <li class="active"><a href="{{ path('logout') }}" title="">Déconnexion</a></li>
+    </ul>
+
+
+{% endblock nav_bar %}
+
+{% block main %}
+
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>
+                    {% block page_title %}
+                    {% endblock %}
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+
+    {% endblock %}
+
+{% endblock %}

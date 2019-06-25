@@ -1,0 +1,20 @@
+::-moz-selection 	{background:#F2836B;color:#fff;}
+::selection 	 		{background:#F2836B;color:#fff;}
+
+html					{-webkit-tap-highlight-color:#F2836B;}
+
+a,.more,.services.boxed .details h4 a:hover,.services.iconic h3,.content a,.description a:hover,.description a:focus,.microlocations p a:hover,.microlocations p a:focus,.hentry .entry-content h2 a:hover,.hentry .entry-content h2 a:focus,.footer .contact-data a:hover,.footer .contact-data a:focus,.xdsoft_datetimepicker  .xdsoft_calendar td.xdsoft_today,.faqs .expanded,.faqs .expanded:after 		{color:#F2836B;}
+.color,.pager a.current,.pager a:hover,.pager a:focus,table.hover tr:hover td,.tabs li.active a,.social li:hover,.data th,.tabs li a:hover,.tabs li a:focus,.xdsoft_datetimepicker  .xdsoft_calendar td.xdsoft_default,.xdsoft_datetimepicker  .xdsoft_calendar td.xdsoft_current,.xdsoft_datetimepicker  .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current,.xdsoft_datetimepicker  .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current,.xdsoft_datetimepicker  .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover,.slicknav_menu .slicknav_icon-bar			{background-color:#F2836B;}
+.xdsoft_datetimepicker  .xdsoft_calendar td:hover,.xdsoft_datetimepicker  .xdsoft_timepicker .xdsoft_time_box >div >div:hover {background:#F2836B !important;}
+.btn:hover,.btn:focus 		{background:#F2836B !important;color:#fff !important;}
+.more:after,.single a:after	{border-bottom:2px dotted #F2836B;}
+.tabs li.active a:after		{border-color:#F2836B transparent transparent transparent;}
+
+blockquote:before			{position:absolute;left:20px;background:url(../images/icons-peach.png) -62px 0 no-repeat;}
+.testimonials h6:before 	{position:relative;display:inline-block;left:-16px;background:url(../images/icons-peach.png) -62px 0 no-repeat;}
+
+.footer .phone 		{background-image:url(../images/icons-peach.png) !important;background-position:0 0;}
+.footer .email 		{background-image:url(../images/icons-peach.png) !important;background-position:-31px -4px;}
+.people				{background-image:url(../images/icons-peach.png) !important;background-position:0 -30px;}
+.luggage			{background-image:url(../images/icons-peach.png) !important;background-position:-40px -30px;}
+.time				{background-image:url(../images/icons-peach.png) !important;background-position:-80px -30px;}

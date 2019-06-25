@@ -1,0 +1,89 @@
+{% extends parent %}
+
+
+{% block page_title %}
+    Modifier Chauffeur
+{% endblock %}
+
+{% block content %}
+
+
+        {{ form_start(form,{ 'action': path('edit_driver',{'driver': driver.id}) }) }}
+
+
+    <div class="row">
+
+        <div class="col-xs-6">
+            <label for="cv">Nom</label>
+            {{ form_widget(form.name) }}
+        </div>
+
+        <div class="col-xs-6">
+            <label for="prenom">Prénom</label>
+            {{ form_widget(form.lastname) }}
+        </div>
+
+
+        <div class="col-xs-6">
+            <label for="mail">Societé</label>
+            {{ form_widget(form.company) }}
+        </div>
+
+        <div class="col-xs-6">
+            <label for="adr">Activité</label>
+            {{ form_widget(form.activity) }}
+        </div>
+
+
+        <div class="col-xs-6">
+            <label for="numtel">N° de Teléphone</label>
+            {{ form_widget(form.phone) }}
+        </div>
+
+        <div class="col-xs-6">
+            <label for="numtel">Email</label>
+            {{ form_widget(form.email) }}
+        </div>
+
+
+        <div class="row">
+        <div class="col-xs-6">
+            <label for="ville">vehicule</label>
+            {{ form_widget(form.vehicule) }}
+        </div>
+
+        <div class="col-xs-6">
+            <label for="ville">capacité du vehicule</label>
+            {{ form_widget(form.vehiculeCapacity) }}
+        </div>
+
+        <div class="col-xs-6">
+            <label for="ville">couleur du vehicule</label>
+            {{ form_widget(form.vehiculeColor) }}
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xs-3">
+            <button class="btn btn-success pull-right" type="submit">Valider les modifications</button>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).on("change", "#modif_payment_type", function () {
+            if ($(this).val() == 'credit_card') {
+                $("#cb-ref").show();
+                $("#cb-ref-input").attr('required', true);
+            } else {
+                $("#cb-ref-input").removeAttr('required');
+                $("#cb-ref").hide();
+            }
+        })
+    </script>
+{% endblock %}

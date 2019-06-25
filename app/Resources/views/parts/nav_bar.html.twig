@@ -1,0 +1,80 @@
+<nav role="navigation" class="main-nav">
+    {% block nav_bar %}
+        <ul>
+            <li class="active"><a href="{{ path('homepage') }}" title=""><i class="icon-fixed-width icon-home"></i> Accueil</a></li>
+            <li><a href="{{ path('about_us') }}" title="Qui sommes-nous"><i class="icon-book"></i> Qui sommes-nous</a></li>
+            <li><a href="#" title="Destinations"><i class="icon-map-marker"></i> Destinations</a>
+                <ul>
+                    <li><a href="{{ path('destinations_privates') }}" title="Transfert privé">Transfert prive</a></li>
+                    <li><a href="{{ path('destinations_gares') }}" title="Navette partagée Aéroport - Gares">Navette partagee Aeroport - Gares</a></li>
+                    <li><a href="{{ path('available_town_list') }}" title="Navette partagée Inter-Villes">Navette partagee Inter-Villes</a></li>
+                    <li><a href="{{ path('available_aggro_list') }}" title="Navette partagée de Porte à Porte">Navette partagee de Porte a Porte</a></li>
+                </ul>
+            </li>
+            <li><a href="#" title="Réservation"><i class="icon-building"></i> Reservation</a>
+                <ul>
+                    <li>
+                        <a href="{{ path('private_transfer_0') }}" title="Navette privée">
+                            Transfert prive
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('interVille_transfer_first_step') }}" title="Navette partagée inter ville">
+                            Navette partagee Inter-ville
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('porteAporte_transfer_first_step') }}" title="Navette partagée porte à porte">
+                            Navette partagee de porte a porte
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}" title="Navette partagée porte à porte">
+                            Navette Gare de Chalons-en-Champagne
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}" title="Navette partagée porte à porte">
+                            Navette Gare de Reims
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#" title="Informations des vols"><i class="icon-plane"></i> Vols</a>
+                <ul>
+                    <li>
+                        <a href="{{ path('villes_desservies') }}" title="Villes Desservies">
+                            Villes desservies
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('volsTempsReel') }}" title="Consultation des horaires des vols">
+                            Consultation des horaires des vols
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li><a href="{{ path('partners') }}" title="Partenaires"><i class="icon-group"></i> Partenaires</a></li>
+            <li><a href="{{ path('contact') }}" title="Contactez-nous"><i class="icon-envelope"></i> Contact</a></li>
+            {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('back_index') }}"><span class="glyphicon glyphicon-user"></span>  Espace Admin</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('home_user') }}"><span class="glyphicon glyphicon-user"></span> Espace Client</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="/logout"><span class="glyphicon glyphicon-log-out"></span></a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/login"><span class="glyphicon glyphicon-log-in"></span></a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endblock nav_bar %}
+</nav>

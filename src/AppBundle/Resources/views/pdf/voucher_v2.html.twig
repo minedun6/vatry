@@ -1,0 +1,316 @@
+<style>
+    .background-gold {
+        background-color: #cb8d1e;
+        color: white;
+        padding: 10px;
+        margin: 10px 0px;
+        font-size: 22px;
+        width: 54%;
+    }
+
+    .container {
+        font: 15px/1.42 'Raleway', Arial, Helvetica, sans-serif;
+        width: 95%;
+        margin: auto;
+        color: #191F26;
+        line-height: 22px;
+    }
+
+    .img-transfer {
+        position: absolute;
+        right: 0px;
+        margin-top: 10px;
+        top: 0px;
+    }
+
+    .title-2 {
+        color: #cb8d1e;
+        font-weight: bold;
+    }
+
+    .ul-vatry li {
+        line-height: 22px;
+    }
+
+    .row {
+        vertical-align: top;
+        position: relative;
+    }
+
+    .bold-center {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    table.bordered {
+        width: 95%;
+        border-collapse: collapse;
+    }
+
+    table.bordered td, table.bordered th {
+        border: solid 1px #D8D8D8;
+
+    }
+
+    table.centered td, table.centered th {
+        text-align: center;
+    }
+
+    td, th {
+        padding: 5px;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .pancart {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .pancart img {
+        width: 240px;
+        height: 150px;
+        margin: auto;
+        display: block
+    }
+
+    .client-name {
+        position: absolute;
+        top: 100px;
+        left: 44%;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="container">
+
+    <div class="row">
+        <div>
+            <div class="background-gold" style=" width: 80%; ">
+                <div style=" display: inline-block; text-align: center">
+                    Confirmation <br> Votre commande de transfert N°: {{ transfer.reference }}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="img-transfer">
+            <img src="{{ asset('app/images/transfers.jpg',null,true) }}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div style="width: 25%; display: inline-block; margin-right: 10px;">
+            <b>Le</b>  {{ "now" | date('d/m/Y H:i', "Europe/Paris")}}
+        </div>
+        <div style="width: 55%; text-align: right; display: inline-block; position: absolute;    left: 30%;">
+            <b>Contact</b> Tél : 03 51 31 01 01  - Email : contact@navettevatry.fr
+        </div>
+    </div>
+
+    <table style="font-size: 11px; width: 85%;">
+        <tr>
+            <td>
+                <b>Le</b>  {{ "now" | date('d/m/Y H:i', "Europe/Paris")}}
+            </td>
+            <td class="table_right" align="right">
+                <b>Contact</b> Tél : 03 51 31 01 01  - Email : contact@navettevatry.fr
+            </td>
+        </tr>
+    </table>
+
+    {{ transfer.passenger.civility }}, {{ transfer.passenger.lastname|title }} {{ transfer.passenger.name|title }},<br>
+    Nous avons le plaisir de vous confirmer votre prestation de transfert commandée en ligne &agrave; la date
+    du {{ transfer.createdAt|date('d/m/Y') }}
+    <br>
+
+    Votre chauffeur:
+    {% if transfer.driver %}
+    <span style="background: yellow">
+     {{ transfer.driver.name }}  {{ transfer.driver.lastname }},
+    Telephone: {{ transfer.driver.phone }},
+    Type et couleur du véhicule: {{ transfer.driver.vehicule }} {{ transfer.driver.vehiculeColor }}.
+</span>
+    {% else %}
+    les coordonnées de votre chauffeur vous seront communiquées ultérieurement.
+    {% endif %}
+
+    {% if transfer.type == 'tranfer_gare' %}
+        <div class="background-gold" style="width: 85%;">
+            Prestation de {{ transfer.getPrestationTypeToDisplay() }}
+        </div>
+    {% else %}
+        <div class="background-gold" style="width: 71%;">
+            Prestation de {{ transfer.getPrestationTypeToDisplay() }}
+        </div>
+    {% endif %}
+
+
+    <div class="row">
+        <div style="width: 45%; display: inline-block; margin-right: 10px;">
+            <div class="title-2">Récapitulatif du transfert commandé :</div>
+            <table>
+                <tr>
+                    <td colspan="2"><b>Circuit</b></td>
+                </tr>
+
+                {% set traj = "Aller simple" %}
+                {% if transfer.roundTrip %}
+                    {% set traj = "Aller/Retour" %}
+                {% endif %}
+
+                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                    <tr>
+                        <td>Lieu de prise en charge:</td>
+                        <td>
+
+                        {{ transfer.rdvLocationTransfer|raw }}
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lieu de destination:</td>
+                        <td>Aéroport Paris-Vatry</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>Lieu de prise en charge:</td>
+                        <td>Aéroport Paris-Vatry</td>
+                    </tr>
+                    <tr>
+                        <td>Lieu de destination:</td>
+                        <td>
+                            {{ transfer.rdvLocationTransfer|raw }}
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td><b>Trajet:</b></td>
+                    <td>{{ traj }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="width: 45%; display: inline-block; position: absolute;    left: 50%;">
+            <div class="title-2">Pour le nombre de passagers suivant :</div>
+            <table class="bordered centered">
+                <tr>
+                    <th style="width: 90px">Adultes</th>
+                    <th style="width: 90px">Enfants</th>
+                    <th style="width: 90px">Bébés</th>
+                </tr>
+                <tr>
+                    <td>{{ transfer.qty }}</td>
+                    <td>{% if transfer.qtyChild == null %} 0 {% else %} {{ transfer.qtyChild }} {% endif %}</td>
+                    <td>{% if transfer.qtyBaby == null %} 0 {% else %}  {{ transfer.qtyBaby }}  {% endif %}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="background-gold">
+        Détails du rendez-vous : ALLER
+    </div>
+
+    <div class="row">
+
+        <div class="title-2">Transfert Aller :</div>
+        <table class="bordered centered">
+            <tr>
+                <th style="width: 110px;">Date du transfert</th>
+                <th style="width: 110px">Heure du RDV</th>
+                <th style="width: 380px">Lieu de RDV</th>
+            </tr>
+            <tr>
+
+                <td>{{ transfer.dateTransfer }}</td>
+                {% if  ( transfer.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                  <td>  L'heure du transfert vous sera<br> communiquée ultérieurement</td>
+                {% else %}
+                <td>{{ transfer.hourTransfer }}</td>
+                {% endif %}
+                <td>
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        {{ transfer.rdvLocationTransfer|raw }}
+                    {% else %}
+                        Aéroport Paris-Vatry
+                    {% endif %}
+
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <div class="bold-center">
+            Ce transfert est associé au vol N° {{ transfer.flight.num }}
+            de {{ transfer.flight.provDistLabel|lower }}  {{ transfer.flight.volDir }} prévu pour
+            le {{ transfer.flight.time|date('d/m/Y') }} &agrave; {{ transfer.flight.time|date('H:i') }}
+        </div>
+    </div>
+
+
+    {% if transfer.roundTrip %}
+        <div class="background-gold">
+            Détails du rendez-vous : RETOUR
+        </div>
+
+        <div class="row">
+            <div class="title-2">Transfert Retour :</div>
+            <table class="bordered centered">
+                <tr>
+                    <th style="width: 110px">Date du transfert</th>
+                    <th style="width: 110px">Heure du RDV</th>
+                    <th style="width: 380px">Lieu de RDV</th>
+                </tr>
+                <tr>
+                    <td>{{ transfer.dateTransfer(true) }}</td>
+                    {% if  ( transfer.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                        <td>  L'heure du transfert vous sera<br> communiquée ultérieurement</td>
+                    {% else %}
+                        <td>{{ transfer.hourTransfer(true) }}</td>
+                    {% endif %}
+
+                    <td>
+                        {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                            Aéroport Paris-Vatry
+                        {% else %}
+                            {{ transfer.rdvLocationTransfer(true)|raw }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+            <div class="bold-center">
+                Ce transfert est associé au vol N° {{ transfer.flight2.num }}
+                de {{ transfer.flight2.provDistLabel|lower }}  {{ transfer.flight2.volDir }} prévu pour
+                le {{ transfer.flight2.time|date('d/m/Y') }} &agrave; {{ transfer.flight2.time|date('H:i') }}
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="row pancart">
+        Un chauffeur vous attendra avec la pancarte suivante :<br>
+        <img src="{{ asset('app/images/bonhompancart.png',null,true) }}"/>
+        {% if transfer.type == 'private_airport_airport' or transfer.type == 'private_airport_town' %}
+            <div  class="client-name">
+                {{ transfer.passenger.civility }}, {{ transfer.passenger.lastname|title }} {{ transfer.passenger.name|title }}
+            </div>
+        {% endif %}
+    </div>
+
+
+    <div class="title-2" style="font-size: 11px;">
+        La présente confirmation est &agrave; imprimer et &agrave; présenter au conducteur &agrave; bord du véhicule et lors de tout contrôle
+        durant le chemin du transfert. Les conditions générales de ventes seront également imprimées avec ce Voucher
+        portant votre nom, prénom et numéro de commande affirmant ainsi que vous ayez pris connaissance et approuvé nos
+        CGV.
+    </div>
+
+</div>

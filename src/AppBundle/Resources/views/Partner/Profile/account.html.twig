@@ -1,0 +1,76 @@
+{% extends '@App/Partner/index.html.twig' %}
+
+{% block page_title %}
+    Mon Compte
+{% endblock %}
+
+{% block content %}
+
+{#    <h3>Modifiez votre profile</h3>
+    {{ form_start(form,{ 'action': path('account_partner') }) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Nom du partenaire</label>
+            {{ form_widget(form.name,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.name) }}
+        </div>
+    </div>#}
+{#
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Email/Nom d'utilisateur</label>
+            {{ form_widget(form.users[0].email,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.users[0].email) }}
+        </div>
+    </div>
+#}
+
+{#
+    <div class="row">
+        <div style="text-align: right" class="col-xs-6">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="reset" class="btn btn-danger">Annuler</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+#}
+
+    <hr>
+    <h3>Modifiez votre mot de passe</h3>
+    {{ form_start(passwordForm,{ 'action' : path('modify_password') }) }}
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Ancien mot de passe</label>
+            {{ form_widget(passwordForm.old_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.old_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Nouveau mot de passe</label>
+            {{ form_widget(passwordForm.new_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.new_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Confirmer le nouveau mot de passe</label>
+            {{ form_widget(passwordForm.confirmation_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.confirmation_password) }}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="reset" class="btn btn-danger pull-right" >Annuler</button>
+            <button class="btn btn-success pull-right" type="submit" style="margin-right: 5px;">Modifier Votre mot de passe</button>
+        </div>
+    </div>
+
+    {{ form_end(passwordForm) }}
+{% endblock %}

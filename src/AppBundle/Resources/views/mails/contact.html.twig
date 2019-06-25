@@ -1,0 +1,37 @@
+{#<body>#}
+
+{#<h3>Inscription avec succès</h3>#}
+
+{#Bonjour {{ user.person.civility }} {{ user.person.name }} {{ user.person.lastname }}<br>#}
+
+{#Votre inscription est faite avec succès.<br>#}
+{#Votre login est {{ user.email }}<br>#}
+{#Votre MDP est {{ password }}<br>#}
+
+{#<br><br>#}
+{#Cordialement,<br>#}
+{#Equipe Vatry#}
+{#</body>#}
+
+<html>
+<head></head>
+<body>
+
+Message de la part de :
+<br> M/Mme {{ data['nom'] }}.
+<br> Téléphone : {{ data['tel'] }}
+<br> Email : {{ data['email'] }}
+<br><br>
+Sujet : {{ data['sujet'] }}
+
+<br><br>
+
+{{ data['message'] }}
+
+<br><br>
+
+Cordialement<br>
+Contact Navette de Vatry
+
+</body>
+</html>

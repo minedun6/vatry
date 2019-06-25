@@ -1,0 +1,136 @@
+{% extends '@App/PartnerAgency/index.html.twig' %}
+
+{% block page_title %}
+    {% if type == 'historical' %}Historique{% else %}Liste{% endif %} des factures mensuelles {% if type == 'latest' %}en cours{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            initDataTable('#partner-table',{
+                lengthChange: false,
+                columnDefs: [
+                    {
+                        targets: [-1],
+                        orderable: false
+                    }
+                ]
+            });
+        });
+
+    </script>
+{% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <style>
+
+        #backtransfers th{
+            background-color: #cb8d1e ;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+            text-transform:capitalize;
+            text-align: left;
+
+        }
+
+        .tb1 label{
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+        }
+        tbody{
+            text-transform: capitalize !important;
+            font-size:13px;
+        }
+
+        .sorting_disabled{width: 70px; }
+
+        .sorting_asc{
+
+            font-size: 10px !important;
+        }
+        .sorting{
+
+            font-size: 10px !important;
+        }
+
+        .sorting_disabled{
+
+            width: 77px !important;
+            font-size: 10px !important;
+        }
+
+        .size{
+
+            font-size: 13px !important;
+        }
+        tbody td{
+
+
+            font-size: 10px !important;
+        }
+
+    </style>
+
+{% endblock %}
+{% block content %}
+    <style>
+        td{
+            text-transform: none !important;
+        }
+    </style>
+    <table id="partner-table" class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Année</th>
+            <th>Mois</th>
+            <th>Agence</th>
+            <th>Tarif public</th>
+            <th>Montant TTC</th>
+            <th>Etat</th>
+            <th>Type</th>
+            <th>Date de paiement</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.year }}</td>
+                <td>{% if invoice.month <10 %}0{% endif %}{{ invoice.month }}</td>
+                <td>{{ invoice.partnerAgency.agence.nom }}</td>
+                <td>{{ invoice.price|number_format(2, '.', '') }}€</td>
+                <td>{{ invoice.netPrice|number_format(2, '.', '') }}€</td>
+                <td>
+                    {{ invoice.state | trans }}
+                </td>
+                <td>{{ invoice.paymentType }}</td>
+                <td>{% if invoice.modifiedAt and invoice.state==constant('STATUS_PAID_B2B',invoice) %} {{ invoice.modifiedAt |date('d/m/Y')}} {% endif %}</td>
+                <td>
+                    <a href="{{ path('agency_invoice_details_invoice', {'invoice' : invoice.id }) }}" title="Détails" target="_blank">  <span class="glyphicon glyphicon-search"></span> </a>
+
+                    <a href="{{ path('agency_monthly_invoice_b2b_invoices',{'invoice' : invoice.id }) }}" title="Liste des transferts" target="_blank">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </a>
+
+                    {% if invoice.state==constant('STATUS_PAID_B2B',invoice) %}
+                        <a href="{{ path('facture_monthly_b2b',{'invoice' : invoice.id }) }}" title="Facture"
+                           target="_blank">
+                            <span class="glyphicon glyphicon-euro"></span>
+                        </a>
+                    {% else %}
+                        <span class="glyphicon glyphicon glyphicon-euro"></span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+
+    <div class="row" id="services">
+        <!-- Column -->
+        <article class="one-half">
+            <img width="200px" height="200px" src="{{ asset('app/images/images_v2/transfers.jpg') }}" alt="Transfers" /></a>
+        </article>
+        <article class="one-half">
+            <h6>Contactez-nous</h6>
+            <p class="contact-data"><span class="ico phone"></span> +33(0)984530589 / +33(0)614244906</p>
+        </article>
+        <!-- //Column -->
+
+    </div>
+
+    <!-- Services -->
+    <div class="services boxed white" >
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/images_v3/img1.jpg') }}" alt="" />
+                <div class="overlay">
+                    <a href="{{ path('interVille_transfer_first_step') }}" class="expand">+</a>
+                </div>
+            </figure>
+            <div class="details">
+                <h4>Navettes partagées</h4>
+                <p>Ce service assure deux catégories de navettes :  <a href="{{ path('description_interville') }}">Navette partagée inter-Villes </a> et <a href="{{ path('description_porteaporte') }}">Navette partagée de Porte à Porte.</a></p>
+            </div>
+        </article>
+        <!-- //Item -->
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".2s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/images_v3/img2.jpg') }}" alt="" />
+                <div class="overlay">
+                    <a href="{{ path('description_private') }}" class="expand">+</a>
+                </div>
+            </figure>
+            <div class="details">
+                <h4>Transfert privé</h4>
+                <p> Ce service assure deux catégories de transferts privés : <a href="{{ path('description_private') }}"> Transfert privé Aéroport – Domicile </a> ou <a href="{{ path('description_privateaeroport') }}">Transfert privé Aéroport – Aéroport.</a></p>
+            </div>
+        </article>
+        <!-- //Item -->
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".4s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/images_v3/correspondance-gares.jpg')}}" alt="" />
+                <div class="overlay">
+                    <a href="{{ path('description_garechalon') }}" class="expand">+</a>
+                </div>
+            </figure>
+            <div class="details">
+                <h4>Navettes Aéroport – Gares</h4>
+                <p>Ce service assure deux catégories de navettes : <a href="{{ path('description_garechalon') }}">Navette Aéroport- Gare de Châlons-en-Champagne</a> et <a href="{{ path('description_garereims') }}">Navette Aéroport – Gare de Reims.</a></p>
+            </div>
+        </article>
+        <!-- //Item -->
+
+        <!-- Item -->
+        <article class="one-fourth wow fadeIn" data-wow-delay=".6s">
+            <figure class="featured-image">
+                <img src="{{ asset('app/images/images_v3/img3.jpg') }}" alt="" />
+                <div class="overlay">
+                    <a href="{{ path('description_lastminute') }}" class="expand">+</a>
+                </div>
+            </figure>
+            <div class="details">
+                <h4>Service last minute</h4>
+                <p>Vous donne la possibilité de réserver l’un des transferts ou navettes jusqu’à la <a href="{{ path('description_lastminute') }}">dernière minute</a> le jour de votre voyage.</p>
+            </div>
+        </article>
+        <!-- //Item -->
+    </div>
+    <!-- //Services -->
+
+    <div class="services iconic white">
+        <img src="{{ asset('app/images/images_v3/imgpsh_fullsize.jpg') }}" alt="" />
+    </div>
+
+    <!-- Services iconic -->
+    <div class="services iconic white">
+        <div class="wrap">
+            <div class="row">
+                <!-- Item -->
+                <div class="one-third wow fadeIn">
+                    <span class="circle"><span class="ico wand"></span></span>
+                    <h3>Flexibilité</h3>
+                    <p>En quelques clics, réservez le transfert qui correspond le mieux à votre besoin !</p>
+                </div>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <div class="one-third wow fadeIn" data-wow-delay=".2s">
+                    <span class="circle"><span class="ico telephone"></span></span>
+                    <h3>Réactivité</h3>
+                    <p>Un service client à votre disposition pour répondre à toutes vos interrogations.</p>
+                </div>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <div class="one-third wow fadeIn" data-wow-delay=".4s">
+                    <span class="circle"><span class="ico award"></span></span>
+                    <h3>Qualité</h3>
+                    <p>Des véhicules de qualité pour vous garantir confort et quiétude pendant votre transfert.</p>
+                </div>
+                <!-- //Item -->
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to action -->
+    <div class="color cta">
+        <div class="wrap">
+            <img src="{{ asset('app/images/images_v3/train-vatry.png') }}" />
+            <p class="wow fadeInLeft">Avec Navette de Vatry, rejoignez la Gare la plus proche !</p>
+            <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }} " class="btn medium black right wow fadeInRight">Réservez ici !</a>
+        </div>
+    </div>
+    <div class=" white">
+        <div class="wrap">
+        </div>
+    </div>
+    <div class="color cta">
+        <div class="wrap">
+            <img src="{{ asset('app/images/images_v3/vol-hour.png') }}" />
+            <p class="wow fadeInLeft">Consultez les horaires des vols et suivez-les en temps réel !</p>
+            <a href="#" class="btn medium black right wow fadeInRight">Vérifiez ici !</a>
+        </div>
+    </div>
+    <div class=" white">
+        <div class="wrap">
+        </div>
+    </div>
+    <!-- //Call to action -->
+
+
+
+{% endblock %}

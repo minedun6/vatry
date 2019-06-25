@@ -1,0 +1,131 @@
+{% extends '@App/front/interVilleTransfer/index.html.twig' %}
+
+{% set third_step = true %}
+
+{% block step_title %}
+    3. Vérification de la commande / Transfert collectif - Navette Gares
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    <div style="text-align: left;">
+        <h3>Informations du passager</h3>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Nom et Prénom: </label></div>
+            <div class="col-xs-8">{{ transfer.passenger.name|title }} {{ transfer.passenger.lastname|title }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3"><label>Nombre d'adultes : </label> {{ transfer.qty }}</div>
+            <div class="col-xs-3"><label>Nombre d'enfants : </label>
+                {% if transfer.qtyChild  ==null %} 0 {% else %} {{ transfer.qtyChild }} {% endif %}
+            </div>
+            <div class="col-xs-3"><label>Nombre de bébés : </label>
+                {% if transfer.qtyBaby  == null %} 0 {% else %} {{ transfer.qtyBaby }} {% endif %}
+            </div>
+        </div>
+
+        <h3>Détails du transfert</h3>
+
+
+        <div class="row">
+            <div class="col-xs-4"><label>Lieu de prise en charge : </label></div>
+            <div class="col-xs-8">
+                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                    {{ transfer.location.name }}
+                {% else %}
+                    Sortie Aérogare Paris Vatry
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Lieu de destination : </label></div>
+            <div class="col-xs-8">
+                {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                    Sortie Aérogare Paris Vatry
+                {% else %}
+                    {{ transfer.location.name }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Date du Transfert: </label></div>
+            <div class="col-xs-8">
+                {{ transfer.pickupDate|date('d/m/Y') }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4"><label>Heure de prise en charge: </label></div>
+            <div class="col-xs-8">
+                {{ transfer.pickupDate|date('H:i') }}
+            </div>
+        </div>
+
+        {% if transfer.roundTrip %}
+
+            <h3>Détails du retour</h3>
+
+            <div class="row">
+                <div class="col-xs-4"><label>Lieu de prise en charge : </label></div>
+                <div class="col-xs-8">
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        Aéroport Paris-Vatry
+                    {% else %}
+                        {{ transfer.location2.name|title }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4"><label>Lieu de destination : </label></div>
+                <div class="col-xs-8">
+                    {% if transfer.direction == constant('TO_VATRY',transfer) %}
+                        {{ transfer.location2.name|title }}
+                    {% else %}
+                        Aéroport Paris-Vatry
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4"><label>Date du Transfer: </label></div>
+                <div class="col-xs-8">
+                    {{ transfer.pickupDate2|date('d/m/Y') }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-4"><label>Heure de prise en charge: </label></div>
+                <div class="col-xs-8">
+                    {{ transfer.pickupDate2|date('H:i') }}
+                </div>
+            </div>
+
+        {% endif %}
+
+        <div class="row">
+            <div class="col-xs-4">
+               <h3>Total commande: {{ transfer.price|number_format(2,',','') }} &euro;</h3>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4">
+            <a class="btn btn-success" href="{{ path('gare_transfer_fourth_step',{ 'token' : token }) }}">
+                Confirmer la commande
+            </a>
+        </div>
+    </div>
+
+    <div id="#show">
+
+    </div>
+
+{% endblock %}

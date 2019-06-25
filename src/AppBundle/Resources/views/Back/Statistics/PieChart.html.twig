@@ -1,0 +1,60 @@
+{% extends '@App/Back/Statistics/stats_index.html.twig' %}
+
+{% block chart %}
+<script>
+    $(document).ready(function () {
+        var data=JSON.parse('{{ data|raw }}');
+        var datapts=[];
+        var total={{ total }};
+        var unit='{{ unit }}';
+        var isMoney = "{{ isMoney }}";
+
+        var sum=0;
+        var text="Total =";
+        if(total!=0) {
+            for (var key in data) {
+                sum+=data[key];
+                datapts.push({y: data[key], legendText: key, label: key});
+            }
+
+            if(isMoney){
+                sum=sum.toFixed(2);
+            }
+        var chart = new CanvasJS.Chart("chart",
+                {
+                    title:{
+                        text: "{% block onglet_title %}{% endblock %} ("+text+" "+sum+" "+unit+")"
+                    },
+                    exportFileName: "Pie Chart",
+                    exportEnabled: true,
+                    animationEnabled: true,
+                    legend:{
+                        verticalAlign: "bottom",
+                        horizontalAlign: "center"
+                    },
+                    data: [
+                        {
+                            type: "pie",
+                            showInLegend: true,
+                            toolTipContent: "{legendText}: <strong>{y} "+unit+"</strong>",
+                            indexLabel: "{label}: #percent%",
+                            dataPoints: datapts
+                        }
+                    ]
+                });
+        chart.render();
+            dt = $('#StatTable').DataTable();
+        }
+        else{
+
+
+            $('#chart').html('<center><br><h2>Pas de données pour cette periode</h2></center>');
+
+
+
+        }
+
+    });
+</script>
+
+{% endblock %}

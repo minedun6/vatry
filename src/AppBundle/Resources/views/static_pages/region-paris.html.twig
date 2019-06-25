@@ -1,0 +1,160 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}Navette partagée Aéroport Vatry - Région parisienne : Pour accéder à l’aéroport Paris-Vatry dans les meilleures conditions, vous pouvez bénéficiez d'une connexion directe entre votre domicile en région parisienne et l’aéroport dans les deux sens.{% endblock %}
+
+{% block title %}
+    Navette partagée aéroport Vatry - Région parisienne
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+    ul{
+        list-style: none;
+        padding: 0;
+        margin:0 ;
+    }
+    li{
+
+        padding-right: 16px;
+    }
+    li:before{
+
+        content: "•" !important;
+        padding-right: 5px !important;
+        font-size: 39px;
+        color: #DBBC94;
+        position: absolute;
+        margin-left: -16px;
+        font-size: 39px;
+s
+    }
+
+</style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+            <div class="wrap cWrap">
+                <div class="container">
+                    <h1>Navette partagée Aéroport - Region parisienne</h1>
+                    <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                        <ul>
+                            <div class="row">
+                                <a href="{{ path('paris_transfer_first_step') }}" class="btn costum medium black right wow fadeInRight">Réservez
+                                    ici !</a>
+                            </div>
+                            <div class="row">
+                                <img src="{{ asset('app/images/region-parisienne-half.jpg') }}" alt="Transfert Aéroport Vatry Région parisienne" />
+                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>
+                            <h2><u>SPECIAL ETE 2016</u></h2><br><br>
+
+                           <p class="text-justify"> A partir du 1er juillet et durant la période estivale de 2016, les résidents de la Région Parisienne à destination des aéroports Algériens via l’aéroport Paris-Vatry peuvent bénéficier d’une connexion directe entre leurs domiciles et l’aéroport dans les deux sens.<br><br>
+                            C’est une solution confortable, pratique et économique permettant l’accès à l’aéroport Paris-Vatry dans les meilleures conditions, et ce, quelque soit l’heure de l’arrivée ou de départ du vol. Les vols nocturnes sont particulièrement accessibles grâce à cette navette.<br><br>
+                               La réservation de la <strong>navette partagée Aéroport – Région Parisienne</strong> est
+                               ouverte pendant toute cette période, sans option ni condition préalable d’atteinte du
+                               seuil de remplissage de la navette. Les heures des prises en charge sont associées aux
+                               horaires des vols et communiquées aux passagers 2 jours avant le voyage.
+                               <br><br>
+
+                            <h2>Tarif fixe : 39,60 € /personne*</h2>
+                            <b>* Tarif appliqué à partir de 2 personnes </b>
+
+
+                        </div>
+                        <!-- //Tableau aymen -->
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/logocaree2.jpg') }}" /></center>
+                    </div>
+                    <div class="full-width">
+                        <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a><br><br>
+                        <div id="tonDiv">
+                            <ul>
+                                <li>Un tarif unitaire est associé à la navette partagée Aéroport – Région Parisienne.</li>
+                                <li>Il suffit de renseigner le nombre de personnes pour obtenir le montant total de votre demande.</li>
+                                <li>Remplissez le formulaire de réservation pour confirmer votre commande.</li>
+                                <li>Vous recevez le voucher de confirmation de votre commande par mail dès validation de votre paiement en ligne.</li>
+                                <li>Le voucher de confirmation contient toutes les informations sauf l’heure du rendez-vous au domicile, pour les transferts à destination de l’aéroport. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.</li>
+                                <li>Les heures exactes de prise en charge des domiciles sont communiquées 2 jours avant le voyage. </li>
+                            </ul>
+
+
+
+                            <h3><u>Conditions de réservations</u></h3>
+                            <ul>
+                                <li>Réservation en ligne possible jusqu’au jour J-3 de votre voyage.  </li>
+                                <li>Au-delà de J-3, commande possible par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport.  </li>
+                                <li>Commandes en last minute possibles sous réserve de disponibilité des véhicules.</li>
+                            </ul>
+
+                            <h3><u>Conditions d’annulation</u></h3>
+                            <ul><li>Jusqu’au jour J-3 : Annulation possible sans frais</li>
+                                <li>A partir du jour J-2 : Commande non annulable non remboursable. </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour consulter les destinations de la navette partagée Aéroport Région Parisienne</p>
+                <a href="{{ path('region_paris_destination') }}" class="btn medium black right wow fadeInRight">Cliquez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+
+    </main>
+    <!-- //Main -->
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+
+{% endblock %}

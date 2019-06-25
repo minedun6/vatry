@@ -1,0 +1,31 @@
+
+{#Bonjour {{transfer.affectedTo.agencePartner.agence.nom|title }},#}
+{#<br><br>#}
+{#Vous demandez d’enregistrer une demande d’option pour une {{ transfer.getPrestationTypeToDisplay()}} à partir de#}
+{#{% if transfer.direction == constant('TO_VATRY',transfer) %}#}
+    {#{{ transfer.location.name }} vers l'Aéroport Paris-Vatry,#}
+{#{% else %}#}
+    {#l' Aéroport Paris-Vatry vers {{ transfer.location.name }},#}
+{#{% endif %}#}
+{#le {{ transfer.flight.time|date('d/m/Y') }} pour le vol N° {{ transfer.flight.num }} de  {{ transfer.flight.provDistLabel|lower }} {{ transfer.flight.volDir }} dont#}
+{#{% if transfer.direction == constant('TO_VATRY',transfer) %}#}
+    {#le départ est prévu#}
+{#{% else %}#}
+    {#l'arrivée est prévue#}
+{#{% endif %}#}
+{#à {{ transfer.flight.time|date('H:i') }}. <br><br>#}
+{#Nous vous remercions pour votre confiance. Veuillez cliquer <a href="{{ url('confirm_b2b') }}">ici</a> pour confirmer votre demande.#}
+
+Bonjour,<br><br>
+
+Nous avons bien reçu votre demande en option.<br><br>
+
+Nous vous informons que votre commande a été créée sur notre système avec succès.<br><br>
+
+Merci de cliquer <a href="{{ url('confirm_rc') }}">ici</a> pour confirmer votre commande.<br><br>
+Nous vous remercions pour votre confiance et nous restons à votre disposition pour toute information complémentaire.
+
+<br><br>
+
+Bien cordialement <br>
+L’équipe de Navette de Vatry

@@ -1,0 +1,172 @@
+{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+
+        $(function () {
+
+            var intervilleMap = new GMaps({
+                div: "#interville-map",
+                lat: vatryLat,
+                lng: vatryLng,
+                zoom: 7
+            });
+
+            intervilleMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+            var trs = $("#town-table tbody tr");
+            $.each(trs, function (key, value) {
+                intervilleMap.addMarker({
+                    lat: $(value).find('td.name').attr('lat'),
+                    lng: $(value).find('td.name').attr('lng'),
+                    title: $(value).attr('name')
+                });
+            });
+
+            $("#town-table").dataTable({
+                lengthChange: false,
+                language: {
+                    url: "/app/js/French.json",
+                    searchPlaceholder: "Ville/Code postal"
+                }
+            });
+
+            $("#town-table tbody tr").on('click', function (event) {
+                var self = $(this);
+                intervilleMap.setCenter({
+                    lng: parseFloat(self.find('td.name').attr('lng')),
+                    lat: parseFloat(self.find('td.name').attr('lat'))
+                });
+                intervilleMap.setZoom(11);
+                event.stopImmediatePropagation();
+            })
+
+        })
+    </script>
+{% endblock %}
+
+        {% block main_block %}
+
+            <style>
+                body{
+                    padding-top: 100px;
+                }
+                .map-container {
+                    width: 100%;
+                    height: 400px;
+                    margin-top: 87px;
+                    padding: 10px;
+                    background-color: white;
+                }
+
+                #town-table tbody tr:hover td {
+                    background-color: #ececec;
+                    cursor: pointer;
+                }
+                h2 {
+                    font-size: 24px;
+                    padding: 0 0 28px;
+
+                }
+                ul > li:before {
+                    content: "\2022";
+                    font-size: 30px;
+                    color: #DBBC94;
+                    position: absolute;
+                    /* top: -10px; */
+                    left: 0;
+                }
+                h2, h3, h4{
+                    line-height: 40px;
+                }
+                .container h1{
+                    padding-left: 40px ;
+                }
+                tbody{
+                    text-transform: capitalize;
+                }
+                .search label{
+                    text-transform: capitalize;
+                }
+                .interville{
+
+                    text-transform: capitalize;
+                }
+                .textjust{
+                    text-align: justify;
+                    margin: 10px;
+                }
+
+            </style>
+
+
+            <!-- Page info -->
+            <header class="site-title color">
+                <div class=" iconic ">
+                    <img src="{{ asset('app/images/img_entet_inter.jpg') }}" alt="" />
+                </div>
+            </header>
+            <!-- //Page info -->
+
+            <div class="textjust">La navette partagée Inter-Viles vous offre la possibilité de joindre directement par bus les grandes villes à proximité ou relativement loin de l’aéroport Paris-Vatry.
+                La navette traverse les centres villes afin  de déposer ou de prendre en charge les passagers dans des conditions pratiques et confortables.
+                </div>
+            <div class="textjust">Les villes desservies par la navette partagée Inter-Villes sont :</div>
+            <div class="row" style="margin : 25px 0px 10px 10px">
+                <div class="col-xs-6 search" >
+                    <table id="town-table" class="table table-hover table-bordered">
+                        <thead>
+                        <tr class="interville">
+                            <th width="30%">Code postal</th>
+                            <th>Ville</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for z in list %}
+                            <tr name="{{ z.location.name }}">
+                                <td>{{ z.zipCode }}</td>
+                                <td class="name" lat="{{ z.location.lat }}"
+                                    lng="{{ z.location.lng }}">{{ z.location.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="map-container">
+                        <div style="width: 100%; height: 100%;" id="interville-map">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" white">
+                <div class="wrap">
+                </div>
+            </div>
+
+            <div class="color cta">
+                <div class="wrap">
+                    <p class="wow fadeInLeft">Pour commandez vos places dans la navette </p>
+                    <a href="{{ path('interVille_transfer_first_step') }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+                </div>
+            </div>
+
+
+            <div class=" white">
+                <div class="wrap">
+                </div>
+            </div>
+
+
+        {% endblock %}

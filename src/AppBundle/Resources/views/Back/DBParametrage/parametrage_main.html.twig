@@ -1,0 +1,269 @@
+{% extends '@App/Back/index.html.twig' %}
+
+{% block page_title %}
+    Parametrage
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#{{ requestedPage }}').addClass('active');
+
+        });
+    </script>
+{% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+    <style>
+
+        .panel-heading {
+            background-color: #cb8d1e !important;
+            color: white !important;
+        }
+
+        #dataZone {
+            border-radius: 4px;
+            border-left: 0;
+        }
+
+        #dataZone th {
+            background-color: #cb8d1e !important;
+        }
+
+        #dataZone th:first-child {
+            border-radius: 10px 0px 0px 0px !important;
+            border-left: 0;
+        }
+
+        #dataZone th:last-child {
+            border-radius: 0px 10px 0px 0px !important;
+            border-right: 0;
+            width: 60px;
+        }
+
+        .dt-buttons {
+            margin-top: 26px;
+            height: 44px !important;
+            margin-left: 20px;
+            float: left;
+        }
+
+        .dt-button {
+            font-size: 1.2em !important;
+            color: #fff !important;
+            background-color: #5cb85c !important;
+            border-color: #4cae4c !important;
+            border: 11px solid transparent !important;
+            border-radius: 4px !important;
+            background-image: none !important;
+            text-decoration: none !important;
+            margin-left: 10px;
+        }
+
+        .dt-button:hover {
+            color: #fff !important;
+            background-color: #cb8d1e !important;
+            border: 0;
+        }
+
+        .active {
+            font-weight: bold;
+        }
+
+
+    .panel-heading{
+    background-color:#cb8d1e !important;
+    color:white !important;
+    }
+    #dataZone{
+        border-radius: 4px;
+        border-left:0;
+    }
+    #dataZone th{
+        background-color:#cb8d1e !important;
+    }
+    #dataZone th:first-child{
+        border-radius: 10px 0px 0px 0px !important;
+        border-left:0;
+    }
+    #dataZone th:last-child{
+        border-radius: 0px 10px 0px 0px !important;
+        border-right:0;
+        width:60px;
+    }
+    .dt-buttons{
+        margin-top:18px;
+        height:44px !important;
+        margin-left: 20px;
+        float: left;
+    }
+    .dt-button{
+        font-size: 1.2em !important;
+        color: #fff !important;
+        background-color: #5cb85c !important;
+        border-color: #4cae4c !important;
+        border: 5px solid transparent !important;
+        border-radius: 4px !important;
+        background-image: none !important;
+        text-decoration: none !important;
+        padding:4px !important;
+        }
+    .dt-button:hover{
+        color: #fff !important;
+        background-color: #cb8d1e !important;
+        border:0;
+    }
+    .active{
+        font-weight: bold;
+    }
+        .circular{
+
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            padding-top: 40px;
+        }
+
+        .color1 {
+            background-color: #cb8d1e;
+        }
+
+        .color2 {
+            background-color: #cd5c5c;
+        }
+
+        .color3 {
+            background-color: #f08080;
+        }
+
+        .color4 {
+            background-color: #fa8072;
+        }
+
+        .color5 {
+            background-color: #e9967a;
+        }
+
+        .color6 {
+            background-color: #ffa07a;
+        }
+
+        circle-title {
+            color: white;
+            font-weight: bold;
+            font-size: 19px;
+        }
+
+        val {
+            color: white;
+        }
+
+        .opicon {
+            font-size: 20px;
+            color: red;
+            cursor: pointer;
+            margin-left: 1vw;
+        }
+
+        .custom-search {
+            width: 22vw;
+            margin-top: 3vh;
+        }
+
+        .btn-custom {
+            border-color: #4cae4c !important;
+            background-color: #5cb85c !important;
+        }
+
+        .btn-custom-reset {
+            background-color: rgb(76, 74, 94) !important;
+        }
+
+        form .btn {
+            border-color: #4cae4c !important;
+            background-color: #5cb85c !important;
+            float: right !important;
+        }
+
+        .modal-dialog, .modal-content {
+            padding-bottom: 0px !important;
+        }
+
+        form .form-group button {
+            margin-right: 17px;
+        }
+
+        .warning-icon {
+            font-size: 55px;
+            color: #f0ad4e;
+        }
+        #uploadFile{
+            display:none;
+        }
+        .gly-spin {
+            -webkit-animation: spin 2s infinite linear;
+            -moz-animation: spin 2s infinite linear;
+            -o-animation: spin 2s infinite linear;
+            animation: spin 2s infinite linear;
+        }
+        .alert .close{
+            top:0px;
+            right:0px;
+        }
+        .alert{
+            padding-bottom: 15px !important;
+        }
+        #notifBox{
+            height: auto;
+            max-height: 0px;
+            -webkit-transition: max-height 0.5s ;
+            -moz-transition: max-height 0.5s ;
+            -o-transition: max-height 0.5s ;
+            transition: max-height 0.5s ;
+            overflow: hidden;
+            padding-bottom: 0px !important;
+        }
+        red{
+            font-weight: bold;
+            color:red;
+        }
+        .locationimBtn,.agglomerationimBtn,.intervilleimBtn{
+            display: none !important;
+        }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <center><b>Tables de la base de données</b></center>
+                </div>
+                <br>
+                <ul>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'vols'}) }}" id="vols">Vols</a></li>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'location'}) }}"
+                           id="location">Location</a></li>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'privatelocation'}) }}"
+                           id="privatelocation">Location Privé</a></li>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'interville'}) }}" id="interville">Interville
+                            prix</a></li>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'porteaporte'}) }}" id="porteaporte">Porte
+                            a porte</a></li>
+                    <li><a href="{{ path('parametrage_pathvariable',{'variable':'agglomeration'}) }}"
+                           id="agglomeration">Agglomeration</a></li>
+
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="col-xs-9">
+            {{ render(controller('AppBundle:Back/Parametrage:generateZone',{'page': requestedPage } )) }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+imports:
+    - { resource:  "@AppBundle/Resources/config/forms.yml" }
+    - { resource:  "@AppBundle/Resources/config/payment.yml" }
+    - { resource:  "@AppBundle/Resources/config/back_services.yml" }
+
+services:
+    transfer.private.service:
+        class: AppBundle\Service\Front\Transfer\PrivateTransferService
+        arguments: ["@doctrine.orm.entity_manager","%start_night_hour_private%","%end_night_hour_private%","%percent_night_private%"]
+    transfer.interville.service:
+        class: AppBundle\Service\Front\Transfer\InterVilleTransferService
+        arguments: ["@doctrine.orm.entity_manager","%start_night_hour_private%","%end_night_hour_private%","%percent_night_private%"]
+    transfer.porteaporte.service:
+        class: AppBundle\Service\Front\Transfer\PorteAPorteTransferService
+        arguments: ["@doctrine.orm.entity_manager"]
+    transfer.paris.service:
+        class: AppBundle\Service\Front\Transfer\ParisTransferService
+        arguments: ["@doctrine.orm.entity_manager"]
+    transfer.privateaeroport.service:
+        class: AppBundle\Service\Front\Transfer\PrivateAeroportTransferService
+        arguments: ["@doctrine.orm.entity_manager","%start_night_hour_private%","%end_night_hour_private%","%percent_night_private%"]
+    security.authentication_handler:
+        class: AppBundle\Service\Security\SecurityHandler
+        public: false
+        arguments:
+            - "@router"
+            - "@session"
+            - "@templating"
+            - "@security.authentication_utils"
+            - "@translator.default"
+    twig.common_extension:
+        class: AppBundle\Service\TwigExtension\CommonExtension
+        tags:
+            - { name: twig.extension }
+    transfer.common.service:
+        class: AppBundle\Service\Front\Transfer\CommonTransferService
+        arguments:
+            - "@mailer"
+            - "@templating"
+            - "@html2pdf_factory"
+            - "%tmp_dir%"
+            - "%mailer_user%"
+            - "%bcc_invoice%"
+            - "%bcc_voucher%"
+    user.security.service:
+        class: AppBundle\Service\User\UserSecurityService
+        arguments:
+            - "@mailer"
+            - "@security.encoder_factory"
+            - "@templating"
+    request.listener:
+        class: AppBundle\Service\General\KernelListeners
+        arguments:
+            - "@session"
+            - "@source.service"
+        tags:
+            - { name : kernel.event_listener , event: kernel.request , method: onKernelRequest }
+    source.service:
+        class: AppBundle\Service\General\SourceService
+        arguments:
+            - "@session"
+            - "@doctrine.orm.entity_manager"
+            - "%source_life_time%"
+    gare.transfer.service:
+        class: AppBundle\Service\Front\Transfer\GareTransferService
+        arguments: ["@doctrine.orm.entity_manager"]
+    paris_airport.transfer.service:
+            class: AppBundle\Service\Front\Transfer\ParisAirportService
+            arguments: ["@doctrine.orm.entity_manager"]
+    date.parameter.service:
+            class: AppBundle\Service\Front\DatepickerService
+            arguments:
+            - "@security.token_storage"
+            - "@security.authorization_checker"
+    database.file.import.service:
+            class: AppBundle\Service\Back\DataBaseFileImportService
+            arguments:
+            - "@doctrine.orm.entity_manager"
+
+    statistics.service:
+                class: AppBundle\Service\Back\StatisticsService
+                arguments:
+                - "@doctrine.orm.entity_manager"
+    common.back.service:
+            class: AppBundle\Service\Back\CommonService
+            arguments:
+            - "@security.token_storage"
+            - "@security.authorization_checker"
+

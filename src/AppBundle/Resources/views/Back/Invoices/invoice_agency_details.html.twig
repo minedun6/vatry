@@ -1,0 +1,37 @@
+{% extends parent %}
+
+
+{% block page_title %}
+    Détails  de l'agence partenaire
+{% endblock %}
+
+{% block content %}
+
+    <h3>Détails de l'agence partenaire</h3>
+    <div class="row">
+        <div class="col-xs-3"><label>Raison sociale</label></div>
+        <div class="col-xs-8"> {{ invoice.partnerAgency.agence.nom|title }} </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3"><label>Adresse</label></div>
+        <div class="col-xs-3"> {{ invoice.partnerAgency.agence.adresse }} </div>
+        <div class="col-xs-3"><label>Adresse2</label></div>
+        <div class="col-xs-3"> {{ invoice.partnerAgency.agence.adresse2 }} </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3"><label>Code postal</label></div>
+        <div class="col-xs-3"> {{ invoice.partnerAgency.agence.cp }} </div>
+        <div class="col-xs-3"><label>Ville</label></div>
+        <div class="col-xs-3">{{ invoice.partnerAgency.agence.ville }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3"><label>Email</label></div>
+        <div class="col-xs-3">{{ invoice.partnerAgency.agence.email }}</div>
+        <div class="col-xs-3"><label>Tél</label></div>
+        <div class="col-xs-3">{{ invoice.partnerAgency.agence.tel }}</div>
+    </div>
+
+{% endblock %}

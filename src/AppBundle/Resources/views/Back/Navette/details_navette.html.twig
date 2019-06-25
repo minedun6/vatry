@@ -1,0 +1,34 @@
+{% extends '@App/Back/index.html.twig' %}
+{% block page_title %}
+    Détails Transfert
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+
+{% endblock %}
+
+{% block content %}
+
+        <br>
+        <table id="navette-table">
+            <thead>
+            <tr>
+               <th>nom du passager</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+    {% for transfer in transfers %}
+             <tr>
+             <td>{{ transfer.passenger.lastname }} {{ transfer.passenger.name }} </td>
+             </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+
+
+{% endblock %}

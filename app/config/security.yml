@@ -1,0 +1,50 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+    role_hierarchy:
+#        ROLE_PARTNER_AG:       ROLE_USER
+#        ROLE_PARTNER_AG:       ROLE_AGENT
+        ROLE_COMMERCIAL:       ROLE_AGENT
+        ROLE_SECRETARY:       ROLE_COMMERCIAL
+        ROLE_ADMIN:       [ROLE_PARTNER, ROLE_SECRETARY]
+# http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        db_provider:
+            entity:
+                class: AppBundle\Entity\User
+                property: email
+        in_memory:
+            memory: ~
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            form_login:
+                success_handler: security.authentication_handler
+                failure_handler: security.authentication_handler
+                login_path: login
+                check_path: login
+            logout:
+                path:   /logout
+                target: /
+    access_control:
+        - { path : ^/user , roles: IS_AUTHENTICATED_FULLY }
+        - { path : ^/client , roles: IS_AUTHENTICATED_FULLY }
+        - { path : ^/admin , roles: ROLE_ADMIN }
+        - { path : ^/partner , roles: [ROLE_PARTNER, ROLE_ASSOCIATE] }
+        - { path : ^/agent , roles: ROLE_AGENT }
+        - { path : ^/admin-agent , roles: ROLE_COMMERCIAL }
+        - { path : ^/commande-particuliere/devis , roles: ROLE_AGENT }
+        - { path : ^/commande-particuliere/list , roles: ROLE_AGENT }
+        - { path : ^/secretary , roles: ROLE_SECRETARY}
+        - { path : ^/part_agency , roles: ROLE_PARTNER_AGENCY }

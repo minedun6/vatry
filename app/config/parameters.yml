@@ -1,0 +1,58 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: vatry
+    database_user: homestead
+    database_password: secret
+    mailer_transport: gmail
+    mailer_user: vatry.no.reply.demo@gmail.com
+    mailer_password: vatrydemo
+    secret: 15e908865ce6b404edd983b1e06cd3a82f1810c6
+    data_dir: '%kernel.root_dir%/../data'
+    import_dir: '%data_dir%/import'
+    log_import_dir: '%data_dir%/import/logs'
+    tmp_dir: '%data_dir%/tmp'
+    locale: fr
+    start_night_hour_private: 19
+    end_night_hour_private: 6
+    percent_night_private: 20
+    bank.tpe:
+        immediat: tpe_immediat
+        later: tpe_later
+    bank.version: '3.0'
+    bank.secretKey:
+        immediat: '0123456789012345678901234567890123456789'
+        later: '0123456789012345678901234567890123456789'
+    bank.society: navettedev
+    bank.action: 'http://localhost:800/html/vatry-navette-repo/web/app_dev.php/simulate_payment_form'
+    bcc_voucher:
+        - factures@navettevatry.fr
+    bcc_invoice:
+        - factures@navettevatry.fr
+    source_life_time: 15
+    userTypes:
+        -
+            key: agent
+            role: ROLE_AGENT
+            value: 'Agent de comptoir'
+        -
+            key: agentAdmin
+            role: ROLE_COMMERCIAL
+            value: 'Agent commerciale'
+        -
+            key: secretary
+            role: ROLE_SECRETARY
+            value: Secrétaire
+        -
+            key: customer
+            role: ROLE_CUSTOMER
+            value: Client
+        -
+            key: relayCustomer
+            role: ROLE_RELAY_CUSTOMER
+            value: 'Client relais'
+        -
+            key: associate
+            role: ROLE_ASSOCIATE
+            value: Associé

@@ -1,0 +1,22 @@
+{{ transfer.createdBy.person.civility }}. {{transfer.createdBy.person.lastname|title }} {{ transfer.createdBy.person.name|title }}
+<br><br>
+Vous venez d’enregistrer une demande d’option pour une {{ transfer.getPrestationTypeToDisplay()}} à partir de
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    {{ transfer.location.name }} vers l'Aéroport Paris-Vatry,
+{% else %}
+ l' Aéroport Paris-Vatry vers {{ transfer.location.name }},
+{% endif %} le {{ transfer.flight.time|date('d/m/Y') }} pour le vol N° {{ transfer.flight.num }} de  {{ transfer.flight.provDistLabel|lower }} {{ transfer.flight.volDir }} dont
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    le départ est prévu
+{% else %}
+    l'arrivée est prévue
+{% endif %}
+à {{ transfer.flight.time|date('H:i') }}. <br><br>
+Nous vous remercions pour votre confiance et nous vous rappelons que votre navette sera confirmée, sous réserve d’atteinte du seuil de remplissage, 3 jours avant votre voyage. Nous ferons de notre mieux pour vous assurez ce service et vous tenons informé(e) de l’état de remplissage de votre navette. <br>
+Vous pouvez annuler sans frais votre option à tout moment avant le jour J – 3 de votre voyage.  <br><br>
+En cas de non atteinte du seuil de remplissage, nous serons obligé d’annuler la navette et notre équipe s’engage de vous proposer, le cas échéant, les solutions alternatives adéquates que vous pouvez confirmer le jour même.<br>
+Nb : aucun paiement n’est effectué sur votre carte bancaire tant que vous n’avez pas obtenu une confirmation ferme de votre commande. <br><br>
+N’hésitez pas de nous contacter sur 03.51.31.01.01 ou par mail sur info@navettevatry.fr pour toute information supplémentaire. <br><br>
+Bien cordialement <br><br>
+L’équipe de Navette de Vatry
+

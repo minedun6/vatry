@@ -1,0 +1,109 @@
+{% include '@App/pdf/pdf_html_css.html.twig' %}
+
+<div class="container">
+
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 40%">
+                <img src="{{ asset('app/images/images_v2/transfers.jpg',null,true) }}"/>
+            </td>
+            <td style="width: 60%">
+                <div class="background-gold" style="width: 100%; " >
+                    Facture
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                SAS Navette de Vatry au Capital de 40.000 € <br>
+                RCS Châlons-en-Champagne 815 356 902<br>
+                Rue Louis Blériot 51000 Châlons-en-Champagne<br>
+                Téléphone : 03 51 31 01 01  <br>
+                e-mail : info@navettevatry.fr<br>
+                TVA intracommunautaire : FR 87 815356902
+            </td>
+            <td>
+                <br>
+                DATE : {{ invoice.createdAt|date('d/m/Y')}}<br>
+                N° FACTURE : {{ invoice.reference }}
+                <br>
+                Paiement : {{ invoice.paymentTypeFacture }}
+                <br><br>
+                {{ invoice.partnerAgency.agence.nom|title }},<br>
+                RC : {{ invoice.partnerAgency.rc|title }},<br>
+                {{ invoice.partnerAgency.agence.adresse }} <br>
+                {{ invoice.partnerAgency.agence.cp }}, {{ invoice.partnerAgency.agence.ville}}  <br>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="width: 100%">
+                {% set montantHT = invoice.price/1.2 %}
+                {% set TVA = invoice.netPrice * 0.2 %}
+
+                <table class="bordered centered">
+
+                    <tr>
+                        <td> Code </td>
+                        <td> Année </td>
+                        <td> Mois </td>
+                        <td> Nombre de personne </td>
+                        <td> Tarif public HT </td>
+                        <td> Tarif public TTC </td>
+                        <td> Montant net  </td>
+                    </tr>
+
+                    <tr>
+                        <td>{{ invoice.reference }}</td>
+                        <td>{{ invoice.year }}</td>
+                        <td> {% if invoice.month <10 %}0{% endif %}{{ invoice.month }} </td>
+                        <td>
+                            {{ invoice.totalPerson }}
+                        </td>
+                        <td>
+                            {{ montantHT|number_format(2,',','') }}
+                        </td>
+                        <td>
+                            {{ invoice.price|number_format(2,',','') }}
+                        </td>
+
+                        <td>
+                            {{ invoice.netPrice|number_format(2,',','') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"></td>
+                        <td colspan="4" rowspan="4"></td>
+                        <td>TVA(20%)</td>
+                        <td>{{ TVA|number_format(2,',','') }}</td>
+                    </tr>
+
+                    {#<tr>#}
+                    {#<td>TVA(20%)</td>#}
+                    {#<td>{{ TVA|number_format(2,',','') }}</td>#}
+                    {#</tr>#}
+
+
+                    <tr>
+                        <td>Montant TTC</td>
+                        <td>{{ invoice.netPrice|number_format(2,',','') }}</td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 100%" colspan="2">
+                <div class="background-gold"  style="width: 100%; text-align: center">
+                    Ce document fait état d'une transaction mensuelle <br>
+                    Pour le mois {% if invoice.month <10 %}0{% endif %}{{ invoice.month ~'/'~ invoice.year }} <br>
+                    MERCI DE VOTRE CONFIANCE !
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+</div>

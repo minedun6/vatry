@@ -1,0 +1,38 @@
+{#<body>#}
+
+{#<h3>Inscription avec succès</h3>#}
+
+{#Bonjour {{ user.person.civility }} {{ user.person.name }} {{ user.person.lastname }}<br>#}
+
+{#Votre inscription est faite avec succès.<br>#}
+{#Votre login est {{ user.email }}<br>#}
+{#Votre MDP est {{ password }}<br>#}
+
+{#<br><br>#}
+{#Cordialement,<br>#}
+{#Equipe Vatry#}
+{#</body>#}
+
+<html>
+<head></head>
+<body>
+
+
+Bonjour {{ user.person.civility }} {{ user.person.name }} {{ user.person.lastname }}<br><br>
+Vous venez de créer un espace client dans le site de Navette de Vatry et nous vous remercions pour votre inscription.<br><br>
+Votre inscription d’un compte client vous permet, désormais, de valider et de suivre vos commandes de transfert à partir et à partir de l’aéroport Paris-Vatry.<br><br>
+Pour accédez à votre espace client vous avez besoins d’utiliser vos code d’accès :<br>
+Identifiant : <b>{{ user.email }}</b><br>
+Mot de passe : <b>{{ password }}</b><br>
+Vous être prié de bien vouloir les conserver pour vos prochaines connexions.<br><br>
+Nb :<br>
+1/ Votre identifiant est unique et correspond à votre adresse mail communiquée lors de votre inscription. Il est non modifiable. En cas de problème d’accès ou de piratage de votre mail, vous pouvez contacter le service client de Navette qui vous assistera à créer un nouvel identifiant et à récupérer les informations de vos commandes enregistrés.<br>
+2/  Il est possible de modifier votre mot de passe à tout moment après votre première connexion.<br>
+
+<br><br>
+
+Cordialement<br>
+Le service client de navette de Vatry
+
+</body>
+</html>

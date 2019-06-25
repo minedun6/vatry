@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block main_block %}
+    <div class="container" id="main-container">
+
+        {% if app.session.flashBag.has('success') %}
+            {% for m in app.session.flashBag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ m }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if app.session.flashBag.has('warning') %}
+            {% for m in app.session.flashBag.get('warning') %}
+                <div class="alert alert-warning" role="alert">
+                    {{ m }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if app.session.flashBag.has('info') %}
+            {% for m in app.session.flashBag.get('info') %}
+                <div class="alert alert-info" role="alert">
+                    {{ m }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if app.session.flashBag.has('error') %}
+            {% for m in app.session.flashBag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ m }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <style>
+            .mtimepicker-container{
+                display: block;
+            }
+        </style>
+        {% block main %}
+
+        {% endblock %}
+    </div>
+
+{% endblock %}

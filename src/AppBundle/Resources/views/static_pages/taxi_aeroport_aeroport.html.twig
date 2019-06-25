@@ -1,0 +1,243 @@
+{% extends '::base.html.twig' %}
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+        var aeroportMap = null;
+
+        var aeroports = [
+            {
+                name: 'Aéroport de Charles de Gaules',
+                lat: 49.009845,
+                lng: 2.547892
+            },
+            {
+                name: 'Aéroport d\'Orly',
+                lat: 48.726406,
+                lng: 2.365247
+            },
+            {
+                name: 'Aéroport Paris-Beauvais',
+                lat: 49.454677,
+                lng: 2.111565
+            },
+            {
+                name: 'Aéroport de Metz - Nancy',
+                lat: 48.979728,
+                lng: 6.241597
+            },
+            {
+                name: 'Aéroport de Lille-Lesquin',
+                lat: 50.571824,
+                lng: 3.106124
+            },
+            {
+                name: 'Aéroport de Doles-Jura',
+                lat: 47.043519,
+                lng: 5.424042
+            },
+            {
+                name: 'Aéroport de Luxembourg-Findel',
+                lat: 49.629102,
+                lng: 6.214702
+            },
+        ];
+
+
+        $(function () {
+
+            aeroportMap = new GMaps({
+                div: "#aeroport-map",
+                lat: 48.780858,
+                lng: 4.191143,
+                zoom: 6
+            });
+
+            aeroportMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+
+            $.each(aeroports, function (key, value) {
+                aeroportMap.addMarker({
+                    lat: value.lat,
+                    lng: value.lng,
+                    title: value.name,
+                    icon: '/app/images/airportBlue.png'
+                    //icon: '/app/images/airport2.png'
+
+                    //icon: '/app/images/tgv.png'
+                });
+            });
+
+
+        })
+    </script>
+{% endblock %}
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+
+    h2 {
+        font-size: 24px;
+        padding: 0 0 28px;
+
+    }
+
+    ul > li:before {
+        content: "\2022";
+        font-size: 30px;
+        color: #DBBC94;
+        position: absolute;
+        /* top: -10px; */
+        left: 0;
+    }
+
+    h2, h3, h4 {
+        line-height: 40px;
+    }
+    .map-container {
+        width: 100%;
+        height: 385px;
+        padding: 10px;
+        background-color: white;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+     tbody{
+
+       text-transform: capitalize;
+    }
+
+</style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+
+
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/taxi-aero-aero.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+                <div>
+
+                    <p class="text-justify" >Le taxi Aéroport – Aéroport permet de joindre plusieurs aéroports internationaux à partir de l’Aéroport Paris-Vatry. Le transfert est assuré par un trajet direct et dans des conditions confortables.
+                        <br><br>
+                        Ce service offre aux passagers une solution pratique pour les escales entre deux vols complémentaires dans un voyage international.<br><br>
+                    </p>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+
+                    <div class="one-half">
+                         <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+
+                            </thead>
+                            <tbody>
+                            <tr id="color">
+                                <th>Aéroport</th>
+                                <th>Proximité </th>
+                            </tr>
+                            <tr>
+                                <td>Aéroport de Charles de Gaules,
+                                </td>
+                                <td>Paris</td>
+                            </tr>
+                            <tr>
+                                <td> Aéroport d'Orly,
+                                </td>
+                                <td>Paris</td>
+                            </tr>
+                            <tr>
+                                <td>Aéroport Paris-Beauvais,
+                                </td>
+                                <td>Paris – Amiens</td>
+                            </tr>
+                            <tr>
+                                <td> Aéroport de Metz - Nancy,
+                                </td>
+                                <td>Metz - Nancy</td>
+                            </tr>
+                            <tr>
+                                <td>Aéroport de Lille-Lesquin,
+                                </td>
+                                <td>Lille</td>
+                            </tr>
+                            <tr>
+                                <td>Aéroport de Doles-Jura,
+                                </td>
+                                <td>Dijon</td>
+                            </tr>
+                            <tr>
+                                <td>Aéroport de Luxembourg-Findel,
+                                </td>
+                                <td>Luxembourg</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                    <div class="one-half">
+
+                        <div class="map-container" >
+                            <div style="width: 100%; height: 100%;" id="aeroport-map">
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez votre taxi </p>
+                <a href="{{ path('private_aeroport_transfer_first_step') }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+    </main>
+    <!-- //Main -->
+
+
+{% endblock %}

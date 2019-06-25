@@ -1,0 +1,85 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+        }
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            left: 0;
+        }
+        h2, h3, h4{
+            line-height: 40px;
+        }
+        div{
+            padding-bottom: 20px;
+        }
+    </style>
+
+    <!-- Page info -->
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>Mentions légales</h1>
+                <nav role="navigation" class="breadcrumbs">
+                    <ul>
+                        <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                        <li>Mentions légales</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- //Page info -->
+
+
+    <div class="wrap">
+        <div class="row">
+
+            <!--- Content -->
+            <div class="full-width content textongrey">
+                <h2>Éditeur du site</h2>
+                <div>Creative@Work et IT Service</div>
+<!--                <h3>Contact</h3>
+                <div>Siège : Immeuble Centre Babel  3ème étage Bloc A, Montplaisir 1073 Tunis. Tunisie</div>
+                <div>E-mail: contact@itscoms.com</div>-->
+                <h2>Publication</h2>
+                <h3>Directeur de la publication</h3>
+                <div>Mr Anouar KANZARI</div>
+                <h3>Contact</h3>
+                <div>Adresse: Navette de Vatry c/o S.E.V.E Aéroport Paris-Vatry rue Louis Blériot CS 90006 51555 Châlons-en-Champagne cedex</div>
+                <div>E-mail: contact@navettevatry.fr</div>
+                <h3>Registre du commerce</h3>
+                <div>815 356 902 R.C.S. Châlons-en-Champagne</div>
+                <h3>N° de TVA</h3>
+                <div>FR 87 815356902</div>
+                <h2>Copyright :</h2>
+                <div>SAS Navette de Vatry détient l’ensemble des droits de propriété intellectuelle ou détient les droits d’usage sur tous les éléments accessibles
+                    (logos, textes, images, photos, graphismes, charte graphique, icônes, sons, logiciels) sur le site www.navettevatry.fr. Par conséquent,
+                    les internautes ne peuvent utiliser ces éléments qu’à des fins exclusivement privées.</div>
+                <div>A ce titre toute reproduction, représentation, adaptation, traduction, modification partielle ou intégrale, distribution et vente du contenu du site www.navettevatry.fr est interdite sauf accord préalable de la SAS Navette de Vatry. Cet acte de contrefaçon est sanctionné par le code de la propriété intellectuelle. </div>
+
+
+
+            </div>
+            <!--- //Content -->
+
+        </div>
+    </div>
+
+{% endblock %}

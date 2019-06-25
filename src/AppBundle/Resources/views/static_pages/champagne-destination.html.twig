@@ -1,0 +1,256 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+        var intervilleMap = null;
+
+        var chalon = [
+            {
+                name: 'Château Thierry',
+                lat: 49.038362,
+                lng: 3.409571
+            },
+            {
+                name: 'Vitry-le-François',
+                lat: 48.718213,
+                lng: 4.586729
+            },
+            {
+                name: 'Bar-le-Duc',
+                lat: 48.775134,
+                lng: 5.164926
+            },
+            {
+                name: 'Saint-Dizier',
+                lat: 48.642716,
+                lng: 4.947899
+            },
+            {
+                name: 'Chaumont',
+                lat: 48.123061,
+                lng: 5.149524
+            },
+            {
+                name: 'Langres',
+                lat: 47.877026,
+                lng: 5.344387
+            },
+            {
+                name: 'Epernay',
+                lat: 49.046482,
+                lng: 4.059739
+            },
+            {
+                name: 'Paris',
+                lat: 48.876798,
+                lng: 2.209113
+            },
+            {
+                name: 'Nancy',
+                lat: 48.690065,
+                lng: 6.174491
+            },
+            {
+                name: 'Reims',
+                lat: 49.359419,
+                lng: 4.143906
+            }
+
+        ];
+
+
+
+        var gares = [
+            {
+                name: 'Châlons-en-Champagne',
+                lat: 48.955447,
+                lng: 4.348123
+            },
+        ];
+
+
+
+
+        $(function () {
+
+            intervilleMap = new GMaps({
+                div: "#interville-map",
+                lat: 48.907466,
+                lng: 3.466182,
+                zoom: 7
+            });
+
+            intervilleMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+
+            $.each(chalon,function(key,value){
+                intervilleMap.addMarker({
+                    lat: value.lat,
+                    lng: value.lng,
+                    title: value.name,
+                    icon: '/app/images/trainred.png'
+                    //icon: '/app/images/tgv.png'
+                });
+            });
+
+
+            $.each(gares,function(key,value){
+                intervilleMap.addMarker({
+                    lat: value.lat,
+                    lng: value.lng,
+                    title: value.name,
+                    icon: '/app/images/steamtrain.png'
+                    //icon: '/app/images/tgv1.png'
+                });
+            });
+
+        })
+    </script>
+{% endblock %}
+
+
+{% block main_block %}
+
+
+    <style>
+
+        body{
+            padding-top: 100px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 385px;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: white;
+        }
+
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+        .justify{
+
+            text-align: justify;
+        }
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0 ;
+        }
+        li{
+
+            padding-right: 16px;
+        }
+        li:before{
+
+            content: "•" !important;
+            padding-right: 5px !important;
+            font-size: 39px;
+            color: #DBBC94;
+            position: absolute;
+            margin-left: -16px;
+            font-size: 39px;
+
+        }
+     </style>
+
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <!--<div class="wrap">
+                <div class="container">
+                    <h1>Navette Aéroport- Gare de Châlons-en-Champagne</h1>
+                    <nav role="navigation" class="breadcrumbs">
+                        <ul>
+                            <li><a href="index.html" title="Accueil">Accueil</a></li>
+                            <li>Navette Aéroport- Gare de Châlons-en-Champagne</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>-->
+
+
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/img_entet_gare.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div> <br><br>
+                           <p class="justify"> Ce service permet de connecter l’Aéroport Paris-Vatry à la Gare de Châlons-en-Champagne grâce à la navette de liaison.<br> <br>
+                            La navette Aéroport – Gare de Châlons-en-Champagne est une navette régulière. Ses horaires sont associés aux heures des vols à l’arrivée ou en décollage de l’aéroport Paris-Vatry.<br><br>
+                            Ce service permet aussi de combiner la navette avec le transport ferroviaire pour joindre les villes desservies par train ou par TGV à partir de la Gare de Châlons-en-Champagne. Les principales villes connectées grâce à cette combinaison sont :
+                            </p><br><br>
+                            <ul><li>Paris</li>
+                                <li>Reims</li>
+                                <li>Epernay</li>
+                                <li>Château Thierry</li>
+                                <li>Vitry-le-François</li>
+                                <li>Bar-le-Duc</li>
+                                <li>Saint-Dizier</li>
+                                <li>Nancy</li>
+                                <li>Chaumont</li>
+                                <li>Langres </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <div class="map-container" >
+                            <div style="width: 100%; height: 100%;" id="interville-map">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour commandez vos places dans la navette </p>
+                <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}" class="btn medium black right wow fadeInRight">Réservez ici !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+
+    </main>
+
+
+{% endblock %}

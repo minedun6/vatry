@@ -1,0 +1,26 @@
+to_vatry: Vers Vatry
+from_vatry: De Vatry
+open: Ouvert
+paid: Payé
+credit_card: Carte bancaire
+cash: espèce
+cheque: chèque
+transfer: virement
+paid_canc: Annulé par la banque
+paid_pend: En attente
+agent: Agent de comptoir
+agentAdmin: Agent commercial
+secretary: Secrétaire
+customer: Client
+pending: En cours
+cancel: Annulé
+private_airport_town: Privé Airport/Ville
+private_airport_airport: Privé Airport/Airport
+interville_airporttown: Interville Airport/Ville
+porteaporte_airporttown: Porte à porte
+receptive: Réceptive
+emissive: Emissive
+wait_b2b: En attente de paiement
+paid_b2b: Payé
+recouve: Recouvrement
+associate: Associé

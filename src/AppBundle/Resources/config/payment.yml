@@ -1,0 +1,13 @@
+services:
+    payment.service:
+        class: AppBundle\Service\Front\Payment\PaymentService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@router"
+            - "@logger"
+            - "%bank.tpe%"
+            - "%bank.secretkey%"
+            - "%bank.society%"
+            - "%bank.action%"
+            - "%bank.version%"
+            - "%kernel.logs_dir%"

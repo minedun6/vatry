@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block main_block %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+    .text-justify {
+        text-align: justify;
+    }
+</style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/region-parisienne.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>
+                            <br> <p class="text-justify"> Grâce à cette solution de transfert, une grande partie de la Région Parisienne est connectée à l’aéroport Paris-Vatry. <br><br>
+                                Pour la période estivale, les résidents de 5 départements de la Régions Parisienne ont la possibilité d’être pris en charge ou déposés directement à leurs domiciles.<br><br>
+                                En effectuant au maximum trois arrêts intermédiaires, les navettes assurent le transfert du domicile à l’aéroport et inversement</p>
+
+
+                        </div>
+
+                        <!--- //Tableau Aymen -->
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/distRP.png') }}" /></center>
+                    </div>
+
+
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+
+    </main>
+    <!-- //Main -->
+
+{% endblock %}

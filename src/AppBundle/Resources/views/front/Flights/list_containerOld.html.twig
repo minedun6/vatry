@@ -1,0 +1,73 @@
+<style>
+    .main-row{
+        width: 100%;
+        height: 400px;
+        max-height: 400px;
+        overflow: auto;
+        padding-top: 100px;
+    }
+    .vols-btn {
+        display: inline-block;
+        width: 50%;
+        padding: 10px;
+        font-weight: bold;
+        background-color: white;
+        border: solid 1px lightgray;
+    }
+    .vols-btn:hover{
+        background-color: #F1EFEF;
+        cursor: pointer;
+    }
+    .vols-btn img{
+        width: 30px;
+        height: 30px;
+    }
+
+    .vols-btn:nth-child(1){
+        float: left;
+    }
+    .vols-btn.active{
+        background-color: #F1EFEF;
+    }
+
+
+    .vols-btn:nth-child(2){
+        float: right;
+    }
+    #vol-date{
+        padding-left: 50px;
+        width: 150px;
+        margin: auto;
+        background-image: url({{ asset('app/images/calandar.png') }});
+        background-size: 25px 25px;
+        background-repeat: no-repeat;
+        background-position: 6px 3px;
+    }
+    .flight-details{
+        cursor: pointer;
+        font-size: 25px;
+        position: absolute;
+        top: 5px;
+        left: 30%;
+        color : lightgray;
+    }
+    .flight-details:hover{
+        color : gray;
+    }
+</style>
+
+<div>
+    <h4>Liste des vols</h4>
+    <div>
+        <input type="text" class="form-control" id="vol-date" value="{{ "now"|date('d/m/Y') }}">
+    </div>
+    <div class="vols-btn arrive active">
+        <img src="{{ asset('app/images/landing.png') }}"> Arrivé
+    </div>
+    <div class="vols-btn depart">
+        <img src="{{ asset('app/images/takeoff.png') }}">  Départ
+    </div>
+    <div id="zone-vols-table">
+        {{ render(controller('AppBundle:Front/Flights:list')) }}
+    </div>
+</div>

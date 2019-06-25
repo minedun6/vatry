@@ -1,0 +1,312 @@
+{% extends '@App/AgentAdmin/index.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        function showConfirmationPopUp(id) {
+
+            $.ajax({
+                url: Routing.generate('admin_cancel_transfer', {transfer: id}),
+                dataType: 'json',
+                success: function (receivedData) {
+                    showDefaultModal("Annulation d'une commande", receivedData.html, "");
+                }
+            })
+
+        }
+
+        $(document).on('click', '#non-cancel', function () {
+            closeDefaultModal();
+        })
+
+
+        var transferTable = null;
+        $.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a) {
+                var date = a.split(' ')[0];
+                var dates = date.split('/');
+                var time = a.split(' ')[1];
+                return (dates[2] + dates[1] + dates[0] + time);
+            },
+
+            "date-uk-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "date-uk-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+
+        function getTotals() {
+            var rows = transferTable._('tr', {"filter": "applied"});
+            var totalAdult = 0;
+            var totalChild = 0;
+            var totalBaby = 0;
+            var total = 0;
+
+            $.each(rows, function (key, value) {
+                totalAdult += parseFloat(value[8]);
+                totalChild += parseFloat(value[9]);
+                totalBaby += parseFloat(value[10]);
+                total += parseFloat(value[11]);
+            });
+
+            return {
+                totalAdult: totalAdult,
+                totalChild: totalChild,
+                totalBaby: totalBaby,
+                total: total
+            };
+        }
+
+        function updateTotal() {
+            var total = getTotals();
+            $('#total-adult').html(total.totalAdult);
+            $('#total-child').html(total.totalChild);
+            $('#total-baby').html(total.totalBaby);
+            $('#total').html(floatToString(total.total, 2) + "(€)");
+        }
+
+        $(function () {
+
+            transferTable = initDataTable('#backtransfers', {
+                lengthChange: false,
+                columnDefs: [
+                    {
+                        targets: [15],
+                        orderable: false
+                    }
+                ],
+                order: [[0, "desc"]],
+                aoColumns: [
+                    {
+                        "sType": 'date-uk'
+                    },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            });
+
+            transferTable.on('search.dt', function () {
+                updateTotal();
+            });
+
+            updateTotal();
+
+        }); //End Ready doc
+    </script>
+{% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <style>
+
+        #backtransfers th{
+            background-color: #cb8d1e ;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+            text-transform:capitalize;
+            text-align: left;
+
+        }
+
+        .tb1 label{
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+        }
+        tbody{
+            text-transform: capitalize !important;
+            font-size:13px;
+        }
+
+        .sorting_disabled{width: 70px; }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Liste des transferts
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <table id="backtransfers">
+                <thead>
+                <tr>
+                    <th>Date résa</th>
+                    <th>Date presta Aller</th>
+                    <th>Date presta Retour</th>
+                    <th>Presta</th>
+                    <th>Pick-up</th>
+                    <th>Drop</th>
+                    <th>Passager</th>
+                    <th>Trajet</th>
+                    <th>Ad</th>
+                    <th>Enf</th>
+                    <th>BB</th>
+                    <th>Tarif</th>
+                    <th>Statut</th>
+                    <th>Type</th>
+                    <th>Agent</th>
+                    <th>Détails</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for t in transfers %}
+                    {#{% if t.pickupDate >= date('now') %}#}
+                    {% if ( (t.roundTrip and t.pickupDate2 >= date('now')) or ( not (t.roundTrip) and t.pickupDate >= date('now') ) ) %}
+
+                        <tr>
+                        <td>{{ t.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                        {% if ( t.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                            {{ t.pickupDate|date('d/m/Y') }}
+                        {% else %}
+                            {{ t.pickupDate|date('d/m/Y H:i') }}
+                        {% endif %}
+                        </td>
+                        <td>
+                            {% if t.roundTrip %}
+
+                        {% if ( t.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                            {{ t.pickupDate2|date('d/m/Y') }}
+                        {% else %}
+                            {{ t.pickupDate2|date('d/m/Y H:i') }}
+                        {% endif %}
+                                {% endif %}
+                        </td>
+
+
+
+                        <td>
+
+                            {{ t.prestationTypeToDisplay }}
+
+                        </td>
+
+
+                            {{ t.locations(false)|raw }}
+
+
+                        <td>
+                            {{ t.passenger.civility }}.  {{ t.passenger.lastname }}
+                        </td>
+
+                        <td>
+                            {% if t.roundTrip %}
+                                A/R
+                            {% else %}
+                                Aller
+                            {% endif %}
+                        </td>
+                        <td>{{ t.qty }}</td>
+                        <td>
+                            {% if t.qtyChild %}
+                                {{ t.qtyChild }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if t.qtyBaby %}
+                                {{ t.qtyBaby }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ t.NdvPrice|number_format(2, '.', '') }}€
+                        </td>
+                        <td>
+                            {{ t.status|trans }}
+                        </td>
+
+                        <td>
+                       {% if( t.status==constant('STATUS_PAID',t) ) %}
+                            {% if t.payment %}
+                                {{ t.payment.type|trans }}
+                            {% else %}
+                                VAD
+                            {% endif %}
+                        {% endif %}
+                        </td>
+
+                        <td>
+                            {{ t.createdBy.person.lastname }}
+                            {{ t.createdBy.person.name }}
+                        </td>
+
+                        <td>
+                            <a href="{{ path('agent_transfer_person_details',{'id' : t.id } ) }}" title="Détails passager" target="_blank"> <span class="glyphicon glyphicon-user"></span> </a>
+
+                            <a href="{{ path('agent_details_transfer',{'transfer' : t.id } ) }}" title="Détails" target="_blank">  <span class="glyphicon glyphicon-search"></span> </a>
+
+                            {% if t.status==constant('STATUS_PAID',t) %}
+                                <a href="{{ path('voucher',{'transfer' : t.id } ) }}"  title="Voucher" target="_blank">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </a>
+                            {% else %}
+                                <span class="glyphicon glyphicon-list-alt"></span>
+                            {% endif %}
+
+                            {% if t.status==constant('STATUS_PAID',t) %}
+                                <a href="{{ path('facture',{'transfer' : t.id } ) }}" title="Facture" target="_blank">
+                                    <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                </a>
+                            {% else %}
+                                <span class="glyphicon glyphicon glyphicon-euro"></span>
+                            {% endif %}
+
+
+                            {% if t.status==constant('STATUS_PAID_PENDING',t) %}
+                                <span class="glyphicon glyphicon-remove" onclick="showConfirmationPopUp({{t.id}})"></span>
+                            {% else %}
+                                <span class="glyphicon glyphicon-remove"></span>
+                            {% endif %}
+                            <a href="{{ path('agent_modif_transfer',{'transfer' : t.id } ) }}" title="Modifier">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
+
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="8" style="text-align: right">Total</th>
+                    <th id="total-adult"></th>
+                    <th id="total-child"></th>
+                    <th id="total-baby"></th>
+                    <th id="total"></th>
+                    <th colspan="5"></th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}

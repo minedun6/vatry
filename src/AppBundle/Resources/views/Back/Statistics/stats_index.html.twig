@@ -1,0 +1,196 @@
+{% extends parent %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/js/jquery.canvasjs.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#start").datepicker({
+                dateFormat: 'dd-mm-yy',
+                numberOfMonths: 1,
+                onSelect: function (selected) {
+                    $("#end").datepicker("option", "minDate", selected)
+                }
+            });
+
+
+            $("#end").datepicker({
+                dateFormat: 'dd-mm-yy',
+                numberOfMonths: 1,
+                onSelect: function (selected) {
+                    $("#start").datepicker("option", "maxDate", selected)
+                }
+
+            });
+            $('.customDropDownListe li a').on('click', function () {
+                $('.customDropDownListe li a').removeClass('highlightLi');
+                $(this).addClass('highlightLi');
+            });
+            $('.listLink').on('click', function () {
+                $('.listLink').removeClass('highlightLi');
+                $(this).addClass('highlightLi');
+            });
+
+
+        })
+
+
+    </script>
+    {% block chart %}
+
+
+    {% endblock %}
+{% endblock %}
+
+{% block page_title %}
+    Statistiques
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+
+        .listLink {
+            color: #cb8d1e !important;
+            text-decoration: none;
+        }
+
+        .customDropDownListe li a {
+            color: black;
+            font-size: 10px;
+            text-decoration: none;
+        }
+
+        .customDropDownListe li {
+            padding-bottom: 0px;
+        }
+
+        .highlightLi {
+            font-weight: bold;
+        }
+
+        .withPadding {
+            padding: 25px;
+        }
+
+        .fixed {
+            background-color: #5cb85c;
+            border: 1px #4cae4c solid !important;
+            color: white !important;
+        }
+
+        .panel-footer {
+            padding-left: 0;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="row">
+
+    <div class="col-md-3">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Statistiques sur la base du</div>
+            <div class="panel-body">
+
+                <a data-toggle="collapse" href="#collapse1" class="listLink" id="collapse1title">Nombre de passagers</a>
+                <ul id="collapse1" class="collapse customDropDownListe">
+                    <li><a href="{{ path('ndp',{'type':'pickup'}) }}" id="ndp_pickup">Nom du lieu de pickup</a></li>
+                    <li><a href="{{ path('ndp',{'type':'drop'}) }}" id="ndp_drop">Nom du lieu de drop</a></li>
+                    <li><a href="{{ path('ndp',{'type':'prestation'}) }}" id="ndp_prestation">Type prestation</a></li>
+                    <li><a href="{{ path('ndp',{'type':'senstransfer'}) }}" id="ndp_transferway">Par sens du
+                            transfert</a></li>
+                    <li><a href="{{ path('ndp',{'type':'destinationvols'}) }}" id="ndp_flightdestination">Par
+                            destination des vols</a></li>
+                    <li><a href="{{ path('ndp',{'type':'originvols'}) }}" id="ndp_flightorigin">Par provenance des
+                            vols</a></li>
+                </ul>
+
+                <hr>
+
+                <a data-toggle="collapse" href="#collapse2" class="listLink" id="collapse2title">Nombre des
+                    commandes</a>
+                <ul id="collapse2" class="collapse customDropDownListe">
+                    <li><a href="{{ path('ndc',{'type':'source'}) }}" id="ndc_source">Source</a></li>
+                    <li><a href="{{ path('ndc',{'type':'prestation'}) }}" id="ndc_prestation">Type de prestation</a>
+                    </li>
+                    <li><a href="{{ path('ndc',{'type':'pickup'}) }}" id="ndc_pickup">Lieu de pick-up</a></li>
+                    <li><a href="{{ path('ndc',{'type':'drop'}) }}" id="ndc_drop">Lieu de drop</a></li>
+                    <li><a href="{{ path('ndc',{'type':'p1c'}) }}" id="ndc_p1c">Par nombre de personnes dans une seule
+                            commande</a></li>
+
+                </ul>
+
+                <hr>
+
+                <a data-toggle="collapse" href="#collapse3" class="listLink" id="collapse3title">Chiffre d’affaire des
+                    commandes</a>
+                <ul id="collapse3" class="collapse customDropDownListe">
+                    <li><a href="{{ path('cac',{'type':'source'}) }}" id="cac_source">Source</a></li>
+                    <li><a href="{{ path('cac',{'type':'prestation'}) }}" id="cac_prestationType">Type de prestation</a>
+                    </li>
+                    <li><a href="{{ path('cac',{'type':'pickup'}) }}" id="cac_pickup">Lieu de pick-up</a></li>
+                    <li><a href="{{ path('cac',{'type':'drop'}) }}" id="cac_drop">Lieu de drop</a></li>
+                    <li><a href="{{ path('cac',{'type':'paiement'}) }}" id="cac_paymentType">Type de paiement </a></li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        {% block statsBody %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="GET" action="">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                Du
+                                <input type="text" class="form-control" id="start" name="start" required>
+                            </div>
+                            <div class="col-md-5">
+                                Au
+                                <input type="text" class="form-control" id="end" name="end" required>
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <input type="submit" class="btn btn-default fixed" value="Valider">
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <div class="container-fluid">
+                        <div class="col-md-12"><b>Période selectionée</b></div>
+                        <div class="col-md-5">
+                            Du:<b>{{ startdate }}</b>
+                        </div>
+                        <div class="col-md-5">
+                            Au:<b>{{ enddate }}</b>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            {% if total!=0 %}
+                <div class="panel panel-default" id="chart" style="height:500px;">
+            {% else %}
+                <div class="panel panel-default" id="chart" style="height:70px;">
+            {% endif %}
+            </div>
+
+            {% block table %}
+
+            {% endblock %}
+
+            </div>
+        {% endblock %}
+    </div>
+
+
+{% endblock %}

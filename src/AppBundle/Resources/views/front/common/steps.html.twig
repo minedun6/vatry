@@ -1,0 +1,9 @@
+<ul class="categories">
+    <li {% if first_step is defined %}class="active"{% endif %}><a href="#">Informations du transfert</a></li>
+    <li {% if second_step is defined %}class="active"{% endif %}><a href="#">Informations du passager</a></li>
+    <li {% if third_step is defined %}class="active"{% endif %}><a href="#">Panier</a></li>
+    <li {% if fourth_step is defined %}class="active"{% endif %}><a href="#">Facturation</a></li>
+    {% if not is_granted('ROLE_PARTNER_AGENCY')  %}
+        <li {% if fifth_step is defined %}class="active"{% endif %}><a href="#">Paiement </a></li>
+    {% endif %}
+</ul>

@@ -1,0 +1,33 @@
+{% extends ':default:index.html.twig' %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('app/js/interVilleTransfer/common.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>
+                    {% block step_title %}
+                    {% endblock %}
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    {% block transfertDescription %}
+    {% endblock %}
+
+    <aside class="full-width sidebar left">
+        <div class="widget">
+            {% include '@App/front/common/steps.html.twig' %}
+        </div>
+    </aside>
+
+    <div style="clear: both"></div>
+
+{% endblock %}

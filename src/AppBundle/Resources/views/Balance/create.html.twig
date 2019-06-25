@@ -1,0 +1,123 @@
+{% extends parent %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        table th {
+            background-color: #cb8d1e;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: capitalize;
+            text-align: left;
+        }
+
+        .tb1 label {
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        tbody {
+            text-transform: capitalize !important;
+            font-size: 13px;
+        }
+
+        .sorting_disabled {
+            width: 70px;
+        }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Nouvelles balances
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <form action="{{ path('balance_create') }}" method="post">
+                <div class="form-group col-xs-3 col-xs-offset-4">
+                    <input type="text" name="date" value="{{ date is defined ? date.format('d-m-Y'): '' }}" id="date">
+                    <div></div>
+                    <div class="col-xs-offset-5">
+                        <input type="submit" class="btn btn-success" id="recherche" value="Recherche"/>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group">
+                {% if transfers|length > 0 %}
+                    <form method="post" action="{{ path('balance_store') }}">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Balance pour {{ date.format('Y-m-d') }}
+                                    <input type="hidden" name="balance_date" value="{{ date.format('Y-m-d') }}">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Agent</th>
+                                <th>CB</th>
+                                <th>CB VAD</th>
+                                <th>Espèces</th>
+                                <th>Reçu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transfer in transfers %}
+                                <tr>
+                                    <td class="hide">
+                                        <input type="hidden" name="balance_id[]"
+                                               value="{{ transfer.getId() is defined ? transfer.getId() : 0 }}">
+                                    </td>
+                                    <td>
+                                        {{ transfer.getUser.getPerson.getName }}
+                                        <input type="hidden" name="user_id[]" value="{{ transfer.getUser.getId() }}">
+                                    </td>
+                                    <td>
+                                        {{ transfer.getCb() }} &euro;
+                                        <input type="hidden" value="{{ transfer.getCb() }}" name="cb[]">
+                                    </td>
+                                    <td>
+                                        {{ transfer.getCbVad() }} &euro;
+                                        <input type="hidden" value="{{ transfer.getCbVad() }}" name="cb_vad[]">
+                                    </td>
+                                    <td>
+                                        {{ transfer.getCash() }} &euro;
+                                        <input type="hidden" value="{{ transfer.getCash() }}" name="cash[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" value="{{ transfer.getReceived() }}" name="received_cash[]">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <div class="col-xs-2 col-xs-offset-5">
+                                <input type="submit" class="btn btn-success" id="recherche" value="Valider"/>
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="full-width">
+                        <p>Pas de balance Pour ce jour</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $("#balance-table").dataTable();
+            $("#date").datepicker({
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+
+    </script>
+{% endblock %}

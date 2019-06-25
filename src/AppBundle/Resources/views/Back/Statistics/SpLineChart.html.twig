@@ -1,0 +1,55 @@
+{% extends '@App/Back/Statistics/stats_index.html.twig' %}
+
+
+{% block chart %}
+
+    <script>
+        function bydate(a,b){
+
+            return a.x-b.x;
+        }
+
+        $(document).ready(function () {
+
+            var data=JSON.parse('{{ monthsStat|raw }}');
+            var datapts=[];
+
+
+                for (var key in data) {
+                    var dateArray=key.split('-');
+                    var year=dateArray[0];
+                    var month=dateArray[1]-1;
+                    var day=dateArray[2];
+                    datapts.push({x: new Date(year,month,day), y:data[key]});
+                }
+
+            var chart = new CanvasJS.Chart("chart",
+                    {
+                        title:{
+                            text: "Transferts du mois"
+                        },
+                        animationEnabled: true,
+                        axisY :{
+                            includeZero: false,
+                            interval:1
+                        },
+                        toolTip: {
+                            shared: "true"
+                        },
+                        data: [
+                            {
+                                type: "spline",
+                                showInLegend: true,
+                                name: "Transferts",
+                                markerSize: 0,
+                                dataPoints: datapts
+                            }
+
+                        ]
+                    });
+            chart.options.data[0].dataPoints.sort(bydate);
+            chart.render();
+        });
+    </script>
+
+{% endblock %}

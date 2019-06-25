@@ -1,0 +1,87 @@
+{% extends '@App/front/interVilleTransfer/index.html.twig' %}
+
+
+{% set second_step = true %}
+
+{% block step_title %}
+    2. Informations Passager / Navette Paticulière
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+
+    <div class="col-xs-12">
+        <h3><strong>Tarif de votre commande : {{ transfer.price|number_format(2, '.', '') }} € </strong></h3>
+        <strong>Continuez à remplir le formulaire pour valider votre commande</strong>
+    </div>
+    <div class="col-xs-12">
+        {{ form_start(form,{ 'method' : 'POST' }) }}
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="">Civilité</label>
+                {{ form_widget(form.civility,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="">Nom</label>
+                {{ form_widget(form.lastname,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="">Prénom</label>
+                {{ form_widget(form.name,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="">Adresse</label>
+                {{ form_widget(form.address,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8">
+                <label for="">Ville</label>
+                {{ form_widget(form.town,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+            <div class="col-xs-4">
+                <label for="">Code Postal</label>
+                {{ form_widget(form.zipCode,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label for="">Pays</label>
+                {{ form_widget(form.country,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label for="">Téléphone</label>
+                {{ form_widget(form.tel,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+            <div class="col-xs-6">
+                <label for="">E-mail</label>
+                {{ form_widget(form.email,{ 'attr' : { 'class' : 'form-control' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn btn-success pull-right" type="submit">Confirmer</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}

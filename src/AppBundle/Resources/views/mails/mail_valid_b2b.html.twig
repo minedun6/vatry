@@ -1,0 +1,22 @@
+
+Bonjour {{transfer.createdBy.person.name|title }} {{transfer.createdBy.person.lastname|title }},
+<br><br>
+Le transfert {{ transfer.getPrestationTypeToDisplay()}} que vous avez créé pour l'agence partenaire {{transfer.affectedTo.agencePartner.agence.nom|title }} a
+été validé le {{ date('now')|date('d/m/Y') }} à {{ date('now')|date('H:i') }}.
+<br><br>
+Le transfert {{ transfer.getPrestationTypeToDisplay()}} à partir de
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    {{ transfer.location.name }} vers l'Aéroport Paris-Vatry,
+{% else %}
+    l' Aéroport Paris-Vatry vers {{ transfer.location.name }},
+{% endif %}
+le {{ transfer.flight.time|date('d/m/Y') }} pour le vol N° {{ transfer.flight.num }} de  {{ transfer.flight.provDistLabel|lower }} {{ transfer.flight.volDir }} dont
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    le départ est prévu
+{% else %}
+    l'arrivée est prévue
+{% endif %}
+à {{ transfer.flight.time|date('H:i') }}.
+<br><br>
+
+L’équipe de Navette de Vatry

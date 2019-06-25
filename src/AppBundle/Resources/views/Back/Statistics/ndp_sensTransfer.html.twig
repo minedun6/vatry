@@ -1,0 +1,62 @@
+{% extends '@App/Back/Statistics/PieChart.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#collapse1').collapse();
+            $('#collapse1title').addClass('highlightLi');
+            $('#ndp_transferway').addClass('highlightLi');
+        });
+    </script>
+{% endblock %}
+{% block onglet_title %}Nombre de passagers par sens du transfert {% endblock %}
+
+{% block table %}
+    {% if total!=0 %}
+        <div class="panel panel-default withPadding" id="tzone">
+            <table id="StatTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Adulte</th>
+                    <th>Enfants</th>
+                    <th>Bébés</th>
+                    <th>Total Passagers</th>
+                    <th>Sens du transfert</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in transfers %}
+                    <tr>
+                        <td> {{ t.id }}</td>
+                        <td> {{ t.date|date('d/m/Y H:i') }}</td>
+                        {% if t.qty is null %}
+                            <td>0</td>
+                        {% else %}
+                            <td>{{ t.qty }}</td>
+                        {% endif %}
+                        {% if t.qtyChild is null %}
+                            <td>0</td>
+                        {% else %}
+                            <td>{{ t.qtyChild }}</td>
+                        {% endif %}
+                        {% if t.qtyBaby is null %}
+                            <td>0</td>
+                        {% else %}
+                            <td>{{ t.qtyBaby }}</td>
+                        {% endif %}
+                        <td><b>{{ t.qty+t.qtyBaby+t.qtyChild }}</b></td>
+                        {% if t.direction==constant('AppBundle\\Entity\\Transfer::TO_VATRY') %}
+                            <td>Vers Vatry</td>
+                        {% else %}
+                            <td>De Vatry</td>
+
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

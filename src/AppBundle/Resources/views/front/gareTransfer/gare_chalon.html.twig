@@ -1,0 +1,279 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}La navette Aéroport Vatry – Gare de Châlons-en-Champagne assure régulièrement le transfert dans les deux sens entre la Gare et l’aéroport. Les horaires des navettes sont associés aux vols en départ ou en arrivée pour chaque jour.{% endblock %}
+
+{% block title %}
+    Navette Aéroport Vatry - Gare de Châlons-en-Champagne
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        var notDataFoundTr = "<tr>" +
+                "<td style='text-align: center' colspan='6'>Aucune ligne à afficher</td>" +
+                "</tr>";
+
+        function getVolData() {
+
+            $.ajax({
+                url: Routing.generate('gare_description',{gare : 'chalon'}),
+                dataType: 'json',
+                method: 'post',
+                data: {
+                    'date': $('#vol-date-gare').val()
+                },
+                'success': function (data) {
+                    $('#vol-data tbody').html('');
+                    if (data.length > 0){
+                        $.each(data, function (key, value) {
+
+                            $('#vol-data tbody').append("<tr>" +
+                            "<td>" + (key + 1) + "</td>" +
+                            "<td>" + value.departure + "</td>" +
+                            "<td>" + value.arrival + "</td>" +
+                            "<td>" + value.liftOff + "</td>" +
+                            "<td>" + value.destination + "</td>" +
+                            "<td>" + value.numVol + "</td>" +
+                            "</tr>");
+
+                        });
+                    }else{
+                        $('#vol-data tbody').html(notDataFoundTr);
+                    }
+
+                }
+            })
+
+        }
+
+        $(function () {
+            var today = moment();
+            $("#vol-date-gare").datepicker({
+                dateFormat: "dd/mm/yy",
+                dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+                monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+                minDate:0,
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+
+                    if (string < today) {
+                        return [false];
+                    } else {
+                        return [true];
+                    }
+
+                }
+            });
+
+            $("#vol-date-gare").on('change', function () {
+                getVolData();
+            })
+
+        });
+    </script>
+
+    <style>
+        .text-justify {
+            text-align: justify;
+        }
+        .topspace{
+
+            margin-top:-41px;
+        }
+        body{
+            padding-top: 100px;
+        }
+
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0 ;
+        }
+        li{
+
+            padding-right: 16px;
+        }
+        li:before{
+
+            content: "•" !important;
+            padding-right: 5px !important;
+            font-size: 39px;
+            color: #DBBC94;
+            position: absolute;
+            margin-left: -16px;
+            font-size: 39px;
+
+        }
+
+        .thead-inverse{
+
+            font-size: 12px;
+
+        }
+
+         table th{
+
+             background-color: #cb8d1e;
+             text-transform: capitalize;
+
+         }
+
+    </style>
+{% endblock %}
+
+{% block main_block %}
+
+    <header class="site-title color">
+        <div class="wrap cWrap">
+            <div class="container">
+                <h1>Navette Aéroport- Gare de Châlons-en-Champagne</h1>
+                <nav role="navigation" class="breadcrumbs cBreadcrumbs ">
+                    <ul>
+                        <div class="row">
+                            <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}" class="btn costum medium black right wow fadeInRight">Réservez
+                                ici !</a>
+                        </div>
+                        <div class="row">
+                            <img src="{{ asset('app/images/img_entet_gare_half.jpg') }}" alt="Transfert partagé Aéroport de Vatry Gare Châlons en Champagne"/>
+                        </div>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-xs-6 topspace">
+            <div class="wrap">
+                <div class="row">
+
+                    <!--- Content -->
+                    <div class="full-width content textongrey">
+
+                            <div> <br><br>
+                                <p class="text-justify">
+                                    La <strong>navette Aéroport – Gare de Châlons-en-Champagne</strong> assure
+                                    régulièrement le transfert dans les deux sens entre la Gare et l’aéroport.
+                                    Les horaires des navettes sont associés aux vols en départ ou en arrivée à
+                                    l’aéroport pour chaque jour.
+                                </p>
+                                <p class="text-justify">C’est un service simple et économique assuré en bus ou avec des véhicules de 9 places.
+                                    La réservation des places dans la navette Aéroport – Gare de Châlons-en-Champagne est effectuée en ligne ou auprès du comptoir de Navette de Vatry. Les commandes sont payées et confirmées immédiatement par l’équipe de Navette de Vatry. </p>
+                                <h2>Tarif fixe : {{ price }} € /personne</h2>
+                            </div>
+                                  <br><br>
+
+
+                            <center><img src="{{ asset('app/images/img1.jpg') }}" alt="Navette partagée Aéroport Vatry" /></center>
+                        <br><br>
+                        <div class="full-width">
+                            <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a><br><br>
+                            <div id="tonDiv">
+                                <ul class="text-justify"><li>Un tarif unitaire est associé au transfert à la Gare de Châlons-en-Champagne. Il suffit de renseigner le nombre de personnes pour obtenir le montant total de votre demande.
+                                    </li>
+                                    <li>Remplissez le formulaire de réservation pour confirmer votre commande.
+                                    </li>
+                                    <li>Vous recevez le voucher de confirmation de votre commande par mail dès validation de votre paiement en ligne.
+                                    </li>
+                                    <li>Le voucher de confirmation contient les informations de votre rendez-vous. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.
+                                    </li></ul>
+                                <h3><u>Conditions de réservations</u></h3>
+                                <ul><li>Réservation en ligne possible jusqu’au jour J-3 de votre voyage.  </li>
+                                    <li>Au-delà de J-3, commande possible par téléphone ou auprès du comptoir de Navette de Vatry aux heures d’ouverture de l’aéroport.
+                                    </li>
+                                    <li>Commandes en last minute possibles sous réserve de disponibilité des véhicules.</li></ul>
+
+                                <h3><u>Conditions d’annulation</u></h3>
+                                <ul class="text-justify"><li>Jusqu’au jour J-3 : Annulation possible sans frais</li>
+                                    <li>A partir du jour J-2 : Commande non annulable non remboursable. </li></ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--- //Content -->
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+        <div class="col-xs-6">
+
+            <h2>Horaires des navettes</h2>
+
+            <p class="text-justify">
+                Les départs de la navette Aéroport – Gare de Châlons-en-Champagne sont associés aux vols dont les horaires sont
+                compris entre 07h00 et 19h00
+            </p>
+
+            <h3>A partir de l’aéroport </h3>
+
+            <p class="text-justify">
+                Heure de prise en charge : 35 min après l’arrivée du vol
+            </p>
+
+            <h3>A partir de la gare</h3>
+
+            <input id="vol-date-gare" type="text" class="form-control" style="margin-bottom: 20px;"
+                   placeholder="Veuillez séléctionner une date">
+
+            <table id="vol-data" class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                <tr>
+                    <th style="width: 50px;"></th>
+                    <th>Départ de la Gare</th>
+                    <th>Arrivée à l’aéroport</th>
+                    <th>Décollage</th>
+                    <th>Vol</th>
+                    <th>N° du vol</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: center" colspan="6">Aucune ligne à afficher</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="color cta">
+        <div class="wrap">
+            <p class="wow fadeInLeft">Pour consulter les destinations de la navette Aéroport<br>Gare de Châlons-en-champagne </p>
+            <a href="{{ path('champagne_destination') }}" class="btn medium black right wow fadeInRight">Cliquez ici !</a>
+        </div>
+    </div>
+
+    <div class=" white">
+        <div class="wrap">
+        </div>
+    </div>
+
+
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+
+{% endblock %}

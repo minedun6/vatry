@@ -1,0 +1,75 @@
+{{ form_start(form,{ 'attr': {'id':'registration-form'}, 'method' : 'POST' , 'action' : path('registration')}) }}
+
+<div class="row">
+    <div class="col-xs-12">
+        <label for="">Civilité</label>
+        {{ form_widget(form.civility,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.civility) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <label for="">Nom</label>
+        {{ form_widget(form.lastname,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.lastname) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <label for="">Prénom</label>
+        {{ form_widget(form.name,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.name) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <label for="">Adresse</label>
+        {{ form_widget(form.address,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.address) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-8">
+        <label for="">Ville</label>
+        {{ form_widget(form.town,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.town) }}
+    </div>
+    <div class="col-xs-4">
+        <label for="">Code Postal</label>
+        {{ form_widget(form.zipCode,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.zipCode) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <label for="">Pays</label>
+        {{ form_widget(form.country,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.country) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6">
+        <label for="">Téléphone</label>
+        {{ form_widget(form.tel,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.tel) }}
+    </div>
+    <div class="col-xs-6">
+        <label for="">E-mail</label>
+        {{ form_widget(form.email,{ 'attr' : { 'class' : 'form-control' } }) }}
+        {{ form_errors(form.email) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-success pull-right" id="register-submit-btn" type="button">S'inscrire</button>
+    </div>
+</div>
+
+{{ form_end(form) }}

@@ -1,0 +1,40 @@
+
+{#Bonjour {{ transfert.createdBy.person.civility }} {{ transfert.createdBy.person.name }} {{ transfert.createdBy.person.lastname }}<br><br>#}
+{#Le transfert {{ transfert.getPrestationTypeToDisplay()}}, que vous avez créer pour l'agence partenaire  {{transfert.affectedTo.agencePartner.agence.nom|title }} le {{ transfert.createdAt|date('d/m/Y H:i') }}, à partir de#}
+{#{% if transfert.direction == constant('TO_VATRY',transfert) %}#}
+    {#{{ transfert.location.name }} vers l'Aéroport Paris-Vatry,#}
+{#{% else %}#}
+    {#l' Aéroport Paris-Vatry vers {{ transfert.location.name }},#}
+{#{% endif %} le {{ transfert.flight.time|date('d/m/Y') }} pour le vol N° {{ transfert.flight.num }} de  {{ transfert.flight.provDistLabel|lower }} {{ transfert.flight.volDir }} dont#}
+{#{% if transfert.direction == constant('TO_VATRY',transfert) %}#}
+    {#le départ est prévu#}
+{#{% else %}#}
+    {#l'arrivée est prévue#}
+{#{% endif %}#}
+{#à {{ transfert.flight.time|date('H:i') }} a été annulé.#}
+{#<br><br>#}
+
+{#Cordialement<br>#}
+{#Le service client de navette de Vatry#}
+
+
+Bonjour {{transfer.affectedTo.agencePartner.agence.nom|title }},
+<br><br>
+Le transfert {{ transfer.getPrestationTypeToDisplay()}} à partir de
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    {{ transfer.location.name }} vers l'Aéroport Paris-Vatry,
+{% else %}
+    l' Aéroport Paris-Vatry vers {{ transfer.location.name }},
+{% endif %}
+le {{ transfer.flight.time|date('d/m/Y') }} pour le vol N° {{ transfer.flight.num }} de  {{ transfer.flight.provDistLabel|lower }} {{ transfer.flight.volDir }} dont
+{% if transfer.direction == constant('TO_VATRY',transfer) %}
+    le départ est prévu
+{% else %}
+    l'arrivée est prévue
+{% endif %}
+à {{ transfer.flight.time|date('H:i') }} a été annulé.
+<br><br>
+
+N’hésitez pas de nous contacter sur 03.51.31.01.01 ou par mail sur info@navettevatry.fr pour toute information supplémentaire. <br><br>
+Bien cordialement <br><br>
+L’équipe de Navette de Vatry

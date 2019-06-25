@@ -1,0 +1,132 @@
+{% extends '@App/Back/index.html.twig' %}
+{% block page_title %}
+    Liste des transferts
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        $(function () {
+            var today = moment();
+            $("#date-navette").datepicker({
+                dateFormat: "dd/mm/yy",
+                dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+                monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+                //minDate:0,
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+
+                    if (string < today) {
+                        return [false];
+                    } else {
+                        return [true];
+                    }
+                }
+            })
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+    <style>
+        #date-navette {
+            padding-left: 50px;
+            width: 150px;
+            margin: auto;
+            background-image: url({{ asset('app/images/calandar.png') }});
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+            background-position: 6px 3px;
+        }
+    </style>
+
+    <form action="{% if type=="paris" %} {{ path('transfer_navette',{'type':'paris'}) }}{% else %} {{ path('transfer_navette') }} {% endif %}" method="post">
+        <input id="date-navette" type="text" class="form-control" style="margin-bottom: 20px;" name="date"
+               value="{{ "now"|date('d/m/Y') }}">
+
+        <input type="submit" class="btn btn-success pull-right" value="Rechercher" type="button">
+
+        </input>
+    </form>
+    <br><br>
+        {% if type=="paris" %}
+            <h2>Transfert Région Parisienne </h2>
+        {% else %}
+            <h2>Transfert Aéroport - Gare </h2>
+        {% endif %}
+    {% for navette in navettesGare %}
+        <br>
+        <table id="navette-table">
+            <thead>
+            <tr>
+                <th>Date présta</th>
+                <th>Vol</th>
+                {% if navette['pickup']|length>1 %}
+                    {% set compteur = 0 %}
+                    {% for pick in navette['pickup'] %}
+                        {% set compteur = compteur + 1 %}
+                        <th>{{ "Pickup "~ compteur }}</th>
+                    {% endfor %}
+
+                    <th>Drop</th>
+                {% else %}
+                    <th>Pickup</th>
+                    {% set compteur = 0 %}
+                    {% for drop in navette['drop'] %}
+                        {% set compteur = compteur + 1 %}
+                        <th>{{ "Drop "~ compteur }}</th>
+                    {% endfor %}
+                {% endif %}
+
+                <th>Ad</th>
+                <th>Enf</th>
+                <th>BB</th>
+                <th>Détails</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <td>{{ navette['datePresta'] }}</td>
+            <td>{{ navette['vol'].num ~ "-" ~ navette['vol'].country ~ "-" ~  navette['vol'].Time|date('d/m/Y H:i') }}</td>
+
+
+            {% for pick in navette['pickup'] %}
+                <td>{{ pick }}        </td>
+            {% endfor %}
+            {% for drop in navette['drop'] %}
+                <td>{{ drop }}        </td>
+            {% endfor %}
+
+            <td>{{ navette['totalAd'] }}</td>
+            <td>{{ navette['totalChild'] }}</td>
+            <td>{{ navette['totalBb'] }}</td>
+            <td><a href="{{ path('navette_detail',{'flight':navette['vol'].id,'date':navette['datePresta'],'type':type}) }}">
+                    <span
+                            class="glyphicon glyphicon-search">
+                    </span>
+                </a>
+            </td>
+            </tbody>
+        </table>
+    {% else %}
+        <br> <br> <br> <br>
+        <div>
+
+        <h3>Aucune Commande pour la navette
+        {% if type=="paris" %}
+            Région Parisienne
+        {% else %}
+            Aéroport - Gare
+        {% endif %}
+
+        n'est prévu pour cette date !!</h3>
+        </div>
+    {% endfor %}
+
+{% endblock %}

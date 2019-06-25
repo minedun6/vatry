@@ -1,0 +1,54 @@
+{% extends '@App/Back/index.html.twig' %}
+
+{% block page_title %}
+    {% if new is defined and new == true %}
+        Création d'un partenaire
+    {% else %}
+        Modification d'un partenaire
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Nom du partenaire</label>
+            {{ form_widget(form.name,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.name) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Raison Sociale</label>
+            {{ form_widget(form.raisonSociale,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.raisonSociale) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Email/Nom d'utilisateur</label>
+            {{ form_widget(form.users[0].email,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.users[0].email) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="required">Aéroport ou non</label>
+            {{ form_widget(form.isAirport,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.isAirport) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="text-align: right" class="col-xs-6">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

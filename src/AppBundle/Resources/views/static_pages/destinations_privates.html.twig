@@ -1,0 +1,128 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+    <style>
+        body {
+            padding-top: 100px;
+        }
+
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+
+        h2, h3, h4 {
+            line-height: 40px;
+        }
+
+        div {
+            padding-bottom: 20px;
+        }
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+
+
+    <!-- Page info -->
+    <div class="container">
+        <header class="site-title color">
+            <div class="wrap">
+                <div class="container">
+                    <h1>Transfert privé</h1>
+                    <nav role="navigation" class="breadcrumbs">
+                        <ul>
+                            <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                            <li>Transfert privé</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- //Page info -->
+
+
+    <div class="wrap">
+        <div class="row">
+
+            <!--- Content -->
+            <div class="full-width content textongrey">
+                <div class="one-half">
+                    <div class="text-justify">Le transfert privé couvre un très large périmètre géographique autour de l’aéroport
+                        Paris-Vatry.
+                    </div>
+                    <div class="text-justify">Vous pouvez commander votre transfert vers ou à partir de toutes les villes des départements
+                        suivants :
+                    </div>
+                    <br>
+
+                    <div class="one-half">
+                        <p>1/ La Marne (51)</p>
+
+                        <p>2/ La Haute Marne (52) </p>
+
+                        <p>5/ La Meurthe-et-Moselle (54) </p>
+
+                        <p>7/ Le Nord (59)</p>
+
+                        <p>8/ L’Aisne (02)</p>
+                    </div>
+                    <div class="one-half">
+                        <p>3/ L’Aube (10)</p>
+
+                        <p>4/ Les Ardennes (08)</p>
+
+                        <p>6/ La Meuse (55)</p>
+                    </div>
+                    <div class="full-width">
+                        <div class="one-third">
+                            <p>9/ La Seine-et-Marne (77) </p>
+
+                            <p>10/ La Seine-Saint-Denis (93) </p>
+
+                            <p>11/ Le Val-d’Oise (95) </p>
+
+                            <p>17/ L’Yonne (89)</p>
+
+                            <p>18/ La Côte-d’Or (21)</p></div>
+                        <div class="one-third">
+                            <p>12/ Les Yvelines (78)</p>
+
+                            <p>13/ Paris (75)</p>
+                        </div>
+                        <div class="one-third">14/ La Haute Seine (92)</p>
+                            <p>15/ Le Val-de-Marne (94)</p>
+
+                            <p>16/ l’Essonne (91)</p></div>
+                    </div>
+                </div>
+                <div class="one-half">
+                    <img src="{{ asset('app/images/images_v2/carte.png') }}" alt="Carte"/>
+                </div>
+
+            </div>
+            <!--- //Content -->
+
+        </div>
+    </div>
+
+{% endblock %}

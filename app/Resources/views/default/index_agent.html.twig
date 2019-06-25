@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block main_block %}
+    <div class="container-fluid" id="main-container">
+
+        {% include ':parts:flashbag_msg.html.twig' %}
+
+        {% block main %}
+
+        {% endblock %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block main_block %}
+<style>
+    .error-img{
+        display: block;
+        width: 60%;
+        height: 40%;
+        margin: auto;
+        margin-top: 100px;
+    }
+</style>
+
+    <img class="error-img" src="{{ asset('app/images/errors/page404.png') }}" >
+
+{% endblock %}

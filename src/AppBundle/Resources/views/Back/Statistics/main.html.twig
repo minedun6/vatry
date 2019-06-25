@@ -1,0 +1,78 @@
+{% extends '@App/Back/Statistics/SpLineChart.html.twig' %}
+{% block chart %}
+    {{ parent() }}
+    <script>
+
+        $(document).ready(function () {
+
+            var data2=JSON.parse('{{ yearStat|raw }}');
+            var datapts2=[];
+
+
+            for (var key in data2) {
+                var dateArray=key.split('-');
+                var year=dateArray[0];
+                var month=dateArray[1]-1;
+                var day=dateArray[2];
+                datapts2.push({x: new Date(year,month,day), y:data2[key]});
+            }
+
+            var chart1 = new CanvasJS.Chart("chart1",
+                    {
+                        title:{
+                            text: "Transferts de l'année"
+                        },
+                        animationEnabled: true,
+                        axisY :{
+                            includeZero: false,
+                            interval:1
+                        },
+                        toolTip: {
+                            shared: "true"
+                        },
+                        data: [
+                            {
+                                type: "spline",
+                                showInLegend: true,
+                                name: "Transferts",
+                                markerSize: 0,
+                                dataPoints: datapts2
+                            }
+
+                        ]
+                    });
+            chart1.options.data[0].dataPoints.sort(bydate);
+            chart1.render();
+        });
+    </script>
+{% endblock %}
+{% block statsBody %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="chart1" style="height:300px"></div>
+                <hr>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li><b>Meilleur taux de transferts de l'année : {{ bestTransfersYear }}</b></li>
+                            <li><b>Chiffre d'affaire de l'année: {{ totalyear }}</b></li>
+                            <li><b>Total transferts de l'année: {{ totalYearTransfers }}</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div id="chart" style="height:300px"></div>
+                <hr>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li><b>Meilleur taux de transferts du mois: {{ bestTransfersMonth }}</b></li>
+                            <li><b>Chiffre d'affaire du mois: {{ totalmonth }}</b></li>
+                            <li><b>Total transferts du mois: {{ totalMonthTransfers }}</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

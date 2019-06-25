@@ -1,0 +1,22 @@
+<h1> Commande Particulière </h1>
+<br>
+Nom Prénom: {{ client_name }}<br>
+Téléphone: {{ phone_number }}<br>
+E-mail: {{ email }}<br>
+<br>
+Nombre des adultes: {{ adults_number }}<br>
+Nombre des enfants: {{ infants_number }}<br>
+Nombre des bébés: {{ babies_number }}<br>
+<br>
+Lieu de prise en charge: {{ departure_place }}<br>
+Lieu de dépôt: {{ arrival_place }}<br>
+<br>
+Date de la prestation (Aller): {{ flight_time ? flight_time.format('d-m-Y') : '' }} <br>
+Heure de prise en charge (Aller): {{ flight_time ? flight_time.format('H:i') : '' }} <br>
+Informations complémentaires de la prise en charge (Aller) : {{ comments_aller|raw }} <br>
+<br>
+{% if round_trip %}
+    Date de prestation (Retour): {{ round_trip_date ? round_trip_date.format('d-m-Y') : '' }}<br>
+    Heure de prise en charge (Retour): {{ round_trip_date ? round_trip_date.format('H:i') : '' }}<br>
+    Informations complémentaires de la prise en charge (Retour): {{ comments_retour|raw }}
+{% endif %}

@@ -1,0 +1,43 @@
+{% extends '@App/Back/Statistics/PieChart.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#collapse2').collapse();
+            $('#collapse2title').addClass('highlightLi');
+            $('#ndc_source').addClass('highlightLi');
+        });
+    </script>
+{% endblock %}
+{% block onglet_title %}Nombre des commandes par source {% endblock %}
+
+{% block table %}
+    {% if total!=0 %}
+        <div class="panel panel-default withPadding" id="tzone">
+            <table id="StatTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Nom du partenaire</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in transfers %}
+                    <tr>
+                        <td> {{ t.id }}</td>
+                        <td> {{ t.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ t.type }}</td>
+                        {% if t.partner is null %}
+                            <td>-</td>
+                        {% else %}
+                            <td>{{ t.partner }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

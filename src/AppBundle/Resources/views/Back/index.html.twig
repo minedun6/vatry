@@ -1,0 +1,232 @@
+{% extends ':default:index_back.html.twig' %}
+
+{% block nav_bar %}
+
+    <ul>
+        <li class="active"><a href="/" title="">Accueil</a></li>
+        <li>
+            <a href="{{ path('admin_all_transfers') }}">Commandes</a>
+            <ul>
+                <li>
+                    <a href="#" title="">Nouvelle Commande</a>
+                    <ul>
+                        <li><a href="{{ path('reservationB2',{ 'type' : "B2C" }) }}" title="">Reservation B2C</a></li>
+                        <li><a href="{{ path('reservationB2',{ 'type' : "B2B" }) }}" title="">Reservation B2B</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#">Commandes en cours</a>
+                    <ul class="dropdown-menu-right">
+                        <li><a href="{{ path('admin_all_transfers') }}" title="">Commandes </a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "paye" }) }}" title="">Commandes
+                                payees</a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "valide" }) }}" title="">Commandes
+                                validées</a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "immediat" }) }}" title="">Paiment
+                                immediat</a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "differe" }) }}" title="">Paiement differe
+                                en attente</a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "annule" }) }}" title="">Commandes
+                                annulees</a></li>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "recouve" }) }}" title="">Commandes
+                                en attente de recouvrement </a></li>
+                        <li><a href="{{ path('list_dates_special') }}" title="">Commandes par date</a></li>
+
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "all" }) }}" title="">Toutes les
+                                commandes</a></li>
+
+                        <li><a href="{{ path('admin_my_transfers') }}" title="">Mes commandes</a></li>
+                        {#<li ><a href="{{ path('customer_transfers') }}" title="">Transferts des clients</a></li>#}
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="{{ path('admin_all_transfers_archives') }}">Commandes archivées</a>
+                    <ul class="dropdown-menu-right">
+                        <li><a href="{{ path('admin_all_transfers_archives') }}" title="">Commandes</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "paye" }) }}" title="">Commandes
+                                payées</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "immediat" }) }}" title="">Paiment
+                                immediat</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "differe" }) }}" title="">Paiement
+                                differe</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "annule" }) }}" title="">Commandes
+                                annulees</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "recouve" }) }}" title="">Commandes
+                                en attente de recouvrement</a></li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "relais" }) }}" title="">Commandes
+                                client relais</a></li>
+                        <li><a href="{{ path('admin_my_transfers',{ 'type' : "archive" }) }}" title="">Mes commandes</a>
+                        </li>
+                        <li><a href="{{ path('admin_all_transfers_archives',{ 'type' : "all" }) }}" title="">Toutes les
+                                commandes</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ path('back_all_transfers') }}">Toutes les transactions</a></li>
+                <li>
+                    <a href="#">Commandes B2B</a>
+                    <ul>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#">Commandes B2B en cours</a>
+                            <ul class="dropdown-menu-right">
+                                <li><a href="{{ path('com_agency_all_transfers',{ 'type' : "paye" }) }}" title="">Commandes
+                                        payees</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers',{ 'type' : "valid" }) }}" title="">Commandes
+                                        validés</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers',{ 'type' : "wait" }) }}" title="">Commandes
+                                        en attente</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers',{ 'type' : "annule" }) }}" title="">Commandes
+                                        annulees</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers',{ 'type' : "all" }) }}" title="">Toutes
+                                        les
+                                        commandes</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#">Commandes B2B archivés</a>
+                            <ul class="dropdown-menu-right">
+                                <li><a href="{{ path('com_agency_all_transfers_archives',{ 'type' : "paye" }) }}"
+                                       title="">Commandes
+                                        payees</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers_archives',{ 'type' : "valid" }) }}"
+                                       title="">Commandes
+                                        validés</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers_archives',{ 'type' : "wait" }) }}"
+                                       title="">Commandes
+                                        en attente</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers_archives',{ 'type' : "annule" }) }}"
+                                       title="">Commandes
+                                        annulees</a></li>
+                                <li><a href="{{ path('com_agency_all_transfers_archives',{ 'type' : "all" }) }}"
+                                       title="">Toutes
+                                        les
+                                        commandes</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </li>
+                <li>
+                    <a href="#">Commandes utilisateurs</a>
+                    <ul>
+                        <li><a href="{{ path('admin_all_transfers',{ 'type' : "relais" }) }}" title="">Commandes
+                                client relais</a></li>
+                        <li><a href="{{ path('partners_transfers') }}" title="">Commandes des partenaires</a></li>
+                        <li><a href="{{ path('agents_transfers') }}" title="">Commandes des agents</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Factures</a>
+            <ul>
+                <li><a href="{{ path('monthly_invoices_list', {'type' : 'latest'}) }}">Factures en cours</a></li>
+                <li><a href="{{ path('monthly_invoices_list', {'type' : 'historical'}) }}">Historique des factures</a>
+                <li><a href="{{ path('monthly_invoices_list') }}">Toutes les factures</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Clients Relais</a>
+            <ul>
+                <li><a href="{{ path('relay_customer_list') }}">Liste des clients relais</a></li>
+                <li><a href="{{ path('relay_customer_add') }}">Ajouter un client relais</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Devis</a>
+            <ul>
+                <li><a href="{{ path('devis_particular_command') }}">Nouveau devis</a></li>
+                <li><a href="{{ path('particular_command_list') }}">les devis en attente</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Balance</a>
+            <ul>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#">Balance</a>
+                    <ul class="dropdown-menu-right">
+                        <li><a href="{{ path('balance_index') }}">Liste des balances</a></li>
+                        <li><a href="{{ path('balance_create') }}">Ajouter une balance</a></li>
+                        <li>
+                            <a href="{{ path('agent_balance') }}">Mes Balances</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ path('balance_receipe') }}">Total Recette</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#">Partenaires</a>
+            <ul>
+                <li><a href="{{ path('partners_list') }}">Liste des partenaires</a></li>
+                <li><a href="{{ path('partners_add') }}">Ajouter un partenaire</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{{ path('parametrage_mainpage') }}">Parametrage</a>
+            <ul>
+                <li>
+                    <a href="{{ path('agent_all_drivers') }}">Gestion des chauffeurs</a>
+                </li>
+                <li><a href="{{ path('parametrage_pathvariable',{'variable':'vols'}) }}">Vols</a></li>
+                <li><a href="{{ path('parametrage_pathvariable',{'variable':'location'}) }}">Location</a></li>
+                <li><a href="{{ path('parametrage_pathvariable',{'variable':'privatelocation'}) }}">Location Privé</a>
+                </li>
+                <li><a href="{{ path('parametrage_pathvariable',{'variable':'interville'}) }}">Interville prix</a></li>
+                <li><a href="{{ path('parametrage_pathvariable',{'variable':'porteaporte'}) }}">Porte a porte</a></li>
+                <li>
+                    <a href="#">Utilisateurs</a>
+                    <ul>
+                        <li><a href="{{ path('users_list',{'roleUser':'b2c'}) }}">Liste clients B2C</a></li>
+                        <li><a href="#">Liste clients B2B</a></li>
+                        <li><a href="{{ path('users_list',{'roleUser':'utilisateur'}) }}">Liste utilisateurs</a></li>
+                        <li><a href="{{ path('users_list',{'roleUser':'associate'}) }}">Liste des asscoiés</a></li>
+                        <li><a href="{{ path('users_list') }}">Tous les utilisateurs</a></li>
+                        <li><a href="{{ path('users_add') }}">Ajouter un utilisateur</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ path('account') }}" title="">Mon Compte</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Agences</a>
+            <ul>
+                <li><a href="{{ path('liste_agence') }}">Liste des agences</a></li>
+                <li><a href="{{ path('agencies_add') }}">Ajouter une agence</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Cités</a>
+            <ul>
+                <li><a href="{{ path('list_city') }}">Liste des cités</a></li>
+                <li><a href="{{ path('new_city') }}">Ajouter une cité</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ path('stat_main') }}">Statistiques</a></li>
+        <li class="active"><a href="{{ path('logout') }}" title="">Déconnexion</a></li>
+    </ul>
+
+{% endblock nav_bar %}
+
+{% block main %}
+
+    <header class="site-title color">
+        <div class="wrap">
+            <div class="container">
+                <h1>
+                    {% block page_title %}
+                    {% endblock %}
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+
+    {% endblock %}
+
+{% endblock %}

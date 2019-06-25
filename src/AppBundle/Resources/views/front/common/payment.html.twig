@@ -1,0 +1,27 @@
+{% extends '@App/front/privateTransfer/index.html.twig' %}
+
+{% block step_title %}
+    5. Payement
+{% endblock %}
+
+{% set fifth_step = true %}
+
+{% block main %}
+    {{ parent() }}
+
+    {% if yesNo == '1' %}
+                <div class="alert alert-success">
+                    <span class="glyphicon glyphicon-ok"></span> Opération effectuée avec succès. Merci d'avoir choisi Navette de Vatry.
+                </div>
+    {% elseif yesNo == '0' %}
+            <div class="alert alert-danger">
+                <span class="glyphicon glyphicon-remove"></span> Payement échoué
+            </div>
+
+    {% else  %}
+
+    {% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends parent %}
+
+{% block page_title %}
+    Mon crédit {{ com_date | date('m/Y') }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <form action="{{ path('relay_customer_commissions') }}" class="form-inline" method="get">
+                <div class="col-xs-offset-4 col-xs-8">
+                    <div class="form-group">
+                        <select class="form-control" name="month">
+                            <option value="1">Janvier</option>
+                            <option value="2">Février</option>
+                            <option value="3">Mars</option>
+                            <option value="4">Avril</option>
+                            <option value="5">Mai</option>
+                            <option value="6">Juin</option>
+                            <option value="7">Juillet</option>
+                            <option value="8">Août</option>
+                            <option value="9">Septembre</option>
+                            <option value="10">Octobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Décembre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="year">
+                            {% set limityear = "now"|date('Y') %}
+                            {% for i in 2015..limityear %}
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table" id="backtransfers">
+                    <thead>
+                    <tr>
+                        <th>Date résa</th>
+                        <th>Date presta</th>
+                        <th>Vol</th>
+                        <th>Référence</th>
+                        <th>Presta</th>
+                        <th>Pick-up</th>
+                        <th>Drop</th>
+                        <th>Passager</th>
+                        <th>Trajet</th>
+                        <th>Ad</th>
+                        <th>Enf</th>
+                        <th>BB</th>
+                        <th>Tarif</th>
+                        {#{% if b2b %}#}
+                        {#<th>Agence</th>#}
+                        {#{% endif %}#}
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% if commissions|length > 0 %}
+                        {% for t in commissions %}
+
+                            <tr>
+                                <td>
+                                    {{ t.createdAt|date('d/m/Y H:i') }}
+                                </td>
+                                <td>
+
+                                    {% if ( t.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                                        {{ t.pickupDate|date('d/m/Y') }}
+                                    {% else %}
+                                        {{ t.pickupDate|date('d/m/Y H:i') }}
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ t.flightNumber(false) }}
+                                </td>
+                                <td>
+                                    {{ t.reference }}
+                                </td>
+
+                                <td>
+                                    {{ t.namePresta }}
+                                </td>
+
+                                {{ t.locations(false)|raw }}
+
+                                <td>
+                                    {{ t.passenger.civility }}. {{ t.passenger.lastname }}
+                                </td>
+                                <td>
+                                    Aller
+                                </td>
+                                <td>{{ t.qty }}</td>
+                                <td>
+                                    {% if t.qtyChild %}
+                                        {{ t.qtyChild }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.qtyBaby %}
+                                        {{ t.qtyBaby }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </td>
+                                <td>
+
+                                    {{ t.NdvPrice|number_format(2, '.', '') }}€
+
+                                </td>
+                                {#{% if b2b %}#}
+                                {#<td>#}
+                                {#{% if t.affectedTo %}#}
+                                {#{{ t.affectedTo.agencePartner.agence.nom }}#}
+                                {#{% endif %}#}
+                                {#</td>#}
+                                {#{% endif %}#}
+                            </tr>
+                            {% if t.roundTrip %}
+                                <tr>
+                                    <td>
+                                        {{ t.createdAt|date('d/m/Y H:i') }}
+                                    </td>
+                                    <td>
+
+                                        {% if ( t.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                                            {{ t.pickupDate2|date('d/m/Y') }}
+                                        {% else %}
+                                            {{ t.pickupDate2|date('d/m/Y H:i') }}
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {{ t.flight.num }} -
+                                        {% if t.direction is sameas("from_vatry") %}
+                                            {{ t.flight.fromLocation }}
+                                        {% else %}
+                                            {{ t.flight.toLocation }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ t.reference }}
+                                    </td>
+
+                                    <td>
+                                        {{ t.namePresta }}
+                                    </td>
+
+                                    {% if t.direction is sameas("from_vatry") %}
+                                        <td>{{ t.location.name }}</td>
+                                        <td> Aéroport Paris-Vatry</td>
+                                    {% else %}
+                                        <td> Aéroport Paris-Vatry</td>
+                                        <td>{{ t.location.name }} </td>
+                                    {% endif %}
+                                    <td>
+                                        {{ t.passenger.civility }}. {{ t.passenger.lastname }}
+                                    </td>
+                                    <td>
+                                        Retour
+                                    </td>
+                                    <td>{{ t.qty }}</td>
+                                    <td>
+                                        {% if t.qtyChild %}
+                                            {{ t.qtyChild }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if t.qtyBaby %}
+                                            {{ t.qtyBaby }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                    </td>
+                                    {#{% if b2b %}#}
+                                    {#<td>#}
+                                    {#{% if t.affectedTo %}#}
+                                    {#{{ t.affectedTo.agencePartner.agence.nom }}#}
+                                    {#{% endif %}#}
+                                    {#</td>#}
+                                    {#{% endif %}#}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="13">Pas de commissions pour la période séléctionnée</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="9" style="text-align: right">Total</th>
+                        <th id="total-adult"></th>
+                        <th id="total-child"></th>
+                        <th id="total-baby"></th>
+                        <th id="total" colspan="5">{{ total|number_format(2, '.', '') }}€</th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="9" style="text-align: right">Commission</th>
+                        <th id="total-adult"></th>
+                        <th id="total-child"></th>
+                        <th id="total-baby"></th>
+                        <th id="total" colspan="5">{{ (total * (100/(110))* 0.1)|number_format(2, '.', '') }}€</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

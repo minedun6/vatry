@@ -1,0 +1,42 @@
+{% extends '@App/PartnerAgency/index.html.twig' %}
+
+
+{% block page_title %}
+    Détail de la facture
+{% endblock %}
+
+{% block content %}
+
+    <h3>Facture pour le mois {{ invoice.month }}/{{ invoice.year }}</h3>
+
+    <div class="row">
+        <div class="col-xs-3"><label>Mois</label></div>
+        <div class="col-xs-3">  {{ invoice.month }}/{{ invoice.year }} </div>
+        <div class="col-xs-3"><label>Nombre de personne</label></div>
+        <div class="col-xs-3"> {{ invoice.totalPerson }} </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3"><label>Montant Client</label></div>
+        <div class="col-xs-3"> {{ invoice.price|number_format(2,',','') }} &euro; </div>
+        <div class="col-xs-3"><label>Montant Net</label></div>
+        <div class="col-xs-3"> {{ invoice.netPrice|number_format(2,',','') }} &euro; </div>
+    </div>
+
+    <div class="row">
+        <div class="row col-xs-6"  >
+            <div class="col-xs-6"><label>Statut</label></div>
+            <div class="col-xs-6"> {{ invoice.state|trans }} </div>
+        </div>
+        <div class="row col-xs-6"  >
+            <div class="col-xs-6"><label> </label></div>
+            <div class="col-xs-6"> </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            <h3>Total {% if invoice.state==constant('STATUS_PAID_B2B',invoice) %}payé{% else %}à payer{% endif %} : {{ invoice.netPrice|number_format(2,',','') }} (&euro;)</h3>
+        </div>
+    </div>
+
+{% endblock %}

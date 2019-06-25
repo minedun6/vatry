@@ -1,0 +1,188 @@
+{% extends ':default:index.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var vatryLat = 48.780441;
+        var vatryLng = 4.191239;
+        var aeroportMap = null;
+
+        var villes = [
+            {
+                name: 'Aéroport Ajaccio',
+                lat: 41.920026,
+                lng: 8.793933
+            },
+            {
+                name: 'Aéroport Marrakech',
+                lat: 31.601482,
+                lng: -8.027080
+            },
+            {
+                name: 'Aéroport Alger',
+                lat: 36.698071,
+                lng: 3.206841
+            },
+            {
+                name: 'Aéroport Nice',
+                lat: 43.660689,
+                lng: 7.215079
+            },
+            {
+                name: 'Aéroport Bjaia',
+                lat: 36.715593,
+                lng: 5.071332
+            },
+            {
+                name: 'Aéroport Oran',
+                lat: 35.620608,
+                lng: -0.606017
+            },
+            {
+                name: 'Aéroport Constantine',
+                lat: 36.283704,
+                lng: 6.622131
+            },
+            {
+                name: 'Aéroport Porto',
+                lat: 41.242353,
+                lng: -8.678627
+            },
+            {
+                name: 'Aéroport Malaga',
+                lat: 36.675279,
+                lng: -4.489716
+            },
+            {
+                name: 'Aéroport Tlemcen',
+                lat: 35.012542,
+                lng: -1.447937
+            }
+        ];
+
+
+        $(function () {
+
+            aeroportMap = new GMaps({
+                div: "#aeroport-map",
+                lat: 41.920026,
+                lng: 8.793933,
+                zoom: 4
+            });
+
+            aeroportMap.addMarker({
+                lat: vatryLat,
+                lng: vatryLng,
+                title: 'Aéroport Paris-Vatry',
+                icon: '/app/images/airportIcon.png'
+            });
+
+
+            $.each(villes,function(key,value){
+                aeroportMap.addMarker({
+                    lat: value.lat,
+                    lng: value.lng,
+                    title: value.name,
+                    icon: '/app/images/airport_runway.png'
+                    //icon: '/app/images/airport2.png'
+
+                    //icon: '/app/images/tgv.png'
+                });
+            });
+
+
+        })
+    </script>
+{% endblock %}
+
+        {% block main %}
+            <style>
+                .bordered-left {
+                    border-left: solid 1px #DDDDDD;
+                }
+
+                .bordered-bottom {
+                    border-bottom: solid 1px #DDDDDD;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+
+                .map-container {
+                    width: 100%;
+                    height: 385px;
+                    margin-top: 40px;
+                    padding: 10px;
+                    background-color: white;
+                }
+                .aggro-name{
+                    height: 40px;
+                }
+                .aggro-name:hover{
+                    cursor: pointer;
+                    background-color: #ececec;
+                }
+
+                h2 {
+                    font-size: 24px;
+                    padding: 0 0 28px;
+
+                }
+                ul > li:before {
+                    content: "\2022";
+                    font-size: 30px;
+                    color: #DBBC94;
+                    position: absolute;
+                    /* top: -10px; */
+                    left: 0;
+                }
+                h2, h3, h4{
+                    line-height: 40px;
+                }
+                div{
+                    padding-bottom: 20px;
+                }
+                .container h1{
+                    padding-left: 40px ;
+                }
+            </style>
+
+            <!-- Page info -->
+            <header class="site-title color">
+                <div class="wrap">
+                    <div class="container">
+                        <h1>Navettes partagées de Porte à Porte</h1>
+                        <nav role="navigation" class="breadcrumbs">
+                            <ul>
+                                <li><a href="{{ path('homepage') }}" title="Accueil">Accueil</a></li>
+                                <li>Navettes partagées de Porte à Porte</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <!-- //Page info -->
+
+
+            <div class="row">
+                <div class="col-xs-6">
+
+                </div>
+                <div class="col-xs-6">
+                    <div class="map-container" >
+                        <div style="width: 100%; height: 100%;" id="aeroport-map">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% endblock %}

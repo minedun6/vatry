@@ -1,0 +1,18 @@
+1- entity -> agence-> adresse 3 null
+=> /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse3", type="string", length=255, nullable=true)
+     */
+    private $adresse3;
+
+2- entity -> user -> const TYPE_PARTNERAGENCY = 'partneragency';
+
+3- Service\Back\UserService 
+	-> createUserForPartnerAgency (){...}
+	-> use AppBundle\Entity\AgencePartner
+
+ mails -> mail_inscription_partner_agency.html.twig
+
+4- translation ->
+	

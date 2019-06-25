@@ -1,0 +1,123 @@
+{% extends '@App/PartnerAgency/index.html.twig' %}
+
+{% block page_title %}
+        Modification mot de passe
+{% endblock %}
+{% block content %}
+
+{#
+    <br /><hr>
+    <h3>Données compte et agence partenaire</h3>
+
+    {{ form_start(formPartner) }}
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="required">Destinations</label>
+                    {{ form_widget(formPartner.destination,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.destination) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="required">Referent</label>
+                    {{ form_widget(formPartner.referent,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.referent) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="">Référent poste</label>
+                    {{ form_widget(formPartner.posteRefernet,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.posteRefernet) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="">Téléphone</label>
+                    {{ form_widget(formPartner.tel,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.tel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="">Email/Nom d'utilisateur</label>
+                    <input disabled type="text" class="form-control" value="{{ formPartner.vars.value.user.email }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="required">Activité</label>
+                    {{ form_widget(formPartner.activity,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.activity) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="required">Commission (entre 0,00% et 100,00%)</label>
+                    {{ form_widget(formPartner.commission,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.commission) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="">Nombre de jours (entre 0 - 31)</label>
+                    {{ form_widget(formPartner.nbjours,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(formPartner.nbjours) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div style="text-align: right" class="col-xs-6">
+            <button type="submit" class="btn medium btn-success">Enregistrer</button>
+            <button type="reset" class="btn medium btn-danger">Annuler</button>
+        </div>
+    </div>
+    {{ form_end(formPartner) }}
+#}
+
+    <hr>
+    <h3>Modifiez votre mot de passe</h3>
+    {{ form_start(passwordForm,{ 'action' : path('modify_password_part_agency') }) }}
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Ancien mot de passe</label>
+            {{ form_widget(passwordForm.old_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.old_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Nouveau mot de passe</label>
+            {{ form_widget(passwordForm.new_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.new_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Confirmer le nouveau mot de passe</label>
+            {{ form_widget(passwordForm.confirmation_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.confirmation_password) }}
+        </div>
+    </div>
+    {{ form_row(passwordForm._token) }}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-success pull-right" type="submit">Modifier Votre mot de passe</button>
+        </div>
+    </div>
+
+    {{ form_end(passwordForm) }}
+{% endblock %}

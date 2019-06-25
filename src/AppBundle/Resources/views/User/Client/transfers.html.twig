@@ -1,0 +1,183 @@
+{% extends '@App/User/index.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a) {
+                var date = a.split(' ')[0];
+                var dates = date.split('/');
+                var time = a.split(' ')[1];
+                return (dates[2] + dates[1] + dates[0] + time);
+            },
+
+            "date-uk-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "date-uk-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+
+        $(function () {
+
+            initDataTable('#transfers', {
+                lengthChange: false,
+                columnDefs: [
+                    {
+                        targets: [9],
+                        orderable: false
+                    }
+                ],
+                order: [[0, "desc"]],
+                aoColumns: [
+                        null,
+                    {
+                        "sType": 'date-uk'
+                    },
+                    {
+                        "sType": 'date-uk'
+                    },
+                    {
+                        "sType": 'date-uk'
+                    },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            });
+        });
+    </script>
+    <style>
+        .space {
+
+            width: 37px !important;
+        }
+
+        #transfers th {
+            background-color: #cb8d1e;
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: capitalize;
+            text-align: left;
+
+        }
+
+        #transfers_filter label {
+
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        tbody {
+            text-transform: capitalize !important;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+    </style>
+{% endblock %}
+
+{% block page_title %}
+    Mes Transferts
+{% endblock %}
+
+{% block content %}
+
+    <table id="transfers">
+        <thead>
+        <tr align="CENTER">
+
+            <th>Réfèrence</th>
+            <th>Date Du transfert Aller</th>
+            <th>Date Du transfert Retour</th>
+            <th>Date de réservation</th>
+            <th>Pick-up</th>
+            <th>Drop</th>
+            <th>Trajet</th>
+            <th>Prestation</th>
+            <th>Statut</th>
+            <th class="space"></th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for t in transfers %}
+            <tr align="CENTER">
+
+                <td>{{ t.reference }}</td>
+                <td>
+                    {% if ( t.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                        {{ t.pickupDate|date('d/m/Y') }}
+                    {% else %}
+                        {{ t.pickupDate|date('d/m/Y H:i') }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if t.roundTrip %}
+                        {% if ( t.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                            {{ t.pickupDate2|date('d/m/Y') }}
+                        {% else %}
+                            {{ t.pickupDate2|date('d/m/Y H:i') }}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ t.createdAt|date('d/m/Y H:i') }}
+                </td>
+
+                {{ t.locations(false)|raw }}
+
+
+                <td>
+                    {% if t.roundTrip %}
+                        A/R
+                    {% else %}
+                        Aller
+                    {% endif %}
+                </td>
+
+                <td>
+                    {{ t.prestationTypeToDisplay }}
+                </td>
+                <td>
+                    {% if t.status==constant('STATUS_PAID',t) %}
+                        Payé
+                    {% elseif t.status==constant('STATUS_PAID_PENDING',t) %}
+                        En attente de validation
+                    {% else %}
+                        Annulé
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('transfer_details',{'transfer' : t.id } ) }}" title="Détails" target="_blank">
+                        <span class="glyphicon glyphicon-search"></span></a>
+                    {% if t.status==constant('STATUS_PAID',t) %}
+                        <a href="{{ path('voucher',{'transfer' : t.id } ) }}" title="Voucher" target="_blank">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+                    {% endif %}
+
+                    {% if t.status==constant('STATUS_PAID',t) %}
+                        <a href="{{ path('facture',{'transfer' : t.id } ) }}" title="Facture" target="_blank">
+                            <span class="glyphicon glyphicon-euro"></span>
+                        </a>
+                    {% endif %}
+                </td>
+
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,415 @@
+{% extends '::base.html.twig' %}
+
+{% block description %}Vous pouvez consulter les horaires des vols de l'aéroport de Paris Vatry directement sur notre site web. Numéro de vol, provenance, atterrissage …{% endblock %}
+
+{% block title %}
+    Vols au départ de vatry - Voyage départ Vatry
+{% endblock %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script>
+         function test(elem)
+         {
+
+             alert($( elem).title);
+         }
+         var vatryLat = 48.780441;
+         var vatryLng = 4.191239;
+         var aeroportMap = null;
+
+         $villes = [
+             {
+                 name: 'Ajaccio',
+                 lat: 41.920026,
+                 lng: 8.793933
+             },
+             {
+                 name: 'Marrakech',
+                 lat: 31.601482,
+                 lng: -8.027080
+             },
+             {
+                 name: 'Alger',
+                 lat: 36.698071,
+                 lng: 3.206841
+             },
+             {
+                 name: 'Nice',
+                 lat: 43.660689,
+                 lng: 7.215079
+             },
+             {
+                 name: 'Bjaia',
+                 lat: 36.715593,
+                 lng: 5.071332
+             },
+             {
+                 name: 'Oran',
+                 lat: 35.620608,
+                 lng: -0.606017
+             },
+             {
+                 name: 'Constantine',
+                 lat: 36.283704,
+                 lng: 6.622131
+             },
+             {
+                 name: 'Porto',
+                 lat: 41.242353,
+                 lng: -8.678627
+             },
+             {
+                 name: 'Malaga',
+                 lat: 36.675279,
+                 lng: -4.489716
+             },
+             {
+                 name: 'Tlemcen',
+                 lat: 35.012542,
+                 lng: -1.447937
+             }
+         ];
+         $airplane_longitude=null;
+         $airplane_latitude=null;
+         $from_longitude=null;
+         $from_latitude=null;
+         $to_longitude=null;
+         $to_latitude=null;
+         $from=null;
+         $to=null;
+         $type=null;
+         $volnum=null;
+
+         function showModalBody(from,to,departestimee,arriveestimee,time,status,track) {
+             $long=null;
+             $lat=null;
+             if($type=='FA')
+             {  if($airplane_latitude==0&&$airplane_longitude==0)
+             {
+                 $long= 8.793933;
+                 $lat=41.920026;
+             }
+                 else
+             {
+                 $long=$airplane_longitude;
+                 $lat=$airplane_latitude;
+             }
+                 map = new GMaps(
+                         {
+                             el: '.modal-body',
+                             lat:$lat,
+                             lng:$long,
+                             zoom:4
+                         });
+                 if($airplane_latitude!=0&&$airplane_longitude!=0)
+                 {
+                     map.addMarker({
+                         lat: $airplane_latitude,
+                         lng: $airplane_longitude,
+                         icon: "/app/images/plane_marker.png",
+
+                     });
+                     var path=[];
+                    $i=0;
+                     while(track[$i])
+                     {
+                         path.push([track[$i].latitude,track[$i].longitude]);
+                         $i++;
+                     }
+                     path.push([$airplane_latitude,$airplane_longitude]);
+                     map.drawPolyline({
+                         path: path,
+                         strokeColor:'#FF0000'
+                     });
+                 }
+                /* else {
+                     map.drawPolyline({
+                         path: [[$from_latitude,$from_longitude],[$to_latitude,$to_longitude]],
+                         strokeColor:'#FF0000'
+                     });
+                 }*/
+                 map.addMarker({
+                     lat: $to_latitude,
+                     lng: $to_longitude,
+                     icon: "/app/images/flag_airport.png",
+                 });
+
+
+                 map.addMarker({
+                     lat: $from_latitude,
+                     lng: $from_longitude,
+                     icon: "/app/images/depart.png",
+                 });
+
+
+
+             }
+             else
+             {   $("#default-modal").modal('show');
+                 $('.modal-body').html('<iframe id="flr24" src="//www.flightradar24.com/simple?lat=42&lon=5&filter_callsign='+$volnum+'&cycle=0&brightness=100&size=large&label1=callsign&z=4" onload="test(this)"></iframe>')
+             }
+             $('.modal-title').html('Vol: '+$volnum);
+
+             if($from=='vatry')
+             {
+                 $('.AorD').html('Depart programmé');
+             }
+             else {
+                 $('.AorD').html('Arrivée programmée');
+             }
+
+             $('#modaltable>tbody').html('<tr><td>'+$volnum+'</td><td>'+from+'</td><td>'+to+'</td><td>'+time+'</td><td>'+departestimee+'</td><td>'+arriveestimee+'</td><td>'+status+'</td></tr>');
+         }
+         function getDetails(volnum,element,type)
+         {   $('#modaltable>tbody').html();
+             $time=$(element).parents('tr').find('.timefl').html();
+             $type=type;
+             $volnum=volnum;
+             if(type=='FA'){
+            if($('.active').hasClass('depart'))
+             {
+             $to=$(element).parents('tr').find('.location').html();
+                 $.each($villes, function(index,value) {
+                     if(value.name.toLowerCase()==$to.toLowerCase())
+                     {   $to=value.name;
+                         $from='vatry';
+                         $to_longitude=value.lng;
+                         $to_latitude=value.lat;
+                         $from_longitude=vatryLng;
+                         $from_latitude=vatryLat;
+                     }
+                 });
+             }
+         else {
+             $from=$(element).parents('tr').find('.location').html();
+                $.each($villes, function(index,value) {
+                    if(value.name.toLowerCase()==$from.toLowerCase())
+                    {   $to='vatry';
+                        $from=value.name;
+                        $from_longitude=value.lng;
+                        $from_latitude=value.lat;
+                        $to_longitude=vatryLng;
+                        $to_latitude=vatryLat;
+                    }
+                });
+             }
+                 $("#default-modal").modal('show');
+                 $(".modal-body").html("<img src='/app/images/spin.gif' class='loading'>")
+
+             $.ajax({
+                 type: "GET",
+                 url: "/getFlight",
+                 dataType: "json",
+                 data: {volnum: volnum,date:$('#vol-date').val()},
+                 success: function (data) {
+                    $airplane_longitude=data.longitude;
+                    $airplane_latitude=data.latitude;
+                    showModalBody(data.from,data.to,data.departprogrammee,data.arriveestimee,$time,data.status,data.trackhistory);
+                 }
+                    });
+                  }
+             else {
+
+                 showModalBody();
+
+
+                  }
+         }
+
+     </script>
+
+
+ {% endblock %}
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+        h2 {
+            font-size: 24px;
+            padding: 0 0 28px;
+
+        }
+        ul > li:before {
+            content: "\2022";
+            font-size: 30px;
+            color: #DBBC94;
+            position: absolute;
+            /* top: -10px; */
+            left: 0;
+        }
+        h2, h3, h4{
+            line-height: 40px;
+        }
+        div{
+            padding-bottom: 20px;
+        }
+        .modal * {
+            padding-bottom: 0px !important;
+        }
+        .modal-body{
+            width:100% !important;
+            height: 500px !important;
+            background-color: white !important;
+        }
+        iframe{
+            width: 100%;
+            height: 98%;
+        }
+       #modaltable td{
+            font-size:10px;
+        }
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <div class="wrap">
+                <div class="container">
+                    <h1>Consultation des horaires des vols de l'aéroport de Vatry </h1>
+                    <nav role="navigation" class="breadcrumbs">
+
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <p>Vous pouvez consulter les horaires des <strong>vols au départ de l'aéroport de Paris Vatry</strong>
+            directement sur notre site web. Numéro de vol, provenance, atterrissage …</p>
+        <!-- //Page info -->
+
+
+
+        <div class="wrap">
+
+
+                <div class="col-xs-6 col-xs-offset-3">
+
+                    {%  include '@App/front/Flights/list_container.html.twig' %}
+
+
+                </div>
+
+        </div>
+        <div class="modal fade" id="default-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title" style="text-align: left;padding: 0px;"></h3>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <table class="table" id="modaltable">
+                            <thead>
+                            <tr>
+                                <td>Vol°</td>
+                                <td>Depart</td>
+                                <td>Destination</td>
+                                <td class="AorD"></td>
+                                <td>Depart estimé</td>
+                                <td>Arrivée estimée</td>
+                                <td>Status</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="services boxed " id="services">
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".4s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/correspondance-gares.jpg') }}" alt="Correspondance gares"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Navettes Aéroport – Gares</h4>
+
+                        &#10003; <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_CHALONS")}) }}">Gare de Châlons-en- Champagne</a><br><br>
+                        &#10003; <a href="{{ path('gare_transfer_first_step',{'zipCode' : constant("AppBundle\\Entity\\Location::GARE_REIMS")}) }}">Gare de Reims Centre</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".2s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img2.jpg') }}" alt="Transfert privé"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Transfert privé</h4>
+
+                        &#10003; <a href="{{ path('private_transfer_first_step') }}">Taxi Aéroport &#8651; Domicile</a><br><br>
+                        &#10003; <a href="{{ path('private_aeroport_transfer_first_step') }}">Taxi Aéroport &#8651; Aéroport</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+
+
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img1.jpg') }}" alt="Navette partagé"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Navettes partagées</h4>
+
+                        &#10003; <a href="{{ path('porteAporte_transfer_first_step') }}">Navette Aéroport &#8651; Domicile</a><br><br>
+                        &#10003; <a href="{{ path('interVille_transfer_first_step') }}">Navette Inter-Villes</a><br>
+
+
+                    </div>
+                </article>
+                <!-- //Item -->
+                <!-- Item -->
+                <article class="one-fourth wow fadeIn" data-wow-delay=".6s">
+                    <figure class="featured-image">
+                        <img src="{{ asset('app/images/img3.jpg') }}" alt="Service Last Minute"/>
+
+                    </figure>
+                    <div class="details">
+                        <h4>Service last minute</h4>
+
+                        &#10003; <a href="{{ path('description_lastminute') }}">Découvrez le service</a><br><br>
+                        &#10003; <a href="{{ path('contact') }}">Consultez la disponibilité</a><br>
+
+                    </div>
+                </article>
+                <!-- //Item -->
+            </div>
+        </div>
+    </main>
+
+
+    <!-- //Main -->
+
+{% endblock %}

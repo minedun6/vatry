@@ -1,0 +1,7 @@
+{% extends ':default:index.html.twig' %}
+
+        {% block main %}
+            <div class="col-xs-6 col-xs-offset-3">
+                {% include '@App/Security/login_form.html.twig' with { 'submit' : true } %}
+            </div>
+        {% endblock %}

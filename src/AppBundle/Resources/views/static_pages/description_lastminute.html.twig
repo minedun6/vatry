@@ -1,0 +1,135 @@
+{% extends '::base.html.twig' %}
+
+{% block logo %}
+
+    <a href="{{ path('homepage') }}" title="Transfers"><img
+                src="{{ asset('app/images/logo.jpg') }}" width="80px" alt="Navettes Aéroport Paris Vartry"/></a>
+
+{% endblock %}
+
+
+{% block main_block %}
+    <style>
+        body{
+            padding-top: 100px;
+        }
+
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0 ;
+        }
+        li{
+
+            padding-right: 16px;
+        }
+        li:before{
+
+            content: "•" !important;
+            padding-right: 5px !important;
+            font-size: 39px;
+            color: #DBBC94;
+            position: absolute;
+            margin-left: -16px;
+            font-size: 39px;
+
+        }
+
+    </style>
+
+    <!-- Main -->
+    <main class="main" role="main">
+        <!-- Page info -->
+        <header class="site-title color">
+            <!-- 	<div class="wrap">
+                    <div class="container">
+                        <h1>Service last minute</h1>
+                        <nav role="navigation" class="breadcrumbs">
+                            <ul>
+                                <li><a href="index.html" title="Accueil">Accueil</a></li>
+                                <li>Service last minute</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>-->
+            <div class=" iconic ">
+                <img src="{{ asset('app/images/img_entet_min.jpg') }}" alt="" />
+            </div>
+        </header>
+        <!-- //Page info -->
+
+
+        <div class="wrap">
+            <div class="row">
+
+                <!--- Content -->
+                <div class="full-width content textongrey">
+                    <div class="one-half">
+                        <div>Vous cherchez un bon plan de dernière minute pour une navette en départ ou à destination de l'Aéroport Vatry ? <br><br>
+                            Saisissez vos coordonnées ici en mentionnant dans le sujet de votre correspondance "Demande de réservation de service last minute".
+                            Toute commande effectuée au-delà du jour J -2 du voyage est considérée comme commande last minute. <br><br>
+                            Les commandes en last minute sont prises exclusivement auprès du comptoir de Navette de Vatry, directement ou par téléphone, aux horaires de l’ouverture de l’aéroport. <br>
+                            La réservation est possible jusqu’au jour de votre voyage ou à votre arrivée à l’aéroport. <br><br>
+                            Toute commande réalisée en dernière minute est une commande ferme non modifiable et non annulable. Attention, il faut bien vérifier avant de valider définitivement votre choix.<br><br>
+
+
+                        </div>
+
+                    </div>
+                    <div class="one-half">
+                        <center><img src="{{ asset('app/images/7-last-minute.jpg') }}" alt="Carte" /></center>
+                    </div>
+                    <div class="full-width">
+                        <a href="#" id="Bouton" class="btn medium black wow">Lire plus +</a>
+                        <br><br>
+                        <div id="tonDiv">
+                            <ul>
+
+                                <li>Renseignez-vous tout d’abord sur la disponibilité de la prestation demandée et des autres solutions alternatives proposées par l’équipe de Navette de Vatry. Renseignez-vous du délai d’attente prévu en cas de commande d’un transfert</li>
+                                <li>Fixer votre choix et donnez à l’équipe de Navette de Vatry les navettes nécessaires au remplissage du formulaire de réservation.</li>
+                                <li>A la validation de votre paiement, vous aurez votre voucher ou bien version papier ou bien par mail en version pdf</li>
+                                <li>Le Voucher de confirmation contient les informations de votre rendez-vous. Imprimez-le et présentez-le à votre chauffeur le jour de votre voyage.</li>
+
+                            </ul>
+
+                            <h3><u>Conditions de réservations</u></h3>
+                            <ul><li>Réservation auprès du comptoir directement ou par téléphone</li>
+                                <li>Quel que soit le type de prestation, réservation possible jusqu’à la dernière minute sous réserve de disponibilité des places ou des véhicules. </li></ul>
+
+                            <h3><u>Conditions d’annulation</u></h3>
+                            <ul><li>Commande ferme, non modifiable et non annulable</li>
+                                <li>Aucun remboursement n’est possible pour une commande last minute</li></ul>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--- //Content -->
+
+            </div>
+        </div>
+        <div class="color cta">
+            <div class="wrap">
+                <p class="wow fadeInLeft">Pour toutes vos consultations pour les services en last minute</p>
+                <a href="{{ path('contact') }}" class="btn medium black right wow fadeInRight">Contactez nous !</a>
+            </div>
+        </div>
+
+        <div class=" white">
+            <div class="wrap">
+            </div>
+        </div>
+
+    </main>
+    <!-- //Main -->
+
+    <script>
+        document.querySelector("#Bouton").onclick = function() {
+            if (window.getComputedStyle(document.querySelector('#tonDiv')).display=='none'){
+                document.querySelector("#tonDiv").style.display="block";
+            } else {
+                document.querySelector("#tonDiv").style.display="none";
+            }
+        }
+    </script>
+{% endblock %}

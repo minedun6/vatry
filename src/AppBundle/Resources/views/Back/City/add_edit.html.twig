@@ -1,0 +1,36 @@
+{% extends parent %}
+
+{% block page_title %}
+    {% if new is defined and new == true %}
+        Création d'une nouvelle Destination
+    {% else %}
+        Modification d'une destination
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label class="required">Designation</label>
+                    {{ form_widget(form.designation,{ 'attr' : { 'class' : 'form-control' } }) }}
+                    {{ form_errors(form.designation) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div style="text-align: right" class="col-xs-6">
+            <button type="submit" class="btn medium btn-success">Enregistrer</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

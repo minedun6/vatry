@@ -1,0 +1,120 @@
+{% extends '@App/User/index.html.twig' %}
+
+{% block page_title %}
+    Mon Compte
+{% endblock %}
+
+{% block content %}
+
+    <h3>Modifiez votre profile</h3>
+    {{ form_start(form,{ 'action': path('account') }) }}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Civilité</label>
+            {{ form_widget(form.civility,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.civility) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Nom</label>
+            {{ form_widget(form.lastname,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Prénom</label>
+            {{ form_widget(form.name,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.name) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Adresse</label>
+            {{ form_widget(form.address,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.address) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8">
+            <label for="">Ville</label>
+            {{ form_widget(form.town,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.town) }}
+        </div>
+        <div class="col-xs-4">
+            <label for="">Code Postal</label>
+            {{ form_widget(form.zipCode,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.zipCode) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Pays</label>
+            {{ form_widget(form.country,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.country) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="">Téléphone</label>
+            {{ form_widget(form.tel,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(form.tel) }}
+        </div>
+        <div class="col-xs-6">
+            <label for="">E-mail</label>
+            <input disabled type="text" class="form-control" value="{{ form.vars.value.email }}">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-success pull-right" type="submit">Mettre à jour votre compte</button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <hr>
+    <h3>Modifiez votre mot de passe</h3>
+    {{ form_start(passwordForm,{ 'action' : path('modify_password') }) }}
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Ancien mot de passe</label>
+            {{ form_widget(passwordForm.old_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.old_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Nouveau mot de passe</label>
+            {{ form_widget(passwordForm.new_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.new_password) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="">Confirmer le nouveau mot de passe</label>
+            {{ form_widget(passwordForm.confirmation_password,{ 'attr' : { 'class' : 'form-control' } }) }}
+            {{ form_errors(passwordForm.confirmation_password) }}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-success pull-right" type="submit">Modifier Votre mot de passe</button>
+        </div>
+    </div>
+
+    {{ form_end(passwordForm) }}
+{% endblock %}

@@ -1,0 +1,559 @@
+{% extends parent %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        function showForm(id){
+            $('#myModal').modal('toggle');
+            $('#idTransfert').val(id);
+        }
+
+        function showConfirmationPopUp(id) {
+
+            $.ajax({
+                url: Routing.generate('admin_cancel_transfer', {transfer: id}),
+                dataType: 'json',
+                success: function (receivedData) {
+                    showDefaultModal("Annulation d'une commande", receivedData.html, "");
+                }
+            })
+
+        }
+
+        $(document).on('click', '#non-cancel', function () {
+            closeDefaultModal();
+        })
+
+
+        var transferTable = null;
+        $.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a) {
+                var date = a.split(' ')[0];
+                var dates = date.split('/');
+                var time = a.split(' ')[1];
+                return (dates[2] + dates[1] + dates[0] + time);
+            },
+
+            "date-uk-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "date-uk-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+
+        function getTotals() {
+            var rows = transferTable._('tr', {"filter": "applied"});
+            var totalAdult = 0;
+            var totalChild = 0;
+            var totalBaby = 0;
+            var total = 0;
+
+            $.each(rows, function (key, value) {
+                totalAdult += parseFloat(value[9]);
+                totalChild += parseFloat(value[10]);
+                totalBaby += parseFloat(value[11]);
+                if (value[12].trim() != "") {
+                    total += parseFloat(value[12]);
+                }
+            });
+
+            return {
+                totalAdult: totalAdult,
+                totalChild: totalChild,
+                totalBaby: totalBaby,
+                total: total
+            };
+        }
+
+        function updateTotal() {
+            var total = getTotals();
+            $('#total-adult').html(total.totalAdult);
+            $('#total-child').html(total.totalChild);
+            $('#total-baby').html(total.totalBaby);
+            $('#total').html(floatToString(total.total, 2) + "(€)");
+        }
+
+        $(function () {
+
+            transferTable = initDataTable('#backtransfers', {
+                dom: 'lrftip',
+                columnDefs: [
+                    {
+                        targets: [16],
+                        orderable: false
+                    }
+                ],
+                order: [[0, "desc"]],
+                aoColumns: [
+                    {
+                        "sType": 'date-uk'
+                    },
+                    {
+                        "sType": 'date-uk'
+                    },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            });
+
+            transferTable.on('search.dt', function () {
+                updateTotal();
+            });
+
+            updateTotal();
+
+        }); //End Ready doc
+    </script>
+{% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <style>
+
+        #backtransfers th{
+            background-color: #cb8d1e ;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+            text-transform:capitalize;
+            text-align: left;
+
+        }
+
+        .tb1 label{
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight:bold;
+            font-size: 15px;
+        }
+        tbody{
+            text-transform: capitalize !important;
+            font-size:13px;
+        }
+
+        .sorting_disabled{width: 70px; }
+
+
+        .sorting_asc{
+
+            font-size: 10px !important;
+        }
+        .sorting{
+
+            font-size: 10px !important;
+        }
+
+        .sorting_disabled{
+
+            width: 77px !important;
+            font-size: 10px !important;
+        }
+
+        .size{
+
+            font-size: 13px !important;
+        }
+        tbody td{
+
+
+            font-size: 10px !important;
+        }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Liste des commandes {% if b2b is defined and b2b %}B2B {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <table id="backtransfers">
+                <thead>
+                <tr>
+                    <th>Date résa</th>
+                    <th>Date presta</th>
+                    <th>Vol</th>
+                    <th>Référence</th>
+                    <th>Presta</th>
+                    <th>Pick-up</th>
+                    <th>Drop</th>
+                    <th>Passager</th>
+                    <th>Trajet</th>
+                    <th>Ad</th>
+                    <th>Enf</th>
+                    <th>BB</th>
+                    <th>Tarif</th>
+                    <th>Statut</th>
+                    <th>Type</th>
+                    <th>Source</th>
+                    {#{% if b2b %}#}
+                    {#<th>Agence</th>#}
+                    {#{% endif %}#}
+                    <th>Détails</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for t in transfers %}
+                        <tr>
+                            <td>
+                                {{ t.createdAt|date('d/m/Y H:i') }}
+                            </td>
+                            <td>
+
+                                {% if ( t.pickupDate|date('H:i') is sameas ("00:00") ) %}
+                                    {{ t.pickupDate|date('d/m/Y') }}
+                                {% else %}
+                                    {{ t.pickupDate|date('d/m/Y H:i') }}
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ t.flightNumber(false) }}
+                            </td>
+                            <td>
+                                {{ t.reference }}
+                            </td>
+
+                            <td>
+                                {{ t.namePresta }}
+                            </td>
+
+                            {{ t.locations(false)|raw }}
+
+                            <td>
+                                {{ t.passenger.civility }}. {{ t.passenger.lastname }}
+                            </td>
+                            <td>
+                                Aller
+                            </td>
+                            <td>{{ t.qty }}</td>
+                            <td>
+                                {% if t.qtyChild %}
+                                    {{ t.qtyChild }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if t.qtyBaby %}
+                                    {{ t.qtyBaby }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ t.NdvPrice|number_format(2, '.', '') }}€
+                            </td>
+                            <td>
+                                {{ t.StatutPresta }}
+                            </td>
+                            <td>
+                                {{ t.paymentType }}
+                            </td>
+                            <td>
+                                {{ t.getSourceTransfer }}
+                            </td>
+
+                        <td class="size">
+                            {#{%  if t.payment.type == constant('TYPE_B2B',t)%}#}
+                            <a href="{{ path('agent_transfer_person_details',{'id' : t.id } ) }}" title="Détails passager" target="_blank"> <span class="glyphicon glyphicon-user"></span> </a>
+                            {#{% else %}#}
+                                {#<a href="{{ path('agent_transfer_person_details',{'id' : t.id } ) }}" title="Détails passager" target="_blank"> <span class="glyphicon glyphicon-user"></span> </a>#}
+                            {#{% endif %}#}
+                            <a href="{{ path('agent_details_transfer',{'transfer' : t.id } ) }}" title="Détails" target="_blank">  <span class="glyphicon glyphicon-search"></span> </a>
+
+                            {% if t.status==constant('STATUS_PAID',t) %}
+                                <a href="{{ path('voucher',{'transfer' : t.id } ) }}"  title="Voucher" target="_blank">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </a>
+                            {% elseif t.status==constant('STATUS_PAID_B2B',t) or t.status==constant('STATUS_VALID_B2B',t)%}
+                                <a href="{{ path('voucher_b2b',{'transfer' : t.id } ) }}" title="Voucher"
+                                   target="_blank">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </a>
+                            {% else %}
+                                <span class="glyphicon glyphicon-list-alt"></span>
+                            {% endif %}
+
+                            {% if t.status==constant('STATUS_PAID',t) %}
+                                <a href="{{ path('facture',{'transfer' : t.id } ) }}" title="Facture" target="_blank">
+                                    <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                </a>
+                            {% elseif t.status==constant('STATUS_PAID_B2B',t) or t.status==constant('STATUS_VALID_B2B',t)%}
+                                <a href="{{ path('facture_b2b',{'transfer' : t.id } ) }}" title="Facture"
+                                   target="_blank">
+                                    <span class="glyphicon glyphicon-euro"></span>
+                                </a>
+                            {% else %}
+                                <span class="glyphicon glyphicon glyphicon-euro"></span>
+                            {% endif %}
+
+                            {#
+                                {% if t.status==constant('STATUS_PAID_PENDING',t) %}
+                                    <span class="glyphicon glyphicon-remove" onclick="showConfirmationPopUp({{t.id}})"></span>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                {% endif %}
+                            #}
+
+                            {% if b2b is defined and not b2b %}
+                                <a href="{{ path('agent_modif_transfer',{'transfer' : t.id } ) }}" title="Modifier">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('agent_modif_transfer_b2b',{'transfer' : t.id } ) }}" title="Modifier">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            {% endif %}
+
+                            {% if b2b is defined and not b2b %}
+                                {% if t.status==constant('STATUS_PAID',t) %}
+                                    <a href="#" title="Facture Spécial"  onclick="showForm('{{ t.id }}')">
+                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                    </a>
+                                {% else %}
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                        {% if (t.roundTrip ) %}
+                            <tr>
+                                <td>
+                                    {{ t.createdAt|date('d/m/Y H:i') }}
+                                </td>
+                                <td>
+
+                                    {% if ( t.pickupDate2|date('H:i') is sameas ("00:00") ) %}
+                                        {{ t.pickupDate2|date('d/m/Y') }}
+                                    {% else %}
+                                        {{ t.pickupDate2|date('d/m/Y H:i') }}
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+
+                                    {{ t.flightNumber(true) }}
+
+                                </td>
+                                <td>
+                                    {{ t.reference }}
+                                </td>
+
+                                <td>
+                                    {{ t.namePresta }}
+                                </td>
+
+                                {{ t.locations(true)|raw }}
+
+                                <td>
+                                    {{ t.passenger.civility }}. {{ t.passenger.lastname }}
+                                </td>
+                                <td>
+                                    Retour
+                                </td>
+                                <td>{{ t.qty }}</td>
+                                <td>
+                                    {% if t.qtyChild %}
+                                        {{ t.qtyChild }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if t.qtyBaby %}
+                                        {{ t.qtyBaby }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    {{ t.StatutPresta }}
+                                </td>
+                                <td>
+                                    {{ t.paymentType }}
+                                </td>
+                                <td>
+                                    {{ t.getSourceTransfer }}
+
+                                </td>
+                                {#{% if b2b %}#}
+                                    {#<td>#}
+                                        {#{% if t.affectedTo %}#}
+                                        {#{{ t.affectedTo.agencePartner.agence.nom }}#}
+                                        {#{% endif %}#}
+                                    {#</td>#}
+                                {#{% endif %}#}
+                                <td class="size">
+                                    <a href="{{ path('agent_transfer_person_details',{'id' : t.id } ) }}" title="Détails passager" target="_blank"> <span class="glyphicon glyphicon-user"></span> </a>
+
+                                    <a href="{{ path('agent_details_transfer',{'transfer' : t.id } ) }}" title="Détails" target="_blank">  <span class="glyphicon glyphicon-search"></span> </a>
+
+                                    {% if t.status==constant('STATUS_PAID',t) %}
+                                        <a href="{{ path('voucher',{'transfer' : t.id } ) }}"  title="Voucher" target="_blank">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </a>
+                                    {% elseif t.status==constant('STATUS_PAID_B2B',t) or t.status==constant('STATUS_VALID_B2B',t)%}
+                                        <a href="{{ path('voucher_b2b',{'transfer' : t.id } ) }}" title="Voucher"
+                                           target="_blank">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </a>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                    {% endif %}
+
+                                    {% if t.status==constant('STATUS_PAID',t) %}
+                                        <a href="{{ path('facture',{'transfer' : t.id } ) }}" title="Facture" target="_blank">
+                                            <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                        </a>
+                                    {% elseif t.status==constant('STATUS_PAID_B2B',t) or t.status==constant('STATUS_VALID_B2B',t)%}
+                                        <a href="{{ path('facture_b2b',{'transfer' : t.id } ) }}" title="Facture"
+                                           target="_blank">
+                                            <span class="glyphicon glyphicon-euro"></span>
+                                        </a>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon glyphicon-euro"></span>
+                                    {% endif %}
+
+                                    {#
+                                    {% if t.status==constant('STATUS_PAID_PENDING',t) %}
+                                        <span class="glyphicon glyphicon-remove" onclick="showConfirmationPopUp({{t.id}})"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    {% endif %}
+#}
+                                    <a href="{{ path('agent_modif_transfer',{'transfer' : t.id } ) }}" title="Modifier">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+
+                                    {% if b2b is defined and not b2b %}
+                                        {% if t.status==constant('STATUS_PAID',t) %}
+                                            <a href="#" title="Facture Spécial"  onclick="showForm('{{ t.id }}')">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                            </a>
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-folder-open"></span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="9" style="text-align: right">Total</th>
+                    <th id="total-adult"></th>
+                    <th id="total-child"></th>
+                    <th id="total-baby"></th>
+                    <th id="total" colspan="5"></th>
+
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formRegister" action="{{ path('facture_Speciale') }}" class="form-horizontal" method="POST" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Informations</h4>
+                    </div>
+                    <div class="modal-body">
+
+
+
+                        <div class="form-group hidden">
+                            <label class="col-md-4 control-label">ID</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="id" id="idTransfert">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Nom</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="name" pattern = '[A-Za-z\ ]{2,30}' required="required">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">prenom</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="lastname" pattern = '[A-Za-z\ ]{2,30}' required="required">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Adresse</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="adresse" required="required">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">ZipCode</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="zipcode" min="0"  required="required">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Town</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="town" pattern = '[A-Za-z\ ]{2,30}' required="required">
+                                <small class="help-block"></small>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Valider" id="valider"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

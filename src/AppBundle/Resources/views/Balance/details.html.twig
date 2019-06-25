@@ -1,0 +1,77 @@
+{# extends '@App/AgentAdmin/index.html.twig'  #}
+{% extends parent  %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #balance-table th {
+            background-color: #cb8d1e;
+            color: #fff;
+            font-family: Cantarell helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: capitalize;
+            text-align: left;
+        }
+
+        .tb1 label {
+            text-transform: capitalize;
+            font-family: helvetica, arial, sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        tbody {
+            text-transform: capitalize !important;
+            font-size: 13px;
+        }
+
+        .sorting_disabled {
+            width: 70px;
+        }
+
+    </style>
+
+{% endblock %}
+{% block page_title %}
+    Balances pour {{ user.person ? user.person.lastname~' '~user.person.name : '' }}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 tb1">
+            <table id="balance-table">
+                <thead>
+                <tr>
+                    <th>CB</th>
+                    <th>CB VAd</th>
+                    <th>Espèces</th>
+                    <th>Recu</th>
+                    <th>Balance</th>
+                    <th>Date de balance</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for balance in balances %}
+                    <tr>
+                        <td>{{ balance.getCb() }} &euro;</td>
+                        <td>{{ balance.getCbVad() }} &euro;</td>
+                        <td>{{ balance.getCash }} &euro;</td>
+                        <td>{{ balance.getReceived() }} &euro;</td>
+                        <td>{{ balance.getBalance() }} &euro;</td>
+                        <td>{{ balance.getBalanceDate ? balance.getBalanceDate.format('Y-m-d') : '' }}</td>
+                        <td><a data-toggle="tooltip" data-placement="top" title="Consulter les détails"
+                               href="{{ path('balance_history',{ 'id' : balance.id }) }}"><span
+                                        class="glyphicon glyphicon-list"></span></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#balance-table").dataTable();
+    </script>
+{% endblock %}

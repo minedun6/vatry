@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block main_block %}
+    <style>
+        .error-img{
+            display: block;
+            margin: auto;
+            margin-top: 100px;
+        }
+    </style>
+    <img class="error-img" src="{{ asset('app/images/errors/oups.jpg') }}" >
+    Désolé, un problème téchnique est survenu. Veuillez retourner à l' <a href="{{ path('homepage') }}">Accueil</a>
+{% endblock %}

@@ -1,0 +1,506 @@
+{% block dataZone %}
+
+    <link href="{{ asset('plugins/datatables.net-dt/css/jquery.dataTables.min.css') }}" rel="stylesheet"
+          type="text/css">
+    <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script>
+        function resetModal() {
+            $('.modal-header').html('<button type="button" class="close" data-dismiss="modal">&times;</button><h4 class="modal-title"></h4>')
+            $("#OpModal").removeClass('modal-sm');
+            $("#OpModal").addClass('modal-lg');
+            $('.modal-footer').remove();
+
+        }
+        function showErrorModal(message) {
+            resetModal();
+            $("#OpModal").removeClass('modal-lg');
+            $("#OpModal").addClass('modal-sm');
+            $('.modal-header').html('<center><span class="glyphicon glyphicon-exclamation-sign warning-icon" aria-hidden="true"></span></center>');
+            $('.modal-body').html('<b>' + message + '</b>');
+            $('.modal-content').append('<div class="modal-footer"></div>');
+            $('.modal-footer').html('<input type="button" class="btn btn-warning" data-dismiss="modal" value="Cacher">');
+        }
+
+        function disableSubmitButton() {
+            $('form .form-group button').css({"pointer-events": "none", "opacity": "0.3"});
+        }
+
+    </script>
+    <script>
+        var dt;
+        $(function () {
+            var pg='{{ jsvar }}'+'imBtn';
+
+            dt = $('#dataZone').DataTable({
+                language: {
+                    url: "/app/js/French.json"
+                },
+                dom: 'lBrftip',
+                buttons: [
+                    {
+                        text: '+ Ajouter',
+                        action: function (e, dt, node, config) {
+                            resetModal();
+                            $('.modal-title').html('Ajouter un enregistrement ');
+                            $('.modal-body').html('<center><h3> Preparing form ... </h3></center>');
+                            $("#OpModal").modal();
+                            $.ajax({
+                                type: "GET",
+                                url: '{{ path('new_'~jsvar ) }}',
+                                dataType: "json",
+                                success: function (data) {
+                                    $('.modal-body').html('<div id="error-zone"></div>' + data.html);
+                                }
+                            });
+                        }
+                    }, {
+                        text: 'Importer XLS/CSV',
+                        className:pg,
+                        action: function (e, dt, node, config) {
+                            $('#FileUpload')[0].reset();
+                            $('#uploadFile').trigger('click');
+
+
+                        }
+                    }
+                ]
+            });
+            $('.locationimBtn').remove();
+            $("#uploadFile").change(function () {
+                resetModal();
+                $fileext=($("#uploadFile").val().split('\\').pop()).split('.').pop();
+                if($fileext=='xls'||$fileext=='xlsx')
+                {
+                    $src="{{ asset('app/images/'~jsvar~'_importing_XLS_XLSX.png') }}";
+                }
+                else
+                {
+                    $src="{{ asset('app/images/'~jsvar~'_importing_CSV.png') }}";
+                }
+                $('.modal-title').html('Confirmer l\'upload du fichier');
+                $('.modal-body').html('Etes-vous certain d\'uploader <b>' + $("#uploadFile").val().split('\\').pop() + '</b> ?');
+                $('.modal-content').append('<div class="modal-footer"></div>');
+                $('.modal-footer').html('<input type="button" class="btn btn-warning" id="CancelOp" value="Annuler"><input type="button" id="ConfirmUpload" class="btn btn-danger" value="Confirmer">');
+                $('.modal-body').html('<center><strong>Format</strong><br><img src='+$src+' /></center>')
+                $('#OpModal').modal('toggle');
+
+            });
+            var ignoredLines=null;
+            var updatedLines=null;
+            var newLines=null;
+
+            $(document).on('click', '#ConfirmUpload', function (e) {
+                $('#OpModal').modal('toggle');
+                $('.dt-buttons a:nth-child(2) ').css("pointer-events", "none");
+                $('.dt-buttons a:nth-child(2) ').css("opacity", "0.3");
+                $('.dt-buttons a:nth-child(2) span').html('<i class="glyphicon glyphicon-repeat gly-spin"></i> Traitement en cours ...');
+                $('#notifBox').css('max-height','0px')
+                var fd = new FormData($('#FileUpload')[0]);
+                fd.append('target','{{ jsvar }}');
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('import_file_database') }}',
+                    dataType: "json",
+                    mimeType:"multipart/form-data",
+                    cache: false,
+                    processData:false,
+                    contentType: false,
+                    data:fd,
+                    success: function (data) {
+                        $('.dt-buttons a:nth-child(2) ').css("pointer-events", "auto");
+                        $('.dt-buttons a:nth-child(2) ').css("opacity", "1");
+                        $('.dt-buttons a:nth-child(2) span').html('Importer XLS/CSV');
+                        $('#notifBox').html('<div class="alert alert-success fade in"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a><strong> </strong> a était ajouté a la base de données. Veuillez <a href=""> <b>Rafraîchir</b> </a> pour actualiser le tableau.<br> Nouveaux:<b><a href="#" id="addedRows" >'+data.newrows.length +'</a></b> <br> Lignes ignorés:<b><a href="#" id="ignoredLogger" >'+data.log.length+'</a></b><br> Données mis à jour: <b><a href="#" id="updatedLogger">'+data.existing.length+'</a></b> </div>');
+                        $('.alert strong').html($("#uploadFile").val().split('\\').pop());
+                        $("#uploadFile").val('');
+                        $('#notifBox').css('max-height','130px');
+                        updatedLines=data.existing;
+                        ignoredLines=data.log;
+                        newLines=data.newrows;
+                    },
+                    error: function (data) {
+                        $('#OpModal').modal('toggle');
+                       showErrorModal('<center>Une erreur est survenu , verifier le fichier.</center>');
+                        $('.dt-buttons a:nth-child(2) ').css("pointer-events", "auto");
+                        $('.dt-buttons a:nth-child(2) ').css("opacity", "1");
+                        $('.dt-buttons a:nth-child(2) span').html('Importer XLS/CSV');
+                    }
+                });
+
+            });
+            $(document).on('click', '#ignoredLogger', function (e) {
+                resetModal();
+                $('.modal-title').html('Lignes ignorées');
+                $('.modal-body').html('');
+                var i;
+                for (i = 0; i < ignoredLines.length; ++i) {
+                    $('.modal-body').append('- Ligne '+ignoredLines[i].rownum+': '+ignoredLines[i].linecontent+'<br>')
+                }
+                $('#OpModal').modal('toggle');
+
+
+            });
+            $(document).on('click', '#updatedLogger', function (e) {
+                resetModal();
+                $('.modal-title').html('Lignes mise à jour');
+                $('.modal-body').html('');
+                var i;
+                for (i = 0; i < updatedLines.length; ++i) {
+                    $('.modal-body').append('- Ligne '+updatedLines[i].rownum+':<br> >Ancien   :'+updatedLines[i].oldLineContent+'<br> >Nouveau:'+updatedLines[i].updatedRow+'<br>');
+                }
+                $('#OpModal').modal('toggle');
+
+
+            });
+            $(document).on('click', '#addedRows', function (e) {
+                resetModal();
+                $('.modal-title').html('Nouveaux enregistrements');
+                $('.modal-body').html('');
+                var i;
+                for (i = 0; i < newLines.length; ++i) {
+                    $('.modal-body').append('- Ligne '+newLines[i].rownum+': '+newLines[i].linecontent+'<br>')
+                }
+                $('#OpModal').modal('toggle');
+
+
+            });
+        });
+    </script>
+
+    <script>
+        var currentRowUpdate = null;
+        function updateRow(id, elem) {
+            resetModal();
+            $('.modal-title').html('Modification');
+            $('.modal-body').html('<center><h3> Preparing form ... </h3></center>');
+            $("#OpModal").modal();
+            currentRowUpdate = id;
+            $(elem).parents('tr').addClass('selectedRow');
+            $.ajax({
+                type: "GET",
+                url: '{{ path('edit_'~jsvar ) }}',
+                dataType: "json",
+                data: {id: id},
+                success: function (data) {
+                    $('.modal-body').html(data.html);
+                }
+            });
+        }
+
+    </script>
+    <script>
+        $(document).on('submit', "#updateForm", function (e) {
+            e.preventDefault();
+
+            if ($('#updateForm')[0].checkValidity()) {
+                disableSubmitButton();
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('edit_'~jsvar ) }}',
+                    dataType: "json",
+                    data: $('#updateForm').serialize() + "&id=" + currentRowUpdate,
+                    success: function (data) {
+                        dt.row($('.selectedRow')).data(data).draw();
+                        $('tr').removeClass('selectedRow');
+                        $("#OpModal").modal('toggle');
+
+                    }
+                });
+
+            }
+            return false;
+        });
+
+    </script>
+    <script>
+        $(document).on('submit', "#addForm", function (e) {
+            e.preventDefault();
+
+            if ($('#addForm')[0].checkValidity()) {
+                disableSubmitButton();
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('new_'~jsvar ) }}',
+                    dataType: "json",
+                    data: $('#addForm').serialize(),
+                    success: function (data) {
+
+                        dt.row.add(data).draw();
+                        $("#OpModal").modal('toggle');
+                    },
+                    error: function (data) {
+                        $('#error-zone').html('<b style="color:red">' + JSON.parse(data.responseText) + '</b><br>');
+                        $('form .form-group button').css({"pointer-events": "auto", "opacity": "1"});
+
+                    }
+                });
+
+            }
+            return false;
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(document).on('click', "#CancelOp", function () {
+                $("#OpModal").modal('toggle');
+
+            });
+            $(document).on('click', "#ConfirmOp", function () {
+                $flightID = $(this).data('id');
+                $('#ConfirmOp').css("pointer-events", "none");
+                $('#ConfirmOp').css("opacity", "0.3");
+                $.ajax({
+                    type: "post",
+                    url: '{{ path('delete_'~jsvar ) }}',
+                    dataType: "json",
+                    data: {id: $flightID},
+                    success: function (data) {
+                        dt.row($('.selectedRow')).remove().draw();
+                        $("#OpModal").modal('toggle');
+                    },
+                    error: function (data) {
+
+                        showErrorModal(JSON.parse(data.responseText));
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function deleteRow(id, elem) {
+            resetModal();
+            $(elem).parents('tr').addClass('selectedRow');
+            $("#OpModal").removeClass('modal-lg');
+            $("#OpModal").addClass('modal-sm');
+            $('.modal-title').html('<h3>Confirmation</h3>');
+            $('.modal-body').html('Etes-vous certain de vouloir <b>supprimer<b>?');
+
+
+            $('.modal-content').append('<div class="modal-footer"></div>');
+            $('.modal-footer').html('<input type="button" class="btn btn-warning" id="CancelOp" value="Annuler"><input type="button" id="ConfirmOp" data-id="' + id + '" class="btn btn-danger" value="Confirmer">');
+            $("#OpModal").modal();
+        }
+
+    </script>
+    <form id="FileUpload" action="" method="post" enctype="multipart/form-data">
+    <input type="file" id="uploadFile" name="imported" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+    </form>
+    <div id="notifBox">
+
+    </div>
+    {% if jsvar == 'interville' %}
+    <table id="dataZone" width="100%">
+        <thead>
+        <tr>
+
+            {% for i in 0..headers|length-1 %}
+                {% if headers[i] == 'RDV' %}
+                <th width="15%">{{ headers[i] }}</th>
+            {% elseif headers[i] == 'Location' %}
+                <th width="10%">{{ headers[i] }}</th>
+            {% else %}
+                <th>{{ headers[i] }}</th>
+            {% endif %}
+            {% endfor %}
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for j in 0..content|length-1 %}
+            <tr>
+                {#{% for key,value in content[j] %}#}
+
+                    {#{% if value.date is defined %}#}
+                        {#<td> {{ value.date|date('d/m/Y H:i') }} </td>#}
+                    {#{% elseif value is Object %}#}
+                        {#<td>{{ value.id }}</td>#}
+                    {#{% else %}#}
+                        {#<td>{{ value }}</td>#}
+                    {#{% endif %}#}
+                {#{% endfor %}#}
+
+                <td>{{ content[j][0]['id'] }}</td>
+                <td>{{ content[j]['name'] }}</td>
+                <td>{{ content[j][0]['zipCode'] }}</td>
+                <td>{{ content[j][0]['rdv'] }}</td>
+                <td style="text-transform: lowercase">
+                    <ul>
+                        <li>
+                            1 p : {{ content[j][0]['adultePrice'] }} €
+                        </li>
+                        <li>
+                            2 p : {{ content[j][0]['twoadultsPrice'] }} €
+                        </li>
+                        <li>
+                            3 p : {{ content[j][0]['threeadultsPrice'] }} €
+                        </li>
+                        <li>
+                            1 enfant : {{ content[j][0]['childPrice'] }} €
+                        </li>
+                        <li>
+                            1 bébé : {{ content[j][0]['babyPrice'] }} €
+                        </li>
+                    </ul>
+                </td>
+                <td style="text-transform: lowercase">
+                    <ul>
+                        <li>
+                            1 p : {{ content[j][0]['agencyadultePrice'] }} €
+                        </li>
+                        <li>
+                            2 p : {{ content[j][0]['agencytwoadultsPrice'] }} €
+                        </li>
+                        <li>
+                            3 p : {{ content[j][0]['agencythreeadultsPrice'] }} €
+                        </li>
+                        <li>
+                            1 enfant : {{ content[j][0]['agencychildPrice'] }} €
+                        </li>
+                        <li>
+                            1 bébé : {{ content[j][0]['agencybabyPrice'] }} €
+                        </li>
+                    </ul>
+                </td>
+                <td>{{ content[j][0]['duration'] }}</td>
+                <td><span class="glyphicon glyphicon-pencil opicon"
+                          onclick="updateRow({{ content[j][0]['id'] }},this)"></span>
+                    <span class="glyphicon glyphicon-trash opicon" onclick="deleteRow({{ content[j][0]['id'] }},this)"></span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% elseif jsvar == 'porteaporte' %}
+        <table id="dataZone" width="100%">
+            <thead>
+            <tr>
+
+                {% for i in 0..headers|length-1 %}
+                    {% if headers[i] == 'agglomeration' %}
+                        <th width="15%">{{ headers[i] }}</th>
+                    {% else %}
+                    <th>{{ headers[i] }}</th>
+                    {% endif %}
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for j in 0..content|length-1 %}
+                <tr>
+                    {#{% for key,value in content[j] %}#}
+
+                    {#{% if value.date is defined %}#}
+                    {#<td> {{ value.date|date('d/m/Y H:i') }} </td>#}
+                    {#{% elseif value is Object %}#}
+                    {#<td>{{ value.id }}</td>#}
+                    {#{% else %}#}
+                    {#<td>{{ value }}</td>#}
+                    {#{% endif %}#}
+                    {#{% endfor %}#}
+
+                    <td>{{ content[j][0]['id'] }}</td>
+                    <td>{{ content[j]['nm'] }}</td>
+                    <td>{{ content[j]['nn'] }}</td>
+                    <td>{{ content[j][0]['zipCode'] }}</td>
+                    <td style="text-transform: lowercase">
+                        <ul>
+                            <li>
+                                1 p : {{ content[j][0]['price'] }} €
+                            </li>
+                            <li>
+                                2 p : {{ content[j][0]['twoadultsPrice'] }} €
+                            </li>
+                            <li>
+                                3 p : {{ content[j][0]['threeadultsPrice'] }} €
+                            </li>
+                            <li>
+                                1 enfant : {{ content[j][0]['childPrice'] }} €
+                            </li>
+                            <li>
+                                1 bébé : {{ content[j][0]['babyPrice'] }} €
+                            </li>
+                        </ul>
+                    </td>
+                    <td style="text-transform: lowercase">
+                        <ul>
+                            <li>
+                                1 p : {{ content[j][0]['agencyprice'] }} €
+                            </li>
+                            <li>
+                                2 p : {{ content[j][0]['agencytwoadultsPrice'] }} €
+                            </li>
+                            <li>
+                                3 p : {{ content[j][0]['agencythreeadultsPrice'] }} €
+                            </li>
+                            <li>
+                                1 enfant : {{ content[j][0]['agencychildPrice'] }} €
+                            </li>
+                            <li>
+                                1 bébé : {{ content[j][0]['agencybabyPrice'] }} €
+                            </li>
+                        </ul>
+                    </td>
+                    <td><span class="glyphicon glyphicon-pencil opicon"
+                              onclick="updateRow({{ content[j][0]['id'] }},this)"></span>
+                        <span class="glyphicon glyphicon-trash opicon" onclick="deleteRow({{ content[j][0]['id'] }},this)"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <table id="dataZone" width="100%">
+            <thead>
+            <tr>
+
+                {% for i in 0..headers|length-1 %}
+                    <th>{{ headers[i] }}</th>
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for j in 0..content|length-1 %}
+                <tr>
+                    {% for key,value in content[j] %}
+
+                    {% if value.date is defined %}
+                    <td> {{ value.date|date('d/m/Y H:i') }} </td>
+
+                    {% else %}
+                    <td>{{ value }}</td>
+                    {% endif %}
+                    {% endfor %}
+
+
+                    <td><span class="glyphicon glyphicon-pencil opicon"
+                              onclick="updateRow({{ content[j].id }},this)"></span>
+                        <span class="glyphicon glyphicon-trash opicon" onclick="deleteRow({{ content[j].id }},this)"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <div id="OpModal" class="modal modal-lg fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+@redColor: rgba(255, 0, 0, 1);
+
+input[type="number"] {
+  padding: 6px;
+}
+
+div.checker {
+  float: none;
+  margin: inherit;
+}
+
+#main-container {
+  margin: 20px auto;
+  text-align: left;
+  padding-top: 90px;
+}
+
+ul > li:before {
+  content: normal;
+}
+
+ul > li {
+  text-align: left;
+}
+
+ul.ui-autocomplete {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.background-opacity-medium {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tarif-zone {
+  font-size: 2.5em;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.return-zone {
+  display: none;
+}
+
+.red-shadow {
+  -webkit-box-shadow: 0px 0px 10px 0px @redColor;
+  -moz-box-shadow: 0px 0px 10px 0px @redColor;
+  box-shadow: 0px 0px 10px 0px @redColor;
+}
+
+.wrong-field {
+  .red-shadow !important;
+}
+
+form {
+  text-align: left;
+  .row {
+    margin: 10px auto;
+  }
+}
+
+.message-info-time-1, .message-info-time-2 {
+  margin-top: 10px;
+  display: none;
+}
+
+.categories li:hover:not(.active) a {
+  text-decoration: none !important;
+  background-color: transparent;
+  color: #34394A;
+  cursor: context-menu;
+}
+
+.categories li:hover a {
+  text-decoration: none !important;
+  cursor: context-menu;
+}
+
+.site-title .container {
+  height: initial;
+  padding: 15px;
+  color: white;
+  font-weight: bold;
+}
+
+.site-title {
+  background-color: #afabab;
+}
+
+//Fix bootstrap modal
+.modal {
+  bottom: inherit;
+  padding: 0px !important;
+}
+
+.modal-dialog {
+  margin: 0px;
+  width: 100%;
+}
+
+.notice-text {
+  font-size: 0.4em;
+  color: blue;
+}
+
+.main-nav ul > li {
+  padding: 30px 4px 30px 10px;
+}
+

@@ -1,0 +1,19 @@
+<form method="post" id="paymentForm" name="MoneticoFormulaire" target="_top" action="{{ model.getAction() }}">
+    <input type="hidden" name="version" value="{{ model.getVersion() }}">
+    <input type="hidden" name="TPE" value="{{ model.getTpe() }}">
+    <input type="hidden" name="date" value="{{ model.getDate() }}">
+    <input type="hidden" name="montant" value="{{ model.getAmount() }}">
+    <input type="hidden" name="reference" value="{{ model.getReference() }}">
+    <input type="hidden" name="MAC" value="{{ model.getMac() }}">
+    <input type="hidden" name="url_retour"
+           value="{{ model.getReturnUrl() }}">
+    <input type="hidden" name="url_retour_ok"
+           value="{{ model.getReturnUrlOK() }}">
+    <input type="hidden" name="url_retour_err"
+           value="{{ model.getReturnUrlNOK() }}">
+    <input type="hidden" name="lgue" value="{{ model.getLang() }}">
+    <input type="hidden" name="societe" value="{{ model.getSociety() }}">
+    <input type="hidden" name="texte-libre" value="{{ model.getText() }}">
+    <input type="hidden" name="mail" value="{{ model.getMail() }}">
+    <input type="hidden" name="options" value="{{ model.getOptions() }}">
+</form>

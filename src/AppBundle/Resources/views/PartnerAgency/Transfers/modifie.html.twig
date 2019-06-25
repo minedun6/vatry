@@ -1,0 +1,69 @@
+{% extends '@App/PartnerAgency/index.html.twig' %}
+
+
+{% block page_title %}
+    Modifier passager
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form,{ 'action': path('agency_modif_passenger',{'transfer': transfer.id}) }) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+         <H3> Informations sur le passager </H3>       
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-2">
+            <label for="cv">Civilité</label>
+            {{ form_widget(form.passenger.civility) }}
+        </div>
+        <div class="col-xs-5">
+            <label for="prenom">Prénom</label>
+            {{ form_widget(form.passenger.name) }}
+        </div>
+         <div class="col-xs-5">
+            <label for="nom">Nom</label>
+            {{ form_widget(form.passenger.lastname) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="mail">Mail</label>
+            {{ form_widget(form.passenger.email) }}
+        </div>
+         <div class="col-xs-6">
+            <label for="adr">Adresse</label>
+            {{ form_widget(form.passenger.address) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <label for="numtel">N° de Teléphone</label>
+            {{ form_widget(form.passenger.tel) }}
+        </div>
+         <div class="col-xs-6">
+            <label for="ville">Ville</label>
+            {{ form_widget(form.passenger.town) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+        </div>
+         <div class="col-xs-3">
+                <button class="btn btn-success pull-right" type="submit">Valider les modifications</button>        
+        </div>
+    </div>
+
+
+
+    {{ form_end(form) }}
+
+
+
+{% endblock %}
